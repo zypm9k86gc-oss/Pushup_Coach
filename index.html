@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#111111">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="356 Coach">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>356 Coach</title>
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <div class="eyebrow">Ziel 31. Oktober 2026</div>
+        <h1>356 Coach</h1>
+        <p>356 Liegestütze/Tag + 5:00 Min Plank</p>
+      </div>
+      <button id="themeBtn" class="iconbtn" aria-label="Darstellung wechseln">◐</button>
+    </header>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <div class="label">Aufbau Liegestütze</div>
+          <div class="value"><span id="targetPushups">80</span> / 356</div>
+        </div>
+        <div class="percent" id="goalPushPercent">22%</div>
+      </div>
+      <progress id="goalPushProgress" max="356" value="80"></progress>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <div class="label">Aufbau Plank</div>
+          <div class="value"><span id="targetPlank">1:10</span> / 5:00</div>
+        </div>
+        <div class="percent" id="goalPlankPercent">23%</div>
+      </div>
+      <progress id="goalPlankProgress" max="300" value="70"></progress>
+    </section>
+
+    <h2>Heute</h2>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <div class="label">Liegestütze</div>
+          <div class="value"><span id="todayPushups">0</span> / <span id="todayPushTarget">80</span></div>
+        </div>
+        <div class="percent" id="todayPushPercent">0%</div>
+      </div>
+      <progress id="todayPushProgress" max="80" value="0"></progress>
+
+      <div class="quick-grid">
+        <button data-add="5">+5</button>
+        <button data-add="10">+10</button>
+        <button data-add="15">+15</button>
+        <button data-add="20">+20</button>
+      </div>
+
+      <div class="manual">
+        <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="eigene Zahl">
+        <button id="addPushBtn">Addieren</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <div class="label">Plank</div>
+          <div class="value"><span id="todayPlank">0:00</span> / <span id="todayPlankTarget">1:10</span></div>
+        </div>
+        <div class="percent" id="todayPlankPercent">0%</div>
+      </div>
+      <progress id="todayPlankProgress" max="70" value="0"></progress>
+
+      <div class="timer">
+        <div id="timerDisplay">0:00</div>
+        <div class="timer-actions">
+          <button id="timerStart" class="primary">Start</button>
+          <button id="timerStop">Stop & speichern</button>
+          <button id="timerReset">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button id="finishWorkout" class="primary wide">Training abschließen</button>
+      <button id="resetToday" class="danger wide">Heutige Eingaben löschen</button>
+    </div>
+
+    <h2>Gesamt</h2>
+
+    <section class="stats">
+      <div class="stat card">
+        <div class="stat-number" id="totalPushups">0</div>
+        <div class="label">Liegestütze</div>
+      </div>
+      <div class="stat card">
+        <div class="stat-number" id="totalPlankSeconds">0</div>
+        <div class="label">Plank-Sekunden</div>
+      </div>
+      <div class="stat card">
+        <div class="stat-number" id="bestPushups">0</div>
+        <div class="label">Bester Tag</div>
+      </div>
+      <div class="stat card">
+        <div class="stat-number" id="bestPlank">0:00</div>
+        <div class="label">Längster Plank</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="label">Gesamte Plank-Zeit</div>
+      <div class="big" id="totalPlankTime">0m 0s</div>
+    </section>
+
+    <h2>Kontrollpunkte</h2>
+    <section class="card checkpoints" id="checkpoints"></section>
+
+    <h2>Historie</h2>
+    <section class="card">
+      <div id="history" class="history"></div>
+    </section>
+
+    <footer>
+      Daten werden lokal auf diesem Gerät gespeichert.
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
