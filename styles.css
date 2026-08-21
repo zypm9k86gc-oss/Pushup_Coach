@@ -55,3 +55,5 @@ button:active{transform:scale(.98)}
 .history-row strong{font-variant-numeric:tabular-nums}
 .empty{color:var(--muted);padding:6px 0}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+
+.program{font-size:18px;line-height:1.55;margin-top:7px}.program span{color:var(--muted);font-size:15px}
