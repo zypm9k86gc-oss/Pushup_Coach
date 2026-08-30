@@ -28,6 +28,20 @@ const checkpoints = [
 const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":197,"plank":166,"sets":"10×12 + 7×11","checkpoint":false},{"date":"2026-09-25","pushups":206,"plank":174,"sets":"14×13 + 2×12","checkpoint":false},{"date":"2026-09-28","pushups":214,"plank":181,"sets":"10×13 + 7×12","checkpoint":false},{"date":"2026-09-30","pushups":223,"plank":189,"sets":"15×14 + 1×13","checkpoint":false},{"date":"2026-10-02","pushups":232,"plank":196,"sets":"11×14 + 6×13","checkpoint":true},{"date":"2026-10-05","pushups":241,"plank":203,"sets":"7×14 + 11×13","checkpoint":false},{"date":"2026-10-07","pushups":250,"plank":211,"sets":"12×15 + 5×14","checkpoint":false},{"date":"2026-10-09","pushups":259,"plank":218,"sets":"7×15 + 11×14","checkpoint":false},{"date":"2026-10-12","pushups":268,"plank":226,"sets":"16×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":277,"plank":233,"sets":"7×16 + 11×15","checkpoint":false},{"date":"2026-10-16","pushups":286,"plank":241,"sets":"16×16 + 2×15","checkpoint":true},{"date":"2026-10-19","pushups":295,"plank":248,"sets":"10×16 + 9×15","checkpoint":false},{"date":"2026-10-21","pushups":304,"plank":255,"sets":"16×17 + 2×16","checkpoint":false},{"date":"2026-10-23","pushups":313,"plank":263,"sets":"9×17 + 10×16","checkpoint":false},{"date":"2026-10-26","pushups":322,"plank":270,"sets":"18×17 + 1×16","checkpoint":false},{"date":"2026-10-28","pushups":331,"plank":278,"sets":"8×18 + 11×17","checkpoint":false},{"date":"2026-10-30","pushups":340,"plank":285,"sets":"17×18 + 2×17","checkpoint":true},{"date":"2026-10-31","pushups":356,"plank":300,"sets":"14×20 + 4×19","checkpoint":true}];
 function planForDate(k){return EXACT_PLAN.find(x=>x.date===k)||null;}
 function nextPlanEntry(k){return EXACT_PLAN.find(x=>x.date>=k)||null;}
+function latestPlanOnOrBefore(k){
+  let found=null;
+  for(const item of EXACT_PLAN){
+    if(item.date<=k) found=item;
+    else break;
+  }
+  return found;
+}
+function fmtDateDE(key){
+  if(!key) return "";
+  const [y,m,d]=key.split("-").map(Number);
+  return new Intl.DateTimeFormat("de-DE",{weekday:"long",day:"2-digit",month:"2-digit",year:"numeric"}).format(new Date(y,m-1,d));
+}
+
 
 const STORAGE_KEY = "pushupPlankCoach.v2";
 
@@ -61,11 +75,17 @@ function fmtLong(sec){
 }
 
 function currentTarget(){
-  const exact=planForDate(todayKey());
+  const key=todayKey();
+  const exact=planForDate(key);
   if(exact) return exact;
-  const next=nextPlanEntry(todayKey());
-  if(next) return {...next,restDay:true};
-  return {pushups:356,plank:300,sets:""};
+
+  // On recovery days keep showing the most recently reached training level.
+  // The next level is not revealed until its due date.
+  const latest=latestPlanOnOrBefore(key);
+  if(latest) return {...latest,restDay:true};
+
+  // Before the plan starts, show only the initial baseline.
+  return {pushups:80,plank:70,sets:"",restDay:true};
 }
 
 function load(){
@@ -113,18 +133,37 @@ function totals(){
 function render(){
   rollover();
   const t = currentTarget();
-  const exactToday=planForDate(todayKey());
+  const key=todayKey();
+  const exactToday=planForDate(key);
   const program=document.querySelector("#todayProgram");
-  if(program){
-    if(exactToday){
-      program.innerHTML=`<strong>Heute fällig:</strong> ${exactToday.pushups} Liegestütze + ${fmtTime(exactToday.plank)} Plank`
+  const trainingPanel=document.querySelector("#trainingPanel");
+  const restPanel=document.querySelector("#restPanel");
+  const actionsPanel=document.querySelector(".actions");
+  const nextDateEl=document.querySelector("#nextTrainingDate");
+
+  if(exactToday){
+    program.innerHTML=`<strong>Training ist heute fällig.</strong><br>`
+      +`${exactToday.pushups} Liegestütze + ${fmtTime(exactToday.plank)} Plank`
       +(exactToday.sets?`<br><span>Satzvorschlag: ${exactToday.sets}</span>`:"")
       +(exactToday.checkpoint?`<br><span>✓ Kontrollpunkt / Zieltest</span>`:"");
-    } else {
-      const next=nextPlanEntry(todayKey());
-      program.innerHTML=next?`<strong>Heute Regeneration.</strong><br><span>Nächstes Training: ${next.date} · ${next.pushups} Liegestütze + ${fmtTime(next.plank)} Plank</span>`:`<strong>Plan abgeschlossen.</strong>`;
+    trainingPanel.hidden=false;
+    restPanel.hidden=true;
+    actionsPanel.hidden=false;
+  }else{
+    program.innerHTML=`<strong style="color:var(--plank)">Heute Regeneration.</strong><br>`
+      +`<span>Ein neues Trainingsniveau erscheint hier erst an dem Tag, an dem es fällig wird.</span>`;
+    trainingPanel.hidden=true;
+    restPanel.hidden=false;
+    actionsPanel.hidden=true;
+
+    const next=nextPlanEntry(key);
+    if(nextDateEl){
+      nextDateEl.textContent=next
+        ? `Nächster Trainingstag: ${fmtDateDE(next.date)}`
+        : "Trainingsplan abgeschlossen.";
     }
   }
+
   const pushPct = Math.min(100, Math.round(t.pushups/356*100));
   const plankPct = Math.min(100, Math.round(t.plank/300*100));
   const todayPushPct = Math.min(100, Math.round(state.todayPushups/t.pushups*100));
@@ -140,14 +179,12 @@ function render(){
   document.querySelector("#todayPushups").textContent = state.todayPushups;
   document.querySelector("#todayPushTarget").textContent = t.pushups;
   document.querySelector("#todayPushPercent").textContent = todayPushPct+"%";
-  document.querySelector("#todayPushProgress").max = t.pushups;
-  document.querySelector("#todayPushProgress").value = state.todayPushups;
+  document.querySelector("#pushBatteryFill").style.height = todayPushPct+"%";
 
   document.querySelector("#todayPlank").textContent = fmtTime(state.todayPlank);
   document.querySelector("#todayPlankTarget").textContent = fmtTime(t.plank);
   document.querySelector("#todayPlankPercent").textContent = todayPlankPct+"%";
-  document.querySelector("#todayPlankProgress").max = t.plank;
-  document.querySelector("#todayPlankProgress").value = state.todayPlank;
+  document.querySelector("#plankBatteryFill").style.height = todayPlankPct+"%";
 
   const x = totals();
   document.querySelector("#totalPushups").textContent = x.pushups;

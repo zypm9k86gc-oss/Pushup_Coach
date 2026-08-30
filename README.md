@@ -33,3 +33,16 @@ Diese PWA selbst setzt absichtlich keine Web-Push-Benachrichtigungen voraus.
 ## Datenspeicherung
 Die Trainingsdaten werden mit localStorage direkt auf dem Gerät gespeichert.
 Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verloren gehen.
+
+## Update v4 – GitHub-Seite
+- Neues Trainingsniveau wird erst am tatsächlichen Fälligkeitstag angezeigt.
+- Regenerationstage zeigen keine Wiederholungszahl des kommenden Trainings vorab.
+- Liegestütz- und Plank-Tagesfortschritt als vertikal füllende Batterie.
+- Push-up-Batterie orange, Plank-Batterie grün.
+- Bestehende localStorage-Trainingsdaten bleiben erhalten.
+
+## Update v5 – offene Trainings bleiben sichtbar
+- Das zuletzt fällige Training bleibt nach seinem Fälligkeitstag sichtbar, solange es noch nicht vollständig erfüllt ist.
+- Erfüllt bedeutet: sowohl Liegestütz-Ziel als auch Plank-Ziel wurden erreicht.
+- Nach Erfüllung wird bis zum nächsten fälligen Training „Regenerationstag“ angezeigt.
+- Fortschritt eines offenen Trainings kann über die Tage bis zum nächsten Trainingstermin weitergeführt werden.

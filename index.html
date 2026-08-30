@@ -45,53 +45,81 @@
       <progress id="goalPlankProgress" max="300" value="70"></progress>
     </section>
 
-    <h2>Heute</h2><section class="card"><div class="label">Trainingsprogramm nach Datum</div><div id="todayProgram" class="program"></div></section>
+    <h2>Heute</h2>
 
-    <section class="card">
-      <div class="row">
-        <div>
-          <div class="label">Liegestütze</div>
-          <div class="value"><span id="todayPushups">0</span> / <span id="todayPushTarget">80</span></div>
+    <section class="card due-card">
+      <div class="label">Trainingsprogramm nach Datum</div>
+      <div id="todayProgram" class="program"></div>
+    </section>
+
+    <section id="trainingPanel" class="card training-battery-card">
+      <div class="battery-grid">
+        <div class="battery-column pushup-battery-column">
+          <div class="battery-title">Liegestütze</div>
+          <div class="battery-target"><span id="todayPushups">0</span> / <span id="todayPushTarget">80</span></div>
+
+          <div class="battery-shell" aria-label="Liegestütz-Fortschritt">
+            <div class="battery-cap"></div>
+            <div class="battery-inner">
+              <div id="pushBatteryFill" class="battery-fill push-fill"></div>
+              <div class="battery-center">
+                <strong id="todayPushPercent">0%</strong>
+                <span>erledigt</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-grid compact">
+            <button data-add="5">+5</button>
+            <button data-add="10">+10</button>
+            <button data-add="15">+15</button>
+            <button data-add="20">+20</button>
+          </div>
+
+          <div class="manual stacked">
+            <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="eigene Zahl">
+            <button id="addPushBtn">Addieren</button>
+          </div>
         </div>
-        <div class="percent" id="todayPushPercent">0%</div>
-      </div>
-      <progress id="todayPushProgress" max="80" value="0"></progress>
 
-      <div class="quick-grid">
-        <button data-add="5">+5</button>
-        <button data-add="10">+10</button>
-        <button data-add="15">+15</button>
-        <button data-add="20">+20</button>
-      </div>
+        <div class="battery-column plank-battery-column">
+          <div class="battery-title">Plank</div>
+          <div class="battery-target"><span id="todayPlank">0:00</span> / <span id="todayPlankTarget">1:10</span></div>
 
-      <div class="manual">
-        <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="eigene Zahl">
-        <button id="addPushBtn">Addieren</button>
+          <div class="battery-shell" aria-label="Plank-Fortschritt">
+            <div class="battery-cap"></div>
+            <div class="battery-inner">
+              <div id="plankBatteryFill" class="battery-fill plank-fill"></div>
+              <div class="battery-center">
+                <strong id="todayPlankPercent">0%</strong>
+                <span>erledigt</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="timer battery-timer">
+            <div id="timerDisplay">0:00</div>
+            <div class="timer-actions vertical">
+              <button id="timerStart" class="primary plank-primary">Start</button>
+              <button id="timerStop">Stop & speichern</button>
+              <button id="timerReset">Reset</button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="card">
-      <div class="row">
-        <div>
-          <div class="label">Plank</div>
-          <div class="value"><span id="todayPlank">0:00</span> / <span id="todayPlankTarget">1:10</span></div>
-        </div>
-        <div class="percent" id="todayPlankPercent">0%</div>
-      </div>
-      <progress id="todayPlankProgress" max="70" value="0"></progress>
-
-      <div class="timer">
-        <div id="timerDisplay">0:00</div>
-        <div class="timer-actions">
-          <button id="timerStart" class="primary">Start</button>
-          <button id="timerStop">Stop & speichern</button>
-          <button id="timerReset">Reset</button>
-        </div>
+    <section id="restPanel" class="card rest-card" hidden>
+      <div class="rest-icon">↻</div>
+      <div>
+        <div class="rest-title">Regenerationstag</div>
+        <p>Heute ist kein Training fällig. Das nächste Trainingsniveau wird erst am jeweiligen Trainingstag angezeigt.</p>
+        <div id="nextTrainingDate" class="next-date"></div>
       </div>
     </section>
 
     <div class="actions">
-      <button id="finishWorkout" class="primary wide">Training abschließen</button>
+      <button id="finishWorkout" class="primary wide">Trainingseintrag speichern</button>
       <button id="resetToday" class="danger wide">Heutige Eingaben löschen</button>
     </div>
 
