@@ -76,9 +76,12 @@
             <button data-add="20">+20</button>
           </div>
 
-          <div class="manual stacked">
-            <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="eigene Zahl">
-            <button id="addPushBtn">Addieren</button>
+          <div class="manual-entry">
+            <label for="pushInput">Liegestütze manuell eintragen</label>
+            <div class="manual-row">
+              <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="z. B. 12">
+              <button id="addPushBtn">Eintragen</button>
+            </div>
           </div>
         </div>
 
@@ -97,7 +100,18 @@
             </div>
           </div>
 
+          <div class="manual-entry plank-manual">
+            <label>Plank-Zeit manuell eintragen</label>
+            <div class="time-inputs">
+              <input id="plankMinutesInput" inputmode="numeric" type="number" min="0" placeholder="Min">
+              <span>:</span>
+              <input id="plankSecondsInput" inputmode="numeric" type="number" min="0" max="59" placeholder="Sek">
+              <button id="addPlankBtn">Eintragen</button>
+            </div>
+          </div>
+
           <div class="timer battery-timer">
+            <div class="timer-label">oder Timer verwenden</div>
             <div id="timerDisplay">0:00</div>
             <div class="timer-actions vertical">
               <button id="timerStart" class="primary plank-primary">Start</button>

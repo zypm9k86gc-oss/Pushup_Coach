@@ -230,3 +230,14 @@ html[data-theme="light"]{
   .quick-grid.compact{gap:6px}
   .quick-grid.compact button{padding:10px 6px}
 }
+
+
+.manual-entry{margin-top:12px;text-align:left}
+.manual-entry label,.timer-label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.manual-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px}
+.manual-entry input{width:100%;min-width:0;border:1px solid var(--border);background:var(--bg);color:var(--text);border-radius:11px;padding:11px 10px;font-size:16px}
+.time-inputs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:5px;align-items:center}
+.time-inputs button{grid-column:1/-1}
+.time-inputs span{font-size:21px;font-weight:800}
+.plank-manual{margin-top:10px}
+.timer-label{margin-top:12px;text-align:center}

@@ -219,6 +219,21 @@ document.querySelector("#addPushBtn").addEventListener("click", ()=>{
   }
 });
 
+document.querySelector("#addPlankBtn").addEventListener("click", ()=>{
+  const minInput = document.querySelector("#plankMinutesInput");
+  const secInput = document.querySelector("#plankSecondsInput");
+  const minutes = Math.max(0, Number(minInput.value) || 0);
+  const seconds = Math.max(0, Math.min(59, Number(secInput.value) || 0));
+  const total = Math.floor(minutes * 60 + seconds);
+
+  if(total > 0){
+    state.todayPlank += total;
+    minInput.value = "";
+    secInput.value = "";
+    save(); render();
+  }
+});
+
 document.querySelector("#finishWorkout").addEventListener("click", ()=>{
   if(state.todayPushups===0 && state.todayPlank===0) return;
   state.records.push({

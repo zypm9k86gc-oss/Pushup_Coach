@@ -46,3 +46,9 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Erfüllt bedeutet: sowohl Liegestütz-Ziel als auch Plank-Ziel wurden erreicht.
 - Nach Erfüllung wird bis zum nächsten fälligen Training „Regenerationstag“ angezeigt.
 - Fortschritt eines offenen Trainings kann über die Tage bis zum nächsten Trainingstermin weitergeführt werden.
+
+## Update v6
+- Liegestütze wieder frei manuell eintragbar.
+- Plank zusätzlich manuell als Minuten + Sekunden eintragbar.
+- Timer bleibt erhalten.
+- Batterieanzeigen aktualisieren sich automatisch.
