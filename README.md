@@ -61,3 +61,17 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Automatischer einmaliger Reload nach Worker-Wechsel.
 - Alte PWA-Caches werden gelöscht.
 - localStorage-Trainingsdaten bleiben erhalten.
+
+## Update v9 – vergangene Trainings bearbeiten
+- Jeder gespeicherte Historien-Eintrag besitzt jetzt eine Schaltfläche „Bearbeiten“.
+- Datum, Liegestütze sowie Plank-Minuten und -Sekunden können nachträglich korrigiert werden.
+- Ein falscher Eintrag kann vollständig gelöscht werden.
+- Bereits vorhandene Historien-Einträge erhalten beim ersten Start automatisch interne IDs.
+- Änderungen wirken sofort auf Gesamtwerte und den Status fälliger Trainings.
+- Safari/PWA-Update-System auf Version 9 angehoben; bestehende `localStorage`-Daten bleiben erhalten.
+
+## Update v10 – Backup / Restore
+- Export aller lokal gespeicherten 356-Coach-Daten als JSON-Datei.
+- Import eines zuvor erstellten Backups.
+- Vor dem Import erfolgt eine Sicherheitsabfrage.
+- Bestehende localStorage-Daten bleiben beim normalen App-Update erhalten.

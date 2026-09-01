@@ -10,9 +10,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="356 Coach">
-  <link rel="manifest" href="manifest.webmanifest?v=8">
-  <link rel="apple-touch-icon" href="icon-192.png?v=8">
-  <link rel="stylesheet" href="styles.css?v=8">
+  <link rel="manifest" href="manifest.webmanifest?v=10">
+  <link rel="apple-touch-icon" href="icon-192.png?v=10">
+  <link rel="stylesheet" href="styles.css?v=10">
   <title>356 Coach</title>
 </head>
 <body>
@@ -172,14 +172,65 @@
 
     <h2>Historie</h2>
     <section class="card">
+      <div class="history-help">Gespeicherte Trainingseinträge können nachträglich korrigiert oder gelöscht werden.</div>
       <div id="history" class="history"></div>
     </section>
+
+    <dialog id="editRecordDialog" class="edit-dialog">
+      <form id="editRecordForm" method="dialog">
+        <div class="edit-dialog-head">
+          <div>
+            <div class="label">Vergangenes Training</div>
+            <div class="edit-dialog-title">Eintrag bearbeiten</div>
+          </div>
+          <button type="button" id="closeEditRecord" class="iconbtn" aria-label="Bearbeiten schließen">×</button>
+        </div>
+
+        <input type="hidden" id="editRecordId">
+
+        <label class="edit-field" for="editRecordDate">
+          <span>Datum</span>
+          <input id="editRecordDate" type="date" required>
+        </label>
+
+        <label class="edit-field" for="editRecordPushups">
+          <span>Liegestütze</span>
+          <input id="editRecordPushups" type="number" min="0" inputmode="numeric" required>
+        </label>
+
+        <div class="edit-field">
+          <span>Plank-Zeit</span>
+          <div class="edit-time-grid">
+            <label><span class="sr-only">Minuten</span><input id="editRecordPlankMin" type="number" min="0" inputmode="numeric" placeholder="Min" required></label>
+            <span class="edit-time-colon">:</span>
+            <label><span class="sr-only">Sekunden</span><input id="editRecordPlankSec" type="number" min="0" max="59" inputmode="numeric" placeholder="Sek" required></label>
+          </div>
+        </div>
+
+        <div class="edit-dialog-actions">
+          <button type="button" id="deleteRecordBtn" class="danger">Eintrag löschen</button>
+          <button type="submit" class="primary">Änderungen speichern</button>
+        </div>
+      </form>
+    </dialog>
 
     <footer>
       Daten werden lokal auf diesem Gerät gespeichert.
     </footer>
-  </main>
+  
+<section class="card backup-card">
+  <div class="entry-heading">Datensicherung</div>
+  <p class="entry-note">Sichere alle lokal gespeicherten 356-Coach-Daten als JSON-Datei oder stelle sie später wieder her.</p>
+  <div class="backup-actions">
+    <button id="exportBackupBtn" type="button">Backup exportieren</button>
+    <button id="importBackupBtn" type="button">Backup importieren</button>
+    <input id="importBackupFile" type="file" accept="application/json,.json" hidden>
+  </div>
+  <div id="backupStatus" class="backup-status" aria-live="polite"></div>
+</section>
 
-  <script src="app.js?v=8"></script>
+</main>
+
+  <script src="app.js?v=10"></script>
 </body>
 </html>

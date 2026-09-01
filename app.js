@@ -100,12 +100,32 @@ function currentTarget(){
   return latest||{pushups:80,plank:70,sets:""};
 }
 
+function createRecordId(){
+  if(window.crypto && crypto.randomUUID) return crypto.randomUUID();
+  return `rec-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function ensureRecordIds(){
+  let changed=false;
+  state.records=state.records.map(r=>{
+    if(r.id) return r;
+    changed=true;
+    return {...r,id:createRecordId()};
+  });
+  if(changed) save();
+}
+
+function findRecordById(id){
+  return state.records.find(r=>r.id===id) || null;
+}
+
 function load(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) state = {...state, ...JSON.parse(raw)};
   }catch(e){}
   rollover();
+  ensureRecordIds();
 }
 
 function save(){
@@ -117,6 +137,7 @@ function rollover(){
   if(state.todayDate !== t){
     if(state.todayPushups > 0 || state.todayPlank > 0){
       state.records.push({
+        id: createRecordId(),
         date: state.todayDate,
         pushups: state.todayPushups,
         plank: state.todayPlank
@@ -203,9 +224,14 @@ function render(){
   document.querySelector("#checkpoints").innerHTML =
     checkpoints.map(c=>`<div class="checkpoint"><span class="date">${c[0]}</span><span>${c[1]}</span></div>`).join("");
 
-  const hist = [...state.records].reverse();
+  const hist = [...state.records].sort((a,b)=>b.date.localeCompare(a.date));
   document.querySelector("#history").innerHTML = hist.length
-    ? hist.map(r=>`<div class="history-row"><span>${r.date}</span><strong>${r.pushups} LS</strong><strong>${fmtTime(r.plank)}</strong></div>`).join("")
+    ? hist.map(r=>`<div class="history-row">
+        <div class="history-date">${fmtDateDE(r.date)}</div>
+        <strong>${r.pushups || 0} LS</strong>
+        <strong>${fmtTime(r.plank || 0)}</strong>
+        <button class="history-edit-btn" type="button" data-edit-record="${r.id}" aria-label="Training vom ${r.date} bearbeiten">Bearbeiten</button>
+      </div>`).join("")
     : `<div class="empty">Noch keine abgeschlossenen Trainingstage.</div>`;
 }
 
@@ -244,6 +270,7 @@ document.querySelector("#addPlankBtn").addEventListener("click", ()=>{
 document.querySelector("#finishWorkout").addEventListener("click", ()=>{
   if(state.todayPushups===0 && state.todayPlank===0) return;
   state.records.push({
+    id: createRecordId(),
     date: state.todayDate,
     pushups: state.todayPushups,
     plank: state.todayPlank
@@ -302,10 +329,75 @@ if(savedTheme) document.documentElement.dataset.theme = savedTheme;
 
 
 
+
+const editDialog = document.querySelector("#editRecordDialog");
+const editForm = document.querySelector("#editRecordForm");
+const editDate = document.querySelector("#editRecordDate");
+const editPushups = document.querySelector("#editRecordPushups");
+const editPlankMin = document.querySelector("#editRecordPlankMin");
+const editPlankSec = document.querySelector("#editRecordPlankSec");
+const editRecordId = document.querySelector("#editRecordId");
+
+function openRecordEditor(id){
+  const record=findRecordById(id);
+  if(!record) return;
+  editRecordId.value=record.id;
+  editDate.value=record.date;
+  editDate.max=todayKey();
+  editPushups.value=record.pushups || 0;
+  editPlankMin.value=Math.floor((record.plank || 0)/60);
+  editPlankSec.value=(record.plank || 0)%60;
+  editDialog.showModal();
+}
+
+document.querySelector("#history").addEventListener("click", event=>{
+  const btn=event.target.closest("[data-edit-record]");
+  if(btn) openRecordEditor(btn.dataset.editRecord);
+});
+
+document.querySelector("#closeEditRecord").addEventListener("click", ()=>editDialog.close());
+
+editDialog.addEventListener("click", event=>{
+  if(event.target===editDialog) editDialog.close();
+});
+
+editForm.addEventListener("submit", event=>{
+  event.preventDefault();
+  const record=findRecordById(editRecordId.value);
+  if(!record) return editDialog.close();
+
+  const date=editDate.value;
+  const pushups=Math.max(0, Math.floor(Number(editPushups.value) || 0));
+  const minutes=Math.max(0, Math.floor(Number(editPlankMin.value) || 0));
+  const seconds=Math.max(0, Math.min(59, Math.floor(Number(editPlankSec.value) || 0)));
+
+  if(!date || date>todayKey()){
+    alert("Bitte ein gültiges Datum bis einschließlich heute wählen.");
+    return;
+  }
+
+  record.date=date;
+  record.pushups=pushups;
+  record.plank=minutes*60+seconds;
+  save();
+  editDialog.close();
+  render();
+});
+
+document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
+  const record=findRecordById(editRecordId.value);
+  if(!record) return editDialog.close();
+  if(!confirm(`Training vom ${fmtDateDE(record.date)} wirklich löschen?`)) return;
+  state.records=state.records.filter(r=>r.id!==record.id);
+  save();
+  editDialog.close();
+  render();
+});
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=8", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=10", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -339,3 +431,69 @@ render();
 
 document.querySelector("#addPushAlways").addEventListener("click",()=>{const i=document.querySelector("#pushInputAlways"),n=Number(i.value);if(n>0){state.todayPushups+=n;i.value="";save();render();}});
 document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi=document.querySelector("#plankMinAlways"),si=document.querySelector("#plankSecAlways");const n=(Math.max(0,Number(mi.value)||0)*60)+Math.max(0,Math.min(59,Number(si.value)||0));if(n>0){state.todayPlank+=Math.floor(n);mi.value="";si.value="";save();render();}});
+
+
+// ---------- Backup / Restore ----------
+function makeBackupPayload(){
+  return {
+    app: "356 Coach",
+    version: 10,
+    exportedAt: new Date().toISOString(),
+    storageKey: "pushupPlankCoach.v2",
+    data: state
+  };
+}
+
+function setBackupStatus(message, isError=false){
+  const el=document.querySelector("#backupStatus");
+  if(!el) return;
+  el.textContent=message;
+  el.classList.toggle("error", !!isError);
+}
+
+document.querySelector("#exportBackupBtn")?.addEventListener("click", ()=>{
+  try{
+    save();
+    const payload=makeBackupPayload();
+    const blob=new Blob([JSON.stringify(payload,null,2)], {type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    const d=new Date();
+    const stamp=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+    a.href=url;
+    a.download=`356-Coach-Backup-${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    setBackupStatus("Backup wurde erstellt. Speichere die Datei z. B. in iCloud Drive.");
+  }catch(err){
+    setBackupStatus("Backup konnte nicht erstellt werden.", true);
+  }
+});
+
+document.querySelector("#importBackupBtn")?.addEventListener("click", ()=>{
+  document.querySelector("#importBackupFile")?.click();
+});
+
+document.querySelector("#importBackupFile")?.addEventListener("change", async (event)=>{
+  const file=event.target.files?.[0];
+  if(!file) return;
+  try{
+    const parsed=JSON.parse(await file.text());
+    if(parsed?.app!=="356 Coach" || !parsed?.data || typeof parsed.data!=="object"){
+      throw new Error("Ungültiges Backup");
+    }
+    const ok=confirm("Backup wiederherstellen? Die aktuell lokal gespeicherten 356-Coach-Daten werden durch das Backup ersetzt.");
+    if(!ok){ event.target.value=""; return; }
+
+    state=parsed.data;
+    localStorage.setItem("pushupPlankCoach.v2", JSON.stringify(state));
+    setBackupStatus("Backup erfolgreich wiederhergestellt.");
+    event.target.value="";
+    render();
+  }catch(err){
+    setBackupStatus("Diese Datei ist kein gültiges 356-Coach-Backup.", true);
+    event.target.value="";
+  }
+});
