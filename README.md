@@ -52,3 +52,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Plank zusätzlich manuell als Minuten + Sekunden eintragbar.
 - Timer bleibt erhalten.
 - Batterieanzeigen aktualisieren sich automatisch.
+
+## Update v8 – Safari/PWA-Update-Fix
+- Network-first für HTML und App-Assets.
+- Versionierte Asset-URLs mit `?v=8`.
+- Service-Worker-Update ohne HTTP-Cache.
+- Sofortige Aktivierung und automatische Übernahme.
+- Automatischer einmaliger Reload nach Worker-Wechsel.
+- Alte PWA-Caches werden gelöscht.
+- localStorage-Trainingsdaten bleiben erhalten.

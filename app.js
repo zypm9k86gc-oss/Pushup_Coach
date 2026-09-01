@@ -299,8 +299,39 @@ document.querySelector("#themeBtn").addEventListener("click", ()=>{
 const savedTheme = localStorage.getItem("theme");
 if(savedTheme) document.documentElement.dataset.theme = savedTheme;
 
-if("serviceWorker" in navigator){
-  window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js"));
+
+
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      const registration = await navigator.serviceWorker.register("./sw.js?v=8", { updateViaCache: "none" });
+      await registration.update();
+
+      if (registration.waiting) {
+        registration.waiting.postMessage({ type: "SKIP_WAITING" });
+      }
+
+      registration.addEventListener("updatefound", () => {
+        const worker = registration.installing;
+        if (!worker) return;
+        worker.addEventListener("statechange", () => {
+          if (worker.state === "installed" && navigator.serviceWorker.controller) {
+            worker.postMessage({ type: "SKIP_WAITING" });
+          }
+        });
+      });
+
+      let reloading = false;
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (reloading) return;
+        reloading = true;
+        window.location.reload();
+      });
+    } catch (err) {
+      console.warn("Service Worker Update fehlgeschlagen:", err);
+    }
+  });
 }
 
 load();

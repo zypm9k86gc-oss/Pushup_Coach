@@ -1,29 +1,58 @@
-
-const CACHE = "pushup-plank-coach-v7";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./styles.css",
-  "./app.js",
-  "./manifest.webmanifest",
-  "./icon-192.png",
-  "./icon-512.png"
+const CACHE = "pushup-plank-coach-v8";
+const CORE = [
+  "./styles.css?v=8",
+  "./app.js?v=8",
+  "./manifest.webmanifest?v=8",
+  "./icon-192.png?v=8",
+  "./icon-512.png?v=8",
+  "./trainingsplan.json"
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(CORE)));
   self.skipWaiting();
 });
 
 self.addEventListener("activate", event => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
+});
+
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") self.skipWaiting();
 });
 
 self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(hit => hit || fetch(event.request))
-  );
+  const req = event.request;
+
+  if (req.mode === "navigate") {
+    event.respondWith(
+      fetch(req, { cache: "no-store" })
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE).then(cache => cache.put("./", copy));
+          return response;
+        })
+        .catch(() => caches.match("./").then(r => r || caches.match("./index.html")))
+    );
+    return;
+  }
+
+  const url = new URL(req.url);
+  if (url.origin === self.location.origin) {
+    event.respondWith(
+      fetch(req, { cache: "no-store" })
+        .then(response => {
+          if (response && response.ok) {
+            const copy = response.clone();
+            caches.open(CACHE).then(cache => cache.put(req, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match(req))
+    );
+  }
 });
