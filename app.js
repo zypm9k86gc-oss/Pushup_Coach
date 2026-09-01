@@ -36,6 +36,25 @@ function latestPlanOnOrBefore(k){
   }
   return found;
 }
+
+function workoutProgress(item){
+  const idx=EXACT_PLAN.findIndex(x=>x.date===item.date);
+  const next=EXACT_PLAN[idx+1]||null;
+  const end=next?next.date:"9999-12-31";
+  const recs=state.records.filter(r=>r.date>=item.date && r.date<end);
+  let push=recs.reduce((a,r)=>a+(r.pushups||0),0);
+  let plank=recs.reduce((a,r)=>a+(r.plank||0),0);
+  if(todayKey()>=item.date && todayKey()<end){push+=state.todayPushups;plank+=state.todayPlank;}
+  return {push,plank,done:push>=item.pushups && plank>=item.plank};
+}
+function openWorkout(){
+  const key=todayKey(), due=EXACT_PLAN.filter(x=>x.date<=key);
+  const latest=due.length?due[due.length-1]:null;
+  if(!latest)return null;
+  const p=workoutProgress(latest);
+  return p.done?null:{...latest,progressPush:p.push,progressPlank:p.plank};
+}
+
 function fmtDateDE(key){
   if(!key) return "";
   const [y,m,d]=key.split("-").map(Number);
@@ -75,17 +94,10 @@ function fmtLong(sec){
 }
 
 function currentTarget(){
-  const key=todayKey();
-  const exact=planForDate(key);
-  if(exact) return exact;
-
-  // On recovery days keep showing the most recently reached training level.
-  // The next level is not revealed until its due date.
-  const latest=latestPlanOnOrBefore(key);
-  if(latest) return {...latest,restDay:true};
-
-  // Before the plan starts, show only the initial baseline.
-  return {pushups:80,plank:70,sets:"",restDay:true};
+  const open=openWorkout();
+  if(open)return open;
+  const latest=latestPlanOnOrBefore(todayKey());
+  return latest||{pushups:80,plank:70,sets:""};
 }
 
 function load(){
@@ -135,39 +147,34 @@ function render(){
   const t = currentTarget();
   const key=todayKey();
   const exactToday=planForDate(key);
+  const open=openWorkout();
   const program=document.querySelector("#todayProgram");
   const trainingPanel=document.querySelector("#trainingPanel");
   const restPanel=document.querySelector("#restPanel");
   const actionsPanel=document.querySelector(".actions");
   const nextDateEl=document.querySelector("#nextTrainingDate");
 
-  if(exactToday){
-    program.innerHTML=`<strong>Training ist heute fällig.</strong><br>`
-      +`${exactToday.pushups} Liegestütze + ${fmtTime(exactToday.plank)} Plank`
-      +(exactToday.sets?`<br><span>Satzvorschlag: ${exactToday.sets}</span>`:"")
-      +(exactToday.checkpoint?`<br><span>✓ Kontrollpunkt / Zieltest</span>`:"");
-    trainingPanel.hidden=false;
-    restPanel.hidden=true;
-    actionsPanel.hidden=false;
+  if(open){
+    const overdue=open.date<key;
+    program.innerHTML=(overdue?`<strong>Training noch offen.</strong>`:`<strong>Training ist heute fällig.</strong>`)
+      +`<br>${open.pushups} Liegestütze + ${fmtTime(open.plank)} Plank`
+      +(open.sets?`<br><span>Satzvorschlag: ${open.sets}</span>`:"")
+      +(overdue?`<br><span>Fällig seit: ${fmtDateDE(open.date)}</span>`:"")
+      +(open.checkpoint?`<br><span>✓ Kontrollpunkt / Zieltest</span>`:"");
+    trainingPanel.hidden=false;restPanel.hidden=true;actionsPanel.hidden=false;
   }else{
-    program.innerHTML=`<strong style="color:var(--plank)">Heute Regeneration.</strong><br>`
-      +`<span>Ein neues Trainingsniveau erscheint hier erst an dem Tag, an dem es fällig wird.</span>`;
-    trainingPanel.hidden=true;
-    restPanel.hidden=false;
-    actionsPanel.hidden=true;
-
+    program.innerHTML=`<strong style="color:var(--plank)">Regenerationstag.</strong><br><span>Das letzte fällige Training ist erfüllt.</span>`;
+    trainingPanel.hidden=true;restPanel.hidden=false;actionsPanel.hidden=false;
     const next=nextPlanEntry(key);
-    if(nextDateEl){
-      nextDateEl.textContent=next
-        ? `Nächster Trainingstag: ${fmtDateDE(next.date)}`
-        : "Trainingsplan abgeschlossen.";
-    }
+    if(nextDateEl)nextDateEl.textContent=next?`Nächster Trainingstag: ${fmtDateDE(next.date)}`:"Trainingsplan abgeschlossen.";
   }
 
   const pushPct = Math.min(100, Math.round(t.pushups/356*100));
   const plankPct = Math.min(100, Math.round(t.plank/300*100));
-  const todayPushPct = Math.min(100, Math.round(state.todayPushups/t.pushups*100));
-  const todayPlankPct = Math.min(100, Math.round(state.todayPlank/t.plank*100));
+  const displayPushups=open?open.progressPush:state.todayPushups;
+  const displayPlank=open?open.progressPlank:state.todayPlank;
+  const todayPushPct = Math.min(100, Math.round(displayPushups/t.pushups*100));
+  const todayPlankPct = Math.min(100, Math.round(displayPlank/t.plank*100));
 
   document.querySelector("#targetPushups").textContent = t.pushups;
   document.querySelector("#targetPlank").textContent = fmtTime(t.plank);
@@ -176,12 +183,12 @@ function render(){
   document.querySelector("#goalPushProgress").value = t.pushups;
   document.querySelector("#goalPlankProgress").value = t.plank;
 
-  document.querySelector("#todayPushups").textContent = state.todayPushups;
+  document.querySelector("#todayPushups").textContent = displayPushups;
   document.querySelector("#todayPushTarget").textContent = t.pushups;
   document.querySelector("#todayPushPercent").textContent = todayPushPct+"%";
   document.querySelector("#pushBatteryFill").style.height = todayPushPct+"%";
 
-  document.querySelector("#todayPlank").textContent = fmtTime(state.todayPlank);
+  document.querySelector("#todayPlank").textContent = fmtTime(displayPlank);
   document.querySelector("#todayPlankTarget").textContent = fmtTime(t.plank);
   document.querySelector("#todayPlankPercent").textContent = todayPlankPct+"%";
   document.querySelector("#plankBatteryFill").style.height = todayPlankPct+"%";
@@ -298,3 +305,6 @@ if("serviceWorker" in navigator){
 
 load();
 render();
+
+document.querySelector("#addPushAlways").addEventListener("click",()=>{const i=document.querySelector("#pushInputAlways"),n=Number(i.value);if(n>0){state.todayPushups+=n;i.value="";save();render();}});
+document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi=document.querySelector("#plankMinAlways"),si=document.querySelector("#plankSecAlways");const n=(Math.max(0,Number(mi.value)||0)*60)+Math.max(0,Math.min(59,Number(si.value)||0));if(n>0){state.todayPlank+=Math.floor(n);mi.value="";si.value="";save();render();}});

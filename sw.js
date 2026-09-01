@@ -1,5 +1,5 @@
 
-const CACHE = "pushup-plank-coach-v6";
+const CACHE = "pushup-plank-coach-v7";
 const ASSETS = [
   "./",
   "./index.html",

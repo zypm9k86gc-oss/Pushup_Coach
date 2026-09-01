@@ -241,3 +241,4 @@ html[data-theme="light"]{
 .time-inputs span{font-size:21px;font-weight:800}
 .plank-manual{margin-top:10px}
 .timer-label{margin-top:12px;text-align:center}
+.always-entry-card{margin-top:14px}.entry-heading{font-size:19px;font-weight:800}.entry-note{font-size:13px;margin:3px 0 14px}.always-entry-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.entry-block label{display:block;font-size:13px;font-weight:750;margin-bottom:7px}@media(max-width:520px){.always-entry-grid{grid-template-columns:1fr}}
