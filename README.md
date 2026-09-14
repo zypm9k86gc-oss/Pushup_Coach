@@ -110,3 +110,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Optionale Übungen/Sätze werden sichtbar gekennzeichnet und zählen nicht zur Pflichtsatz-Fortschrittsanzeige.
 - Bestehende `kneeDone`-Daten werden beim ersten Öffnen in die neue Satzstruktur übernommen.
 - Cache-Version auf v14 erhöht.
+
+## Update v15 – OneSignal GitHub-Pages-Fix
+- OneSignal-Service-Worker-Pfad berücksichtigt jetzt automatisch den GitHub-Pages-Unterordner `/Pushup_Coach/`.
+- Worker-Scope wird dynamisch aus dem aktuellen App-Pfad gebildet.
+- Subscription-ID wird nach Opt-in bis zu 20 Sekunden aktiv abgewartet.
+- Subscription-Change-Event verwendet die von OneSignal gelieferte aktuelle ID direkt.
+- Aussagekräftigere Statusmeldung bei Initialisierungsfehlern.

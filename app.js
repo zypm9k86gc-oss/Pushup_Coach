@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=14", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=15", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -810,6 +810,16 @@ async function refreshPushUi(OneSignal){
   }
 }
 
+async function waitForSubscriptionId(OneSignal, maxMs=20000){
+  const started=Date.now();
+  while(Date.now()-started < maxMs){
+    const id=OneSignal.User.PushSubscription.id || null;
+    if(id) return id;
+    await new Promise(resolve=>setTimeout(resolve,750));
+  }
+  return null;
+}
+
 async function initTrainingPush(){
   if(!pushConfigured()){
     setPushStatus("Push ist vorbereitet, aber OneSignal ist noch nicht verbunden.");
@@ -819,25 +829,43 @@ async function initTrainingPush(){
   window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
-      const scopePath=new URL("./push/onesignal/",window.location.href).pathname;
+      // GitHub Project Pages lives below /Pushup_Coach/.
+      // OneSignal serviceWorkerPath is interpreted relative to the origin root,
+      // so the repository path must be included.
+      const appBasePath=new URL("./",window.location.href).pathname;
+      const normalizedBase=appBasePath.endsWith("/") ? appBasePath : appBasePath+"/";
+      const workerPath=(normalizedBase+"push/onesignal/OneSignalSDKWorker.js").replace(/^\/+/,"");
+      const workerScope=normalizedBase+"push/onesignal/";
 
       await OneSignal.init({
         appId:window.PUSH_CONFIG.oneSignalAppId,
-        serviceWorkerPath:"push/onesignal/OneSignalSDKWorker.js",
-        serviceWorkerParam:{scope:scopePath},
+        serviceWorkerPath:workerPath,
+        serviceWorkerParam:{scope:workerScope},
         autoResubscribe:true,
         notifyButton:{enable:false}
       });
 
       oneSignalReady=true;
 
-      OneSignal.User.PushSubscription.addEventListener("change",()=>{
+      OneSignal.User.PushSubscription.addEventListener("change",(event)=>{
+        const id=event?.current?.id || OneSignal.User.PushSubscription.id || null;
+        if(id) showSubscriptionId(id);
         refreshPushUi(OneSignal);
       });
 
       await refreshPushUi(OneSignal);
+
+      // If already subscribed, the ID can arrive slightly after SDK init.
+      if(OneSignal.User.PushSubscription.optedIn && !OneSignal.User.PushSubscription.id){
+        setPushStatus("Push ist aktiv. Persönliche Push-ID wird noch erstellt …");
+        const id=await waitForSubscriptionId(OneSignal);
+        if(id){
+          showSubscriptionId(id);
+          setPushStatus("Aktiv. Kopiere jetzt die persönliche Push-ID in das private Scheduler-Repository.");
+        }
+      }
     }catch(err){
-      setPushStatus("Push konnte nicht initialisiert werden.",true);
+      setPushStatus("Push konnte nicht initialisiert werden. Prüfe den OneSignal-Service-Worker.",true);
       console.warn("OneSignal init:",err);
     }
   });
@@ -866,6 +894,14 @@ document.querySelector("#enablePushBtn")?.addEventListener("click",()=>{
 
       await OneSignal.User.PushSubscription.optIn();
       await refreshPushUi(OneSignal);
+
+      const id=await waitForSubscriptionId(OneSignal);
+      if(id){
+        showSubscriptionId(id);
+        setPushStatus("Aktiv. Persönliche Push-ID ist bereit.");
+      }else{
+        setPushStatus("Mitteilungen sind erlaubt, aber OneSignal hat noch keine Push-ID geliefert. Bitte App einmal schließen und neu öffnen.",true);
+      }
     }catch(err){
       setPushStatus("Aktivierung der Erinnerungen fehlgeschlagen.",true);
       console.warn("Push opt-in:",err);
