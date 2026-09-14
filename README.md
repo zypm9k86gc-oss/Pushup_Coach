@@ -124,3 +124,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Kein Konflikt mit dem PWA-Worker `sw.js`.
 - Öffentliche Scheduler-Reste aus dem Paket entfernt.
 - Cache-Version auf v16 erhöht.
+
+## Update v17 – Test-Ready UI & horizontale Batterien
+- Bereich umbenannt in **Stabilitätsübungen Beine**.
+- Jede Übung hat zusätzlich eine horizontale Batterieanzeige.
+- Die Batterie füllt sich je nach erledigten Sätzen:
+  - 3 Sätze: 33% / 66% / 100%
+  - 2 Sätze: 50% / 100%
+- Die bisherigen Satz-Checkboxen bleiben erhalten.
+- Version/Caches auf v17 angehoben.

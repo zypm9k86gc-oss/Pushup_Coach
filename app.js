@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=16", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=17", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -634,6 +634,42 @@ function migrateLegacyKneeDone(k, plan){
   }
 }
 
+
+function exerciseCompletionCount(k, exercise){
+  let done=0;
+  for(let s=1;s<=exercise.sets;s++){
+    if(kneeSetDone(k, exercise.id, s)) done++;
+  }
+  return done;
+}
+
+function renderKneeBatteries(k, plan){
+  const box=document.querySelector("#kneeBatteries");
+  if(!box) return;
+  if(!plan.exercises.length){
+    box.innerHTML="";
+    return;
+  }
+  const batteries = plan.exercises.map((ex, idx)=>{
+    const done=exerciseCompletionCount(k, ex);
+    const pct=Math.max(0, Math.min(100, Math.round(done/ex.sets*100)));
+    return `
+      <div class="exercise-battery-card">
+        <div class="exercise-battery-header">
+          <div class="exercise-battery-title">Übung ${idx+1}: ${ex.name}</div>
+          <div class="exercise-battery-meta">${done}/${ex.sets} Sätze${ex.optional ? ' · optional' : ''}</div>
+        </div>
+        <div class="battery-shell horizontal">
+          <div class="battery-level" style="width:${pct}%"></div>
+          <div class="battery-cap horizontal"></div>
+          <div class="battery-label">${pct}%</div>
+        </div>
+        <div class="exercise-battery-sub">${ex.prescription}</div>
+      </div>`;
+  }).join("");
+  box.innerHTML=batteries;
+}
+
 function renderKnee(){
   const box=document.querySelector(".knee-card");
   const p=document.querySelector("#kneeProgram");
@@ -647,8 +683,9 @@ function renderKnee(){
   ensureKneeState();
 
   if(!plan.day || !plan.exercises.length){
-    p.innerHTML="<strong>Heute kein Knie-Kraftprogramm.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
+    p.innerHTML="<strong>Heute keine Stabilitätsübungen Beine.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
     e.innerHTML="";
+    renderKneeBatteries(k, plan);
     if(progress) progress.textContent="";
     b.hidden=true;
     return;
@@ -657,10 +694,10 @@ function renderKnee(){
   migrateLegacyKneeDone(k,plan);
 
   const title=plan.day==="A"
-    ?"Kraft & Kniekontrolle A"
+    ?"Stabilitätsübungen Beine – Kraft & Kniekontrolle A"
     :plan.day==="M"
-      ?"Leichte Stabilität / Balance"
-      :"Kraft & Stabilität B";
+      ?"Stabilitätsübungen Beine – leichte Stabilität / Balance"
+      :"Stabilitätsübungen Beine – Kraft & Stabilität B";
 
   p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank · die Sätze sind in Trainingsreihenfolge angeordnet.</span>`;
 
@@ -702,6 +739,7 @@ function renderKnee(){
   }
 
   e.innerHTML=html;
+  renderKneeBatteries(k, plan);
 
   const required=requiredKneeSetCount(plan);
   const completed=completedRequiredKneeSetCount(k,plan);
