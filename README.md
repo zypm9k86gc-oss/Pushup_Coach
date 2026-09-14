@@ -133,3 +133,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
   - 2 Sätze: 50% / 100%
 - Die bisherigen Satz-Checkboxen bleiben erhalten.
 - Version/Caches auf v17 angehoben.
+
+## Update v18 – Satzbestätigung per Button
+- Bei den Stabilitätsübungen Beine gibt es jetzt pro Übung genau einen Button **"Satz bestätigen"**.
+- Jeder Klick bestätigt den nächsten Satz dieser Übung und erhöht die horizontale Batterie entsprechend.
+- Die bisherige detaillierte Satz-/Hakenliste wurde entfernt.
+- Die Batterie ist jetzt die zentrale Fortschrittsanzeige pro Übung.
+- Cache-/Versionsnummer auf v18 erhöht.

@@ -452,3 +452,24 @@ html[data-theme="light"]{
   .exercise-battery-header{flex-direction:column}
   .exercise-battery-meta{white-space:normal}
 }
+
+
+/* v18: einfachere Bedienung pro Übung */
+.exercise-battery-card.complete{
+  opacity:.92;
+}
+.exercise-battery-actions{
+  display:grid;
+  gap:8px;
+  margin-top:10px;
+}
+.battery-set-btn{
+  width:100%;
+}
+.battery-set-btn:disabled{
+  opacity:.7;
+}
+.exercise-battery-hint{
+  font-size:12px;
+  color:var(--muted);
+}

@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=17", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=18", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -643,6 +643,13 @@ function exerciseCompletionCount(k, exercise){
   return done;
 }
 
+function nextIncompleteSet(k, exercise){
+  for(let s=1;s<=exercise.sets;s++){
+    if(!kneeSetDone(k, exercise.id, s)) return s;
+  }
+  return null;
+}
+
 function renderKneeBatteries(k, plan){
   const box=document.querySelector("#kneeBatteries");
   if(!box) return;
@@ -650,11 +657,14 @@ function renderKneeBatteries(k, plan){
     box.innerHTML="";
     return;
   }
+
   const batteries = plan.exercises.map((ex, idx)=>{
     const done=exerciseCompletionCount(k, ex);
     const pct=Math.max(0, Math.min(100, Math.round(done/ex.sets*100)));
+    const complete=done>=ex.sets;
+    const remaining=Math.max(0, ex.sets-done);
     return `
-      <div class="exercise-battery-card">
+      <div class="exercise-battery-card ${complete?"complete":""}">
         <div class="exercise-battery-header">
           <div class="exercise-battery-title">Übung ${idx+1}: ${ex.name}</div>
           <div class="exercise-battery-meta">${done}/${ex.sets} Sätze${ex.optional ? ' · optional' : ''}</div>
@@ -665,6 +675,15 @@ function renderKneeBatteries(k, plan){
           <div class="battery-label">${pct}%</div>
         </div>
         <div class="exercise-battery-sub">${ex.prescription}</div>
+        <div class="exercise-battery-actions">
+          <button
+            type="button"
+            class="battery-set-btn"
+            data-exercise-id="${ex.id}"
+            ${complete?"disabled":""}
+          >${complete?"Komplett":"Satz bestätigen"}</button>
+          <div class="exercise-battery-hint">${complete?"Alle Sätze dieser Übung abgeschlossen.":`Noch ${remaining} Satz${remaining===1?'':'e'} offen.`}</div>
+        </div>
       </div>`;
   }).join("");
   box.innerHTML=batteries;
@@ -699,47 +718,15 @@ function renderKnee(){
       ?"Stabilitätsübungen Beine – leichte Stabilität / Balance"
       :"Stabilitätsübungen Beine – Kraft & Stabilität B";
 
-  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank · die Sätze sind in Trainingsreihenfolge angeordnet.</span>`;
+  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank · pro Übung bestätigst du jeden abgeschlossenen Satz mit einem Button.</span>`;
 
-  const maxSets=Math.max(...plan.exercises.map(x=>x.sets));
-  let html="";
-
-  for(let setNo=1; setNo<=maxSets; setNo++){
-    const items=plan.exercises.filter(ex=>ex.sets>=setNo);
-    if(!items.length) continue;
-
-    html+=`<section class="knee-round"><div class="knee-round-title">Satz ${setNo}</div>`;
-    for(const ex of items){
-      const checked=kneeSetDone(k,ex.id,setNo);
-      const optional=isOptionalKneeSet(ex,setNo);
-      const uid=`knee-${k}-${ex.id}-${setNo}`.replace(/[^a-zA-Z0-9_-]/g,"-");
-
-      html+=`
-        <label class="knee-set-row ${checked?"is-done":""}" for="${uid}">
-          <input
-            id="${uid}"
-            class="knee-set-check"
-            type="checkbox"
-            data-exercise-id="${ex.id}"
-            data-set="${setNo}"
-            ${checked?"checked":""}
-          >
-          <span class="knee-set-checkmark">✓</span>
-          <span class="knee-set-copy">
-            <strong>${ex.name}</strong>
-            <small>${ex.prescription}${optional?' · <em>optional</em>':""}</small>
-          </span>
-        </label>`;
-    }
-    html+="</section>";
-  }
+  renderKneeBatteries(k, plan);
 
   if(plan.notes.length){
-    html+=`<div class="knee-notes">${plan.notes.map(n=>`<div>ℹ︎ ${n}</div>`).join("")}</div>`;
+    e.innerHTML=`<div class="knee-notes">${plan.notes.map(n=>`<div>ℹ︎ ${n}</div>`).join("")}</div>`;
+  }else{
+    e.innerHTML="";
   }
-
-  e.innerHTML=html;
-  renderKneeBatteries(k, plan);
 
   const required=requiredKneeSetCount(plan);
   const completed=completedRequiredKneeSetCount(k,plan);
@@ -753,18 +740,25 @@ function renderKnee(){
   b.hidden=false;
   b.textContent=done
     ?"✓ Alle Pflichtsätze erledigt – zurücksetzen"
-    :"Alle Pflichtsätze als erledigt markieren";
+    :"Alle Pflichtsätze markieren / zurücksetzen";
   b.classList.toggle("done",done);
 
   save();
 }
 
-document.querySelector("#kneeExercises")?.addEventListener("change",(event)=>{
-  const input=event.target.closest(".knee-set-check");
-  if(!input) return;
+document.querySelector("#kneeBatteries")?.addEventListener("click",(event)=>{
+  const btn=event.target.closest(".battery-set-btn");
+  if(!btn || btn.disabled) return;
 
   const k=todayKey();
-  setKneeSetDone(k,input.dataset.exerciseId,Number(input.dataset.set),input.checked);
+  const plan=kneePlanFor(k);
+  const exercise=plan.exercises.find(ex=>ex.id===btn.dataset.exerciseId);
+  if(!exercise) return;
+
+  const nextSet=nextIncompleteSet(k, exercise);
+  if(nextSet==null) return;
+
+  setKneeSetDone(k, exercise.id, nextSet, true);
   save();
   renderKnee();
 });
