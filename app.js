@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=18", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=20", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -525,28 +525,28 @@ function kneePlanFor(k){
 
   if(day==="A"){
     exercises=[
-      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein"},
-      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein"},
-      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein"},
-      {id:"balance-mat", name:"Einbeinstand auf Balancematte", sets:2, prescription:"30–45 Sekunden je Bein"}
+      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein", description:"Mache einen Ausfallschritt nach hinten oder in geteilter Standposition. Senke das hintere Knie kontrolliert Richtung Boden und drücke dich wieder hoch. Oberkörper aufrecht, Knie sauber über dem Fuß führen."},
+      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein", description:"Stelle dich auf eine Stufe oder stabile Erhöhung. Senke die freie Ferse langsam Richtung Boden ab und drücke dich kontrolliert wieder hoch. Becken gerade halten, Knie stabil führen."},
+      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein", description:"Stelle dich auf ein Bein. Drücke dich über den Fußballen langsam nach oben auf die Zehenspitze und senke die Ferse kontrolliert wieder ab. Halte das Gleichgewicht ruhig."},
+      {id:"balance-mat", name:"Einbeinstand auf Balancematte", sets:2, prescription:"30–45 Sekunden je Bein", description:"Stelle dich auf ein Bein auf eine weiche Unterlage oder Balancematte. Halte Hüfte und Oberkörper stabil und versuche, ohne Absetzen ruhig zu stehen."}
     ];
   }
 
   if(day==="M"){
     exercises=[
-      {id:"rdl-single-light", name:"Einbeiniger Romanian Deadlift", sets:2, prescription:"8–10 je Bein"},
-      {id:"star-reach", name:ph>=2?"Star Reach auf Balancematte":"Star Reach", sets:2, prescription:"4–5 Runden je Bein"},
-      {id:"balance-board", name:"Balanceboard", sets:2, prescription:(ph>=2?"30–45":"20–45")+" Sekunden je Bein"},
-      {id:"calf-slow", name:"Langsames Wadenheben", sets:2, prescription:"15", optional:true}
+      {id:"rdl-single-light", name:"Einbeiniger Romanian Deadlift", sets:2, prescription:"8–10 je Bein", description:"Stehe auf einem Bein und neige den Oberkörper mit geradem Rücken nach vorn. Das freie Bein geht nach hinten. Dann kontrolliert wieder aufrichten. Bewegung aus der Hüfte, nicht aus dem Rücken."},
+      {id:"star-reach", name:ph>=2?"Star Reach auf Balancematte":"Star Reach", sets:2, prescription:"4–5 Runden je Bein", description:"Stehe auf einem Bein und tippe mit dem anderen Fuß kontrolliert in mehrere Richtungen wie bei einem Stern nach vorn, seitlich und schräg. Das Standbein bleibt stabil."},
+      {id:"balance-board", name:"Balanceboard", sets:2, prescription:(ph>=2?"30–45":"20–45")+" Sekunden je Bein", description:"Stelle dich mit einem Bein auf das Balanceboard und halte die Position möglichst ruhig. Kleine Ausgleichsbewegungen sind normal. Nicht springen, nur kontrolliert stabilisieren."},
+      {id:"calf-slow", name:"Langsames Wadenheben", sets:2, prescription:"15", optional:true, description:"Hebe beide oder einbeinig die Fersen langsam an, halte kurz oben und senke sie bewusst langsam wieder ab. Fokus auf Kontrolle und saubere Bewegung."}
     ];
   }
 
   if(day==="B"){
     exercises=[
-      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein"},
-      {id:"rdl-single", name:"Einbeiniger Romanian Deadlift", sets:3, prescription:"8–12 je Bein"},
-      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein", optionalSets:[3]},
-      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein"}
+      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein", description:"Mache einen Ausfallschritt nach hinten oder in geteilter Standposition. Senke das hintere Knie kontrolliert Richtung Boden und drücke dich wieder hoch. Oberkörper aufrecht, Knie sauber über dem Fuß führen."},
+      {id:"rdl-single", name:"Einbeiniger Romanian Deadlift", sets:3, prescription:"8–12 je Bein", description:"Stehe auf einem Bein und neige den Oberkörper mit geradem Rücken nach vorn. Das freie Bein streckt nach hinten. Danach kontrolliert wieder aufrichten und die Hüfte stabil halten."},
+      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein", optionalSets:[3], description:"Stelle dich auf eine Stufe oder stabile Erhöhung. Senke die freie Ferse langsam Richtung Boden ab und drücke dich kontrolliert wieder hoch. Das Knie bleibt ruhig und stabil ausgerichtet."},
+      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein", description:"Stelle dich auf ein Bein. Drücke dich über den Fußballen langsam nach oben auf die Zehenspitze und senke die Ferse kontrolliert wieder ab. Halte das Gleichgewicht ruhig."}
     ];
   }
 
@@ -556,15 +556,15 @@ function kneePlanFor(k){
 
   if(ph===3 && day==="B"){
     exercises.push(
-      {id:"jump-double", name:"Kleine beidbeinige Sprünge", sets:2, prescription:"15–20"},
-      {id:"step-stick", name:"Seitliches Step & Stick", sets:2, prescription:"5–6 je Seite · 2 Sekunden stabil landen"}
+      {id:"jump-double", name:"Kleine beidbeinige Sprünge", sets:2, prescription:"15–20", description:"Führe kleine, lockere Sprünge mit beiden Beinen aus. Lande leise und kontrolliert auf dem Vorfuß-Mittelfuß und halte Knie und Hüfte stabil."},
+      {id:"step-stick", name:"Seitliches Step & Stick", sets:2, prescription:"5–6 je Seite · 2 Sekunden stabil landen", description:"Mache einen kleinen seitlichen Sprung oder Schritt und lande auf einem Bein. Halte die Landung etwa 2 Sekunden stabil, bevor du zur nächsten Wiederholung übergehst."}
     );
   }
 
   if(ph>=4 && day==="B"){
     exercises.push(
-      {id:"jump-single-place", name:"Einbeinige kleine Sprünge auf der Stelle", sets:2, prescription:"10–15 je Bein"},
-      {id:"jump-single-side", name:"Seitliche einbeinige Sprünge", sets:2, prescription:"6–8 je Seite"}
+      {id:"jump-single-place", name:"Einbeinige kleine Sprünge auf der Stelle", sets:2, prescription:"10–15 je Bein", description:"Springe mit einem Bein klein und kontrolliert auf der Stelle. Lande weich und stabil, halte Knie und Fußachse ruhig."},
+      {id:"jump-single-side", name:"Seitliche einbeinige Sprünge", sets:2, prescription:"6–8 je Seite", description:"Springe mit einem Bein kontrolliert seitlich und lande stabil. Achte auf eine saubere, leise Landung und gute Kniekontrolle."}
     );
     notes.push("Balanceboard nur für Balanceübungen verwenden – nicht darauf springen.");
   }
@@ -675,6 +675,7 @@ function renderKneeBatteries(k, plan){
           <div class="battery-label">${pct}%</div>
         </div>
         <div class="exercise-battery-sub">${ex.prescription}</div>
+        <details class="exercise-info"><summary>Kurze Erklärung</summary><div class="exercise-battery-desc">${ex.description||""}</div></details>
         <div class="exercise-battery-actions">
           <button
             type="button"

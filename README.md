@@ -140,3 +140,14 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Die bisherige detaillierte Satz-/Hakenliste wurde entfernt.
 - Die Batterie ist jetzt die zentrale Fortschrittsanzeige pro Übung.
 - Cache-/Versionsnummer auf v18 erhöht.
+
+## Update v19 – Kurzbeschreibung je Stabilitätsübung
+- Unter jeder Stabilitätsübung steht jetzt zusätzlich eine kurze Erklärung.
+- So ist direkt in der App ersichtlich, wie die jeweilige Übung ausgeführt werden soll.
+- Cache-/Versionsnummer auf v19 erhöht.
+
+## Update v20 – Ausklapp-Funktion
+- Unter jeder Stabilitätsübung ist die Erklärung jetzt als **ausklappbare Kurzbeschreibung** eingebaut.
+- Die Bereiche **Gesamt**, **Kontrollpunkte**, **Historie**, **Trainingserinnerungen** und **Datensicherung** sind jetzt ebenfalls als Ausklappbereiche organisiert.
+- So bleibt die Oberfläche kompakter und übersichtlicher.
+- Cache-/Versionsnummer auf v20 erhöht.
