@@ -100,3 +100,13 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 
 ## OneSignal verbunden
 - OneSignal App ID eingetragen: `d8303894-40e4-447a-88d9-253b5460b66b`
+ 
+## Update v14 – Sicherheit + einzelne Übungssätze
+- Öffentliche PWA und privater Push-Scheduler vollständig getrennt.
+- Kein OneSignal API Key und kein GitHub-Actions-Scheduler mehr im öffentlichen Repository.
+- App zeigt nach Push-Aktivierung die persönliche OneSignal Subscription-ID zum Kopieren.
+- Knie-/Stabilitätsübungen können Satz für Satz abgehakt werden.
+- Reihenfolge: zuerst Satz 1 aller Übungen, anschließend Satz 2 aller Übungen usw.
+- Optionale Übungen/Sätze werden sichtbar gekennzeichnet und zählen nicht zur Pflichtsatz-Fortschrittsanzeige.
+- Bestehende `kneeDone`-Daten werden beim ersten Öffnen in die neue Satzstruktur übernommen.
+- Cache-Version auf v14 erhöht.

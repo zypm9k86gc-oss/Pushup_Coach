@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=13", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=14", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -492,6 +492,7 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
     setBackupStatus("Backup erfolgreich wiederhergestellt.");
     event.target.value="";
     render();
+    renderKnee();
   }catch(err){
     setBackupStatus("Diese Datei ist kein gültiges 356-Coach-Backup.", true);
     event.target.value="";
@@ -501,6 +502,7 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
 
 // ---- Knee / stability plan ----
 const KNEE_START="2026-09-14";
+
 function kneePhase(k){
   if(k<"2026-09-14") return 0;
   if(k<"2026-10-12") return 1;
@@ -508,79 +510,304 @@ function kneePhase(k){
   if(k<"2026-12-07") return 3;
   return 4;
 }
+
 function kneeDay(k){
   const d=new Date(k+"T12:00:00").getDay();
   return d===1?"A":d===3?"M":d===5?"B":null;
 }
-function kneeExercisesFor(k){
+
+function kneePlanFor(k){
   const day=kneeDay(k), ph=kneePhase(k);
-  if(!day || !ph) return [];
-  let ex=[];
-  if(day==="A") ex=[
-    "Split Squats – 3 × 8–12 je Bein",
-    "Step-downs – 3 × 8–12 je Bein",
-    "Einbeiniges Wadenheben – 3 × 12–20 je Bein",
-    "Einbeinstand auf Balancematte – 2 × 30–45 s je Bein"
-  ];
-  if(day==="M") ex=[
-    "Einbeiniger Romanian Deadlift – 2 × 8–10 je Bein",
-    (ph>=2?"Star Reach auf Balancematte":"Star Reach") + " – 2 × 4–5 Runden je Bein",
-    "Balanceboard – 2 × "+(ph>=2?"30–45":"20–45")+" s je Bein",
-    "Optional: langsames Wadenheben – 2 × 15"
-  ];
-  if(day==="B") ex=[
-    "Split Squats – 3 × 8–12 je Bein",
-    "Einbeiniger Romanian Deadlift – 3 × 8–12 je Bein",
-    "Step-downs – 2–3 × 8–12 je Bein",
-    "Einbeiniges Wadenheben – 3 × 12–20 je Bein"
-  ];
-  if(ph>=2 && (day==="A"||day==="B")) ex.push("Bei sauberer Ausführung: Zusatzgewicht für Split Squats/RDL, ggf. Wadenheben");
-  if(ph===3 && day==="B") ex.push("Kleine beidbeinige Sprünge – 2 × 15–20","Seitliches Step & Stick – 2 × 5–6 je Seite (2 s stabil landen)");
-  if(ph>=4 && day==="B") ex.push("Einbeinige kleine Sprünge auf der Stelle – 2 × 10–15 je Bein","Seitliche einbeinige Sprünge – 2 × 6–8 je Seite");
-  return ex;
-}
-function renderKnee(){
-  const box=document.querySelector(".knee-card"), p=document.querySelector("#kneeProgram"), e=document.querySelector("#kneeExercises"), b=document.querySelector("#toggleKneeDone");
-  if(!box)return;
-  const k=todayKey(), day=kneeDay(k), ex=kneeExercisesFor(k);
-  state.kneeDone=state.kneeDone||{};
-  if(!day || !ex.length){
-    p.innerHTML="<strong>Heute kein Knie-Kraftprogramm.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
-    e.innerHTML=""; b.hidden=true; return;
+  if(!day || !ph) return {day:null, exercises:[], notes:[]};
+
+  let exercises=[];
+  const notes=[];
+
+  if(day==="A"){
+    exercises=[
+      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein"},
+      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein"},
+      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein"},
+      {id:"balance-mat", name:"Einbeinstand auf Balancematte", sets:2, prescription:"30–45 Sekunden je Bein"}
+    ];
   }
-  const title=day==="A"?"Kraft & Kniekontrolle A":day==="M"?"Leichte Stabilität / Balance":"Kraft & Stabilität B";
-  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank.</span>`;
-  e.innerHTML="<ol>"+ex.map(x=>`<li>${x}</li>`).join("")+"</ol>";
-  const done=!!state.kneeDone[k];
-  b.hidden=false;b.textContent=done?"✓ Knieprogramm erledigt – rückgängig":"Knieprogramm als erledigt markieren";
-  b.classList.toggle("done",done);
+
+  if(day==="M"){
+    exercises=[
+      {id:"rdl-single-light", name:"Einbeiniger Romanian Deadlift", sets:2, prescription:"8–10 je Bein"},
+      {id:"star-reach", name:ph>=2?"Star Reach auf Balancematte":"Star Reach", sets:2, prescription:"4–5 Runden je Bein"},
+      {id:"balance-board", name:"Balanceboard", sets:2, prescription:(ph>=2?"30–45":"20–45")+" Sekunden je Bein"},
+      {id:"calf-slow", name:"Langsames Wadenheben", sets:2, prescription:"15", optional:true}
+    ];
+  }
+
+  if(day==="B"){
+    exercises=[
+      {id:"split-squat", name:"Split Squats", sets:3, prescription:"8–12 je Bein"},
+      {id:"rdl-single", name:"Einbeiniger Romanian Deadlift", sets:3, prescription:"8–12 je Bein"},
+      {id:"step-down", name:"Step-downs", sets:3, prescription:"8–12 je Bein", optionalSets:[3]},
+      {id:"calf-single", name:"Einbeiniges Wadenheben", sets:3, prescription:"12–20 je Bein"}
+    ];
+  }
+
+  if(ph>=2 && (day==="A" || day==="B")){
+    notes.push("Bei sauberer Ausführung und problemlos geschafften Wiederholungen: Zusatzgewicht bei Split Squats/RDL, ggf. Wadenheben.");
+  }
+
+  if(ph===3 && day==="B"){
+    exercises.push(
+      {id:"jump-double", name:"Kleine beidbeinige Sprünge", sets:2, prescription:"15–20"},
+      {id:"step-stick", name:"Seitliches Step & Stick", sets:2, prescription:"5–6 je Seite · 2 Sekunden stabil landen"}
+    );
+  }
+
+  if(ph>=4 && day==="B"){
+    exercises.push(
+      {id:"jump-single-place", name:"Einbeinige kleine Sprünge auf der Stelle", sets:2, prescription:"10–15 je Bein"},
+      {id:"jump-single-side", name:"Seitliche einbeinige Sprünge", sets:2, prescription:"6–8 je Seite"}
+    );
+    notes.push("Balanceboard nur für Balanceübungen verwenden – nicht darauf springen.");
+  }
+
+  return {day, exercises, notes};
 }
-document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
-  const k=todayKey(); state.kneeDone=state.kneeDone||{}; state.kneeDone[k]=!state.kneeDone[k]; save(); renderKnee();
+
+function ensureKneeState(){
+  state.kneeSets=state.kneeSets||{};
+  state.kneeDone=state.kneeDone||{};
+}
+
+function kneeDateState(k){
+  ensureKneeState();
+  state.kneeSets[k]=state.kneeSets[k]||{};
+  return state.kneeSets[k];
+}
+
+function kneeSetDone(k, exerciseId, setNo){
+  return !!(state.kneeSets?.[k]?.[exerciseId]?.[String(setNo)]);
+}
+
+function setKneeSetDone(k, exerciseId, setNo, value){
+  const dayState=kneeDateState(k);
+  dayState[exerciseId]=dayState[exerciseId]||{};
+  dayState[exerciseId][String(setNo)]=!!value;
+}
+
+function isOptionalKneeSet(exercise, setNo){
+  return !!exercise.optional || !!exercise.optionalSets?.includes(setNo);
+}
+
+function requiredKneeSetCount(plan){
+  return plan.exercises.reduce((sum,ex)=>{
+    let required=0;
+    for(let s=1;s<=ex.sets;s++){
+      if(!isOptionalKneeSet(ex,s)) required++;
+    }
+    return sum+required;
+  },0);
+}
+
+function completedRequiredKneeSetCount(k, plan){
+  return plan.exercises.reduce((sum,ex)=>{
+    for(let s=1;s<=ex.sets;s++){
+      if(!isOptionalKneeSet(ex,s) && kneeSetDone(k,ex.id,s)) sum++;
+    }
+    return sum;
+  },0);
+}
+
+function allRequiredKneeSetsDone(k, plan){
+  const required=requiredKneeSetCount(plan);
+  return required>0 && completedRequiredKneeSetCount(k,plan)===required;
+}
+
+function migrateLegacyKneeDone(k, plan){
+  ensureKneeState();
+  const hasNewData=state.kneeSets[k] && Object.keys(state.kneeSets[k]).length>0;
+  if(state.kneeDone[k] && !hasNewData){
+    plan.exercises.forEach(ex=>{
+      for(let s=1;s<=ex.sets;s++){
+        if(!isOptionalKneeSet(ex,s)) setKneeSetDone(k,ex.id,s,true);
+      }
+    });
+    save();
+  }
+}
+
+function renderKnee(){
+  const box=document.querySelector(".knee-card");
+  const p=document.querySelector("#kneeProgram");
+  const e=document.querySelector("#kneeExercises");
+  const progress=document.querySelector("#kneeProgress");
+  const b=document.querySelector("#toggleKneeDone");
+  if(!box || !p || !e || !b) return;
+
+  const k=todayKey();
+  const plan=kneePlanFor(k);
+  ensureKneeState();
+
+  if(!plan.day || !plan.exercises.length){
+    p.innerHTML="<strong>Heute kein Knie-Kraftprogramm.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
+    e.innerHTML="";
+    if(progress) progress.textContent="";
+    b.hidden=true;
+    return;
+  }
+
+  migrateLegacyKneeDone(k,plan);
+
+  const title=plan.day==="A"
+    ?"Kraft & Kniekontrolle A"
+    :plan.day==="M"
+      ?"Leichte Stabilität / Balance"
+      :"Kraft & Stabilität B";
+
+  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank · die Sätze sind in Trainingsreihenfolge angeordnet.</span>`;
+
+  const maxSets=Math.max(...plan.exercises.map(x=>x.sets));
+  let html="";
+
+  for(let setNo=1; setNo<=maxSets; setNo++){
+    const items=plan.exercises.filter(ex=>ex.sets>=setNo);
+    if(!items.length) continue;
+
+    html+=`<section class="knee-round"><div class="knee-round-title">Satz ${setNo}</div>`;
+    for(const ex of items){
+      const checked=kneeSetDone(k,ex.id,setNo);
+      const optional=isOptionalKneeSet(ex,setNo);
+      const uid=`knee-${k}-${ex.id}-${setNo}`.replace(/[^a-zA-Z0-9_-]/g,"-");
+
+      html+=`
+        <label class="knee-set-row ${checked?"is-done":""}" for="${uid}">
+          <input
+            id="${uid}"
+            class="knee-set-check"
+            type="checkbox"
+            data-exercise-id="${ex.id}"
+            data-set="${setNo}"
+            ${checked?"checked":""}
+          >
+          <span class="knee-set-checkmark">✓</span>
+          <span class="knee-set-copy">
+            <strong>${ex.name}</strong>
+            <small>${ex.prescription}${optional?' · <em>optional</em>':""}</small>
+          </span>
+        </label>`;
+    }
+    html+="</section>";
+  }
+
+  if(plan.notes.length){
+    html+=`<div class="knee-notes">${plan.notes.map(n=>`<div>ℹ︎ ${n}</div>`).join("")}</div>`;
+  }
+
+  e.innerHTML=html;
+
+  const required=requiredKneeSetCount(plan);
+  const completed=completedRequiredKneeSetCount(k,plan);
+  const done=allRequiredKneeSetsDone(k,plan);
+  state.kneeDone[k]=done;
+
+  if(progress){
+    progress.innerHTML=`<strong>${completed}/${required}</strong> Pflichtsätze abgeschlossen${done?" · ✓ komplett":""}`;
+  }
+
+  b.hidden=false;
+  b.textContent=done
+    ?"✓ Alle Pflichtsätze erledigt – zurücksetzen"
+    :"Alle Pflichtsätze als erledigt markieren";
+  b.classList.toggle("done",done);
+
+  save();
+}
+
+document.querySelector("#kneeExercises")?.addEventListener("change",(event)=>{
+  const input=event.target.closest(".knee-set-check");
+  if(!input) return;
+
+  const k=todayKey();
+  setKneeSetDone(k,input.dataset.exerciseId,Number(input.dataset.set),input.checked);
+  save();
+  renderKnee();
 });
 
-window.addEventListener('load',renderKnee);
+document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
+  const k=todayKey();
+  const plan=kneePlanFor(k);
+  if(!plan.exercises.length) return;
+
+  const markDone=!allRequiredKneeSetsDone(k,plan);
+  plan.exercises.forEach(ex=>{
+    for(let s=1;s<=ex.sets;s++){
+      if(!isOptionalKneeSet(ex,s)) setKneeSetDone(k,ex.id,s,markDone);
+    }
+  });
+
+  state.kneeDone=state.kneeDone||{};
+  state.kneeDone[k]=markDone;
+  save();
+  renderKnee();
+});
+
+window.addEventListener("load",renderKnee);
 
 
 // ---------- Web Push reminders via OneSignal ----------
-let oneSignalReady = false;
+let oneSignalReady=false;
 
-function setPushStatus(message, isError=false){
-  const el = document.querySelector("#pushStatus");
+function setPushStatus(message,isError=false){
+  const el=document.querySelector("#pushStatus");
   if(!el) return;
-  el.textContent = message;
-  el.classList.toggle("error", !!isError);
+  el.textContent=message;
+  el.classList.toggle("error",!!isError);
 }
 
 function pushConfigured(){
-  return !!(window.PUSH_CONFIG &&
-            window.PUSH_CONFIG.oneSignalAppId &&
-            !window.PUSH_CONFIG.oneSignalAppId.includes("YOUR_"));
+  return !!(
+    window.PUSH_CONFIG &&
+    window.PUSH_CONFIG.oneSignalAppId &&
+    !window.PUSH_CONFIG.oneSignalAppId.includes("YOUR_")
+  );
 }
 
 function isStandaloneWebApp(){
   return window.matchMedia?.("(display-mode: standalone)")?.matches ||
-         window.navigator.standalone === true;
+         window.navigator.standalone===true;
+}
+
+function showSubscriptionId(id){
+  const panel=document.querySelector("#pushDevicePanel");
+  const code=document.querySelector("#pushSubscriptionId");
+  if(!panel || !code) return;
+
+  if(id){
+    code.textContent=id;
+    panel.hidden=false;
+  }else{
+    code.textContent="–";
+    panel.hidden=true;
+  }
+}
+
+async function refreshPushUi(OneSignal){
+  const subscribed=!!OneSignal.User.PushSubscription.optedIn;
+  const id=OneSignal.User.PushSubscription.id || null;
+
+  document.querySelector("#enablePushBtn").hidden=subscribed;
+  document.querySelector("#disablePushBtn").hidden=!subscribed;
+  showSubscriptionId(id);
+
+  if(subscribed){
+    setPushStatus(id
+      ?"Aktiv. Kopiere jetzt die persönliche Push-ID in das private Scheduler-Repository."
+      :"Push ist aktiv. Die persönliche Push-ID wird noch erstellt …");
+  }else if(Notification.permission==="denied"){
+    setPushStatus("Mitteilungen sind für diese Web-App blockiert.",true);
+  }else if(!isStandaloneWebApp()){
+    setPushStatus("Auf dem iPhone: zuerst zum Home-Bildschirm hinzufügen und von dort öffnen.");
+  }else{
+    setPushStatus("Bereit. Tippe auf „Erinnerungen aktivieren“.");
+  }
 }
 
 async function initTrainingPush(){
@@ -589,92 +816,86 @@ async function initTrainingPush(){
     return;
   }
 
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
-      const scopePath = new URL("./push/onesignal/", window.location.href).pathname;
+      const scopePath=new URL("./push/onesignal/",window.location.href).pathname;
+
       await OneSignal.init({
-        appId: window.PUSH_CONFIG.oneSignalAppId,
-        serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
-        serviceWorkerParam: { scope: scopePath },
-        autoResubscribe: true,
-        notifyButton: { enable: false }
+        appId:window.PUSH_CONFIG.oneSignalAppId,
+        serviceWorkerPath:"push/onesignal/OneSignalSDKWorker.js",
+        serviceWorkerParam:{scope:scopePath},
+        autoResubscribe:true,
+        notifyButton:{enable:false}
       });
 
-      oneSignalReady = true;
+      oneSignalReady=true;
 
-      const permission = Notification.permission;
-      const subscribed = !!OneSignal.User.PushSubscription.optedIn;
+      OneSignal.User.PushSubscription.addEventListener("change",()=>{
+        refreshPushUi(OneSignal);
+      });
 
-      document.querySelector("#enablePushBtn").hidden = subscribed;
-      document.querySelector("#disablePushBtn").hidden = !subscribed;
-
-      if(subscribed){
-        OneSignal.User.addTag(
-          window.PUSH_CONFIG.trainingTagKey,
-          window.PUSH_CONFIG.trainingTagValue
-        );
-        setPushStatus("Aktiv: Erinnerungen um 18:00 und 18:55 Uhr.");
-      } else if(permission === "denied"){
-        setPushStatus("Mitteilungen sind für diese Web-App blockiert.", true);
-      } else if(!isStandaloneWebApp()){
-        setPushStatus("Auf dem iPhone: zuerst zum Home-Bildschirm hinzufügen und von dort öffnen.");
-      } else {
-        setPushStatus("Bereit. Tippe auf „Erinnerungen aktivieren“.");
-      }
+      await refreshPushUi(OneSignal);
     }catch(err){
-      setPushStatus("Push konnte nicht initialisiert werden.", true);
-      console.warn("OneSignal init:", err);
+      setPushStatus("Push konnte nicht initialisiert werden.",true);
+      console.warn("OneSignal init:",err);
     }
   });
 }
 
-document.querySelector("#enablePushBtn")?.addEventListener("click", ()=>{
+document.querySelector("#enablePushBtn")?.addEventListener("click",()=>{
   if(!pushConfigured()){
-    setPushStatus("OneSignal muss zuerst einmalig mit der App verbunden werden.", true);
-    return;
-  }
-  if(!isStandaloneWebApp()){
-    setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.", true);
+    setPushStatus("OneSignal muss zuerst mit der App verbunden werden.",true);
     return;
   }
 
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  if(!isStandaloneWebApp()){
+    setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.",true);
+    return;
+  }
+
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
       await OneSignal.Notifications.requestPermission();
-      if(Notification.permission !== "granted"){
-        setPushStatus("Mitteilungen wurden nicht erlaubt.", true);
+
+      if(Notification.permission!=="granted"){
+        setPushStatus("Mitteilungen wurden nicht erlaubt.",true);
         return;
       }
+
       await OneSignal.User.PushSubscription.optIn();
-      OneSignal.User.addTag(
-        window.PUSH_CONFIG.trainingTagKey,
-        window.PUSH_CONFIG.trainingTagValue
-      );
-      document.querySelector("#enablePushBtn").hidden = true;
-      document.querySelector("#disablePushBtn").hidden = false;
-      setPushStatus("Aktiv: Erinnerungen um 18:00 und 18:55 Uhr.");
+      await refreshPushUi(OneSignal);
     }catch(err){
-      setPushStatus("Aktivierung der Erinnerungen fehlgeschlagen.", true);
-      console.warn("Push opt-in:", err);
+      setPushStatus("Aktivierung der Erinnerungen fehlgeschlagen.",true);
+      console.warn("Push opt-in:",err);
     }
   });
 });
 
-document.querySelector("#disablePushBtn")?.addEventListener("click", ()=>{
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
+document.querySelector("#disablePushBtn")?.addEventListener("click",()=>{
+  window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
-      OneSignal.User.removeTag(window.PUSH_CONFIG.trainingTagKey);
       await OneSignal.User.PushSubscription.optOut();
-      document.querySelector("#enablePushBtn").hidden = false;
-      document.querySelector("#disablePushBtn").hidden = true;
-      setPushStatus("Trainingserinnerungen sind deaktiviert.");
+      await refreshPushUi(OneSignal);
+      setPushStatus("Trainingserinnerungen sind auf diesem Gerät deaktiviert.");
     }catch(err){
-      setPushStatus("Deaktivierung fehlgeschlagen.", true);
+      setPushStatus("Deaktivierung fehlgeschlagen.",true);
     }
   });
 });
 
-window.addEventListener("load", initTrainingPush);
+document.querySelector("#copySubscriptionId")?.addEventListener("click",async()=>{
+  const value=document.querySelector("#pushSubscriptionId")?.textContent?.trim();
+  if(!value || value==="–") return;
+
+  try{
+    await navigator.clipboard.writeText(value);
+    setPushStatus("Persönliche Push-ID kopiert.");
+  }catch(err){
+    setPushStatus("Kopieren nicht möglich. Halte die ID gedrückt und kopiere sie manuell.",true);
+  }
+});
+
+window.addEventListener("load",initTrainingPush);

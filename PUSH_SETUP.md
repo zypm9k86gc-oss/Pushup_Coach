@@ -1,61 +1,30 @@
-# 356 Coach – Push-Erinnerungen einrichten
+# 356 Coach v14 – sichere Push-Einrichtung
 
-Die App ist für zwei Erinnerungen an Trainingstagen vorbereitet:
+Die öffentliche PWA enthält **keinen API-Schlüssel und keinen Scheduler** mehr.
 
-- 18:00 Uhr
-- 18:55 Uhr
+## Öffentliche App
+Diese Dateien bleiben im öffentlichen `Pushup_Coach`-Repository / auf GitHub Pages.
 
-Die PWA bleibt auf GitHub Pages. OneSignal übernimmt nur Web Push; GitHub Actions plant die Nachrichten.
+1. 356 Coach auf dem iPhone vom Home-Bildschirm aus öffnen.
+2. `Trainingserinnerungen` → `Erinnerungen aktivieren`.
+3. iOS-Mitteilungen erlauben.
+4. Die App zeigt danach die **persönliche OneSignal Subscription-ID dieses iPhones**.
+5. Auf `Kopieren` tippen.
 
-## 1. OneSignal Web Push App anlegen
+Die Subscription-ID ist kein API-Schlüssel, wird für das private Zielgerät aber trotzdem nicht ins öffentliche Repository geschrieben.
 
-In OneSignal eine Web-Push-App für diese URL anlegen:
+## Privater Scheduler
+Das separate Paket `356_Coach_v14_PrivatePush_Scheduler.zip` in ein **neues privates GitHub-Repository** hochladen.
 
-`https://zypm9k86gc-oss.github.io/Pushup_Coach/`
+Dort unter:
+`Settings → Secrets and variables → Actions`
 
-Custom Code / Web SDK verwenden.
+diese drei Repository Secrets anlegen:
 
-## 2. App ID in die Website eintragen
+- `ONESIGNAL_APP_ID`
+- `ONESIGNAL_APP_API_KEY`
+- `ONESIGNAL_SUBSCRIPTION_ID`
 
-In `push-config.js`:
+`ONESIGNAL_SUBSCRIPTION_ID` ist die ID, die die 356-Coach-App nach der Push-Aktivierung anzeigt.
 
-`YOUR_ONESIGNAL_APP_ID`
-
-durch die öffentliche OneSignal App ID ersetzen.
-
-Die App ID ist kein Geheimnis.
-
-## 3. GitHub Secrets hinterlegen
-
-Repository → Settings → Secrets and variables → Actions → New repository secret
-
-Zwei Secrets anlegen:
-
-- `ONESIGNAL_APP_ID` = OneSignal App ID
-- `ONESIGNAL_REST_API_KEY` = OneSignal REST API Key
-
-Den REST API Key niemals in HTML, JavaScript oder GitHub-Dateien eintragen.
-
-## 4. Dateien veröffentlichen
-
-Alle Dateien und Ordner aus diesem Paket ins Repository übernehmen, einschließlich:
-
-- `.github/workflows/training-reminders.yml`
-- `scripts/send_training_reminders.py`
-- `push/onesignal/OneSignalSDKWorker.js`
-
-## 5. Auf dem iPhone
-
-356 Coach muss als Web-App auf dem Home-Bildschirm installiert und von dort geöffnet werden.
-
-Dann in 356 Coach:
-
-`Trainingserinnerungen → Erinnerungen aktivieren`
-
-und die iOS-Mitteilungsabfrage erlauben.
-
-## 6. Test
-
-GitHub → Actions → `356 Coach Trainingserinnerungen` → Run workflow.
-
-Das Skript plant nur an Trainingstagen automatisch die 18:00- und 18:55-Nachrichten.
+Der Scheduler sendet ausschließlich an diese einzelne Subscription-ID.
