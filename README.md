@@ -75,3 +75,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Import eines zuvor erstellten Backups.
 - Vor dem Import erfolgt eine Sicherheitsabfrage.
 - Bestehende localStorage-Daten bleiben beim normalen App-Update erhalten.
+
+## Update v11 – Knie/Stabilität
+- Mo: Kraft & Kniekontrolle A.
+- Mi: leichte Stabilität/Balance.
+- Fr: Kraft & Stabilität B.
+- Phasenprogression 15.09.–31.12.2026 integriert.
+- Dynamische Übungen erst ab 09.11.; einbeinige Sprünge ab 07.12.
+- Knieprogramm pro Tag als erledigt markierbar.
+- Di/Do/Sa als Joggen/Ruhe, Sonntag als Erholung ausgewiesen.

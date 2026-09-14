@@ -272,3 +272,5 @@ html[data-theme="light"]{
 .backup-status{min-height:18px;margin-top:9px;font-size:12px;color:var(--muted)}
 .backup-status.error{color:#d9534f}
 @media(max-width:520px){.backup-actions{grid-template-columns:1fr}}
+
+.knee-card{margin-top:14px}.knee-card ol{padding-left:22px;margin:12px 0}.knee-card li{margin:8px 0;line-height:1.35}.knee-card button.done{opacity:.75}.knee-card span{color:var(--muted)}

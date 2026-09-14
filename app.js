@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=10", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=11", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -497,3 +497,66 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
     event.target.value="";
   }
 });
+
+
+// ---- Knee / stability plan ----
+const KNEE_START="2026-09-15";
+function kneePhase(k){
+  if(k<"2026-09-15") return 0;
+  if(k<"2026-10-12") return 1;
+  if(k<"2026-11-09") return 2;
+  if(k<"2026-12-07") return 3;
+  return 4;
+}
+function kneeDay(k){
+  const d=new Date(k+"T12:00:00").getDay();
+  return d===1?"A":d===3?"M":d===5?"B":null;
+}
+function kneeExercisesFor(k){
+  const day=kneeDay(k), ph=kneePhase(k);
+  if(!day || !ph) return [];
+  let ex=[];
+  if(day==="A") ex=[
+    "Split Squats – 3 × 8–12 je Bein",
+    "Step-downs – 3 × 8–12 je Bein",
+    "Einbeiniges Wadenheben – 3 × 12–20 je Bein",
+    "Einbeinstand auf Balancematte – 2 × 30–45 s je Bein"
+  ];
+  if(day==="M") ex=[
+    "Einbeiniger Romanian Deadlift – 2 × 8–10 je Bein",
+    (ph>=2?"Star Reach auf Balancematte":"Star Reach") + " – 2 × 4–5 Runden je Bein",
+    "Balanceboard – 2 × "+(ph>=2?"30–45":"20–45")+" s je Bein",
+    "Optional: langsames Wadenheben – 2 × 15"
+  ];
+  if(day==="B") ex=[
+    "Split Squats – 3 × 8–12 je Bein",
+    "Einbeiniger Romanian Deadlift – 3 × 8–12 je Bein",
+    "Step-downs – 2–3 × 8–12 je Bein",
+    "Einbeiniges Wadenheben – 3 × 12–20 je Bein"
+  ];
+  if(ph>=2 && (day==="A"||day==="B")) ex.push("Bei sauberer Ausführung: Zusatzgewicht für Split Squats/RDL, ggf. Wadenheben");
+  if(ph===3 && day==="B") ex.push("Kleine beidbeinige Sprünge – 2 × 15–20","Seitliches Step & Stick – 2 × 5–6 je Seite (2 s stabil landen)");
+  if(ph>=4 && day==="B") ex.push("Einbeinige kleine Sprünge auf der Stelle – 2 × 10–15 je Bein","Seitliche einbeinige Sprünge – 2 × 6–8 je Seite");
+  return ex;
+}
+function renderKnee(){
+  const box=document.querySelector(".knee-card"), p=document.querySelector("#kneeProgram"), e=document.querySelector("#kneeExercises"), b=document.querySelector("#toggleKneeDone");
+  if(!box)return;
+  const k=todayKey(), day=kneeDay(k), ex=kneeExercisesFor(k);
+  state.kneeDone=state.kneeDone||{};
+  if(!day || !ex.length){
+    p.innerHTML="<strong>Heute kein Knie-Kraftprogramm.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
+    e.innerHTML=""; b.hidden=true; return;
+  }
+  const title=day==="A"?"Kraft & Kniekontrolle A":day==="M"?"Leichte Stabilität / Balance":"Kraft & Stabilität B";
+  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank.</span>`;
+  e.innerHTML="<ol>"+ex.map(x=>`<li>${x}</li>`).join("")+"</ol>";
+  const done=!!state.kneeDone[k];
+  b.hidden=false;b.textContent=done?"✓ Knieprogramm erledigt – rückgängig":"Knieprogramm als erledigt markieren";
+  b.classList.toggle("done",done);
+}
+document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
+  const k=todayKey(); state.kneeDone=state.kneeDone||{}; state.kneeDone[k]=!state.kneeDone[k]; save(); renderKnee();
+});
+
+window.addEventListener('load',renderKnee);
