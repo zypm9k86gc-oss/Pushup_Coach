@@ -84,3 +84,19 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Dynamische Übungen erst ab 09.11.; einbeinige Sprünge ab 07.12.
 - Knieprogramm pro Tag als erledigt markierbar.
 - Di/Do/Sa als Joggen/Ruhe, Sonntag als Erholung ausgewiesen.
+
+## Update v12
+- Stabilitäts-/Knieprogramm startet bereits am 14.09.2026.
+- Montag 14.09. zeigt direkt Kraft & Kniekontrolle A.
+
+## Update v13 – Push-Erinnerungen
+- Zwei Erinnerungen an Trainingstagen: 18:00 und 18:55 Uhr.
+- iPhone Web Push via OneSignal vorbereitet.
+- Push-Ein/Aus direkt in der App.
+- GitHub Action plant die täglichen Pushes in Europe/Berlin.
+- Mo/Mi/Fr im Zeitraum 14.09.–31.12.2026; zusätzlich Finaltag 31.10.2026.
+- OneSignal Worker verwendet einen separaten Scope und kollidiert nicht mit dem PWA-Cache-Worker.
+- OneSignal App ID und REST API Key müssen einmalig eingerichtet werden; der REST API Key gehört ausschließlich in GitHub Secrets.
+
+## OneSignal verbunden
+- OneSignal App ID eingetragen: `d8303894-40e4-447a-88d9-253b5460b66b`

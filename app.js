@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=11", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=13", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -500,9 +500,9 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
 
 
 // ---- Knee / stability plan ----
-const KNEE_START="2026-09-15";
+const KNEE_START="2026-09-14";
 function kneePhase(k){
-  if(k<"2026-09-15") return 0;
+  if(k<"2026-09-14") return 0;
   if(k<"2026-10-12") return 1;
   if(k<"2026-11-09") return 2;
   if(k<"2026-12-07") return 3;
@@ -560,3 +560,121 @@ document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
 });
 
 window.addEventListener('load',renderKnee);
+
+
+// ---------- Web Push reminders via OneSignal ----------
+let oneSignalReady = false;
+
+function setPushStatus(message, isError=false){
+  const el = document.querySelector("#pushStatus");
+  if(!el) return;
+  el.textContent = message;
+  el.classList.toggle("error", !!isError);
+}
+
+function pushConfigured(){
+  return !!(window.PUSH_CONFIG &&
+            window.PUSH_CONFIG.oneSignalAppId &&
+            !window.PUSH_CONFIG.oneSignalAppId.includes("YOUR_"));
+}
+
+function isStandaloneWebApp(){
+  return window.matchMedia?.("(display-mode: standalone)")?.matches ||
+         window.navigator.standalone === true;
+}
+
+async function initTrainingPush(){
+  if(!pushConfigured()){
+    setPushStatus("Push ist vorbereitet, aber OneSignal ist noch nicht verbunden.");
+    return;
+  }
+
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  window.OneSignalDeferred.push(async function(OneSignal){
+    try{
+      const scopePath = new URL("./push/onesignal/", window.location.href).pathname;
+      await OneSignal.init({
+        appId: window.PUSH_CONFIG.oneSignalAppId,
+        serviceWorkerPath: "push/onesignal/OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: scopePath },
+        autoResubscribe: true,
+        notifyButton: { enable: false }
+      });
+
+      oneSignalReady = true;
+
+      const permission = Notification.permission;
+      const subscribed = !!OneSignal.User.PushSubscription.optedIn;
+
+      document.querySelector("#enablePushBtn").hidden = subscribed;
+      document.querySelector("#disablePushBtn").hidden = !subscribed;
+
+      if(subscribed){
+        OneSignal.User.addTag(
+          window.PUSH_CONFIG.trainingTagKey,
+          window.PUSH_CONFIG.trainingTagValue
+        );
+        setPushStatus("Aktiv: Erinnerungen um 18:00 und 18:55 Uhr.");
+      } else if(permission === "denied"){
+        setPushStatus("Mitteilungen sind für diese Web-App blockiert.", true);
+      } else if(!isStandaloneWebApp()){
+        setPushStatus("Auf dem iPhone: zuerst zum Home-Bildschirm hinzufügen und von dort öffnen.");
+      } else {
+        setPushStatus("Bereit. Tippe auf „Erinnerungen aktivieren“.");
+      }
+    }catch(err){
+      setPushStatus("Push konnte nicht initialisiert werden.", true);
+      console.warn("OneSignal init:", err);
+    }
+  });
+}
+
+document.querySelector("#enablePushBtn")?.addEventListener("click", ()=>{
+  if(!pushConfigured()){
+    setPushStatus("OneSignal muss zuerst einmalig mit der App verbunden werden.", true);
+    return;
+  }
+  if(!isStandaloneWebApp()){
+    setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.", true);
+    return;
+  }
+
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  window.OneSignalDeferred.push(async function(OneSignal){
+    try{
+      await OneSignal.Notifications.requestPermission();
+      if(Notification.permission !== "granted"){
+        setPushStatus("Mitteilungen wurden nicht erlaubt.", true);
+        return;
+      }
+      await OneSignal.User.PushSubscription.optIn();
+      OneSignal.User.addTag(
+        window.PUSH_CONFIG.trainingTagKey,
+        window.PUSH_CONFIG.trainingTagValue
+      );
+      document.querySelector("#enablePushBtn").hidden = true;
+      document.querySelector("#disablePushBtn").hidden = false;
+      setPushStatus("Aktiv: Erinnerungen um 18:00 und 18:55 Uhr.");
+    }catch(err){
+      setPushStatus("Aktivierung der Erinnerungen fehlgeschlagen.", true);
+      console.warn("Push opt-in:", err);
+    }
+  });
+});
+
+document.querySelector("#disablePushBtn")?.addEventListener("click", ()=>{
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  window.OneSignalDeferred.push(async function(OneSignal){
+    try{
+      OneSignal.User.removeTag(window.PUSH_CONFIG.trainingTagKey);
+      await OneSignal.User.PushSubscription.optOut();
+      document.querySelector("#enablePushBtn").hidden = false;
+      document.querySelector("#disablePushBtn").hidden = true;
+      setPushStatus("Trainingserinnerungen sind deaktiviert.");
+    }catch(err){
+      setPushStatus("Deaktivierung fehlgeschlagen.", true);
+    }
+  });
+});
+
+window.addEventListener("load", initTrainingPush);

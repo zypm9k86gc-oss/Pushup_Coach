@@ -274,3 +274,8 @@ html[data-theme="light"]{
 @media(max-width:520px){.backup-actions{grid-template-columns:1fr}}
 
 .knee-card{margin-top:14px}.knee-card ol{padding-left:22px;margin:12px 0}.knee-card li{margin:8px 0;line-height:1.35}.knee-card button.done{opacity:.75}.knee-card span{color:var(--muted)}
+
+.reminder-card{margin-top:14px}
+.reminder-times{display:grid;gap:6px;margin:10px 0 12px}
+.reminder-times span{padding:9px 11px;border:1px solid var(--border);border-radius:11px;font-size:13px}
+.secondary-button{margin-top:8px;opacity:.8}
