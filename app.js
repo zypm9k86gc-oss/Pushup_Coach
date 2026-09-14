@@ -397,7 +397,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=15", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=16", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -830,12 +830,13 @@ async function initTrainingPush(){
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
       // GitHub Project Pages lives below /Pushup_Coach/.
-      // OneSignal serviceWorkerPath is interpreted relative to the origin root,
-      // so the repository path must be included.
+      // The OneSignal worker is intentionally stored in the app root so it is
+      // easy to upload through GitHub's web UI. It gets a dedicated child
+      // scope so it does not replace the main PWA caching worker.
       const appBasePath=new URL("./",window.location.href).pathname;
       const normalizedBase=appBasePath.endsWith("/") ? appBasePath : appBasePath+"/";
-      const workerPath=(normalizedBase+"push/onesignal/OneSignalSDKWorker.js").replace(/^\/+/,"");
-      const workerScope=normalizedBase+"push/onesignal/";
+      const workerPath=(normalizedBase+"OneSignalSDKWorker.js").replace(/^\/+/,"");
+      const workerScope=normalizedBase+"onesignal-push-scope/";
 
       await OneSignal.init({
         appId:window.PUSH_CONFIG.oneSignalAppId,

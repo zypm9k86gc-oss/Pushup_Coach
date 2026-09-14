@@ -1,30 +1,29 @@
-# 356 Coach v14 – sichere Push-Einrichtung
+# 356 Coach v16 – OneSignal Worker im Hauptverzeichnis
 
-Die öffentliche PWA enthält **keinen API-Schlüssel und keinen Scheduler** mehr.
+Die öffentliche App erwartet den OneSignal Worker jetzt direkt hier:
 
-## Öffentliche App
-Diese Dateien bleiben im öffentlichen `Pushup_Coach`-Repository / auf GitHub Pages.
+`Pushup_Coach/OneSignalSDKWorker.js`
 
-1. 356 Coach auf dem iPhone vom Home-Bildschirm aus öffnen.
-2. `Trainingserinnerungen` → `Erinnerungen aktivieren`.
-3. iOS-Mitteilungen erlauben.
-4. Die App zeigt danach die **persönliche OneSignal Subscription-ID dieses iPhones**.
-5. Auf `Kopieren` tippen.
+Öffentlich erreichbar muss er sein unter:
 
-Die Subscription-ID ist kein API-Schlüssel, wird für das private Zielgerät aber trotzdem nicht ins öffentliche Repository geschrieben.
+`https://zypm9k86gc-oss.github.io/Pushup_Coach/OneSignalSDKWorker.js`
 
-## Privater Scheduler
-Das separate Paket `356_Coach_v14_PrivatePush_Scheduler.zip` in ein **neues privates GitHub-Repository** hochladen.
+Die Datei enthält nur:
 
-Dort unter:
-`Settings → Secrets and variables → Actions`
+`importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");`
 
-diese drei Repository Secrets anlegen:
+Der OneSignal Worker nutzt einen eigenen Scope:
 
-- `ONESIGNAL_APP_ID`
-- `ONESIGNAL_APP_API_KEY`
-- `ONESIGNAL_SUBSCRIPTION_ID`
+`/Pushup_Coach/onesignal-push-scope/`
 
-`ONESIGNAL_SUBSCRIPTION_ID` ist die ID, die die 356-Coach-App nach der Push-Aktivierung anzeigt.
+Der normale PWA Worker `sw.js` behält weiterhin den App-Scope `/Pushup_Coach/`.
 
-Der Scheduler sendet ausschließlich an diese einzelne Subscription-ID.
+## Wichtig: alte öffentliche Scheduler-Dateien löschen
+
+Im öffentlichen `Pushup_Coach`-Repository dürfen nicht mehr liegen:
+
+- `send_training_reminders.py`
+- `.github/workflows/training-reminders.yml`
+- sonstige private Scheduler-/Secret-Dateien
+
+Der Push-Scheduler gehört ausschließlich ins private Repository.

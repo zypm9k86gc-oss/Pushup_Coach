@@ -117,3 +117,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Subscription-ID wird nach Opt-in bis zu 20 Sekunden aktiv abgewartet.
 - Subscription-Change-Event verwendet die von OneSignal gelieferte aktuelle ID direkt.
 - Aussagekräftigere Statusmeldung bei Initialisierungsfehlern.
+
+## Update v16 – GitHub-Upload-freundlicher OneSignal Worker
+- `OneSignalSDKWorker.js` liegt direkt im Hauptverzeichnis von `Pushup_Coach`.
+- Eigener OneSignal-Scope `/Pushup_Coach/onesignal-push-scope/`.
+- Kein Konflikt mit dem PWA-Worker `sw.js`.
+- Öffentliche Scheduler-Reste aus dem Paket entfernt.
+- Cache-Version auf v16 erhöht.
