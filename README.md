@@ -151,3 +151,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Die Bereiche **Gesamt**, **Kontrollpunkte**, **Historie**, **Trainingserinnerungen** und **Datensicherung** sind jetzt ebenfalls als Ausklappbereiche organisiert.
 - So bleibt die Oberfläche kompakter und übersichtlicher.
 - Cache-/Versionsnummer auf v20 erhöht.
+
+## Update v21 – Trainingseintrag speichert Abschlussstatus
+- Mit **„Trainingseintrag speichern“** wird das aktuell fällige Training jetzt immer als **abgeschlossen** markiert,
+  auch wenn Liegestütze oder Plank unter dem Sollwert liegen.
+- Der gespeicherte Eintrag behält dabei weiterhin die tatsächlich eingetragenen Werte.
+- Der Abschluss wird intern an das fällige Trainingsdatum gekoppelt, damit das Training am Folgetag nicht erneut als offen erscheint.
+- Cache-/Versionsnummer auf v21 erhöht.

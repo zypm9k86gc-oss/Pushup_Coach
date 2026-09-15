@@ -45,7 +45,12 @@ function workoutProgress(item){
   let push=recs.reduce((a,r)=>a+(r.pushups||0),0);
   let plank=recs.reduce((a,r)=>a+(r.plank||0),0);
   if(todayKey()>=item.date && todayKey()<end){push+=state.todayPushups;plank+=state.todayPlank;}
-  return {push,plank,done:push>=item.pushups && plank>=item.plank};
+
+  const manuallyCompleted = state.records.some(r =>
+    r.completedWorkout === true && (r.targetDate || r.date) === item.date
+  );
+
+  return {push,plank,done:manuallyCompleted || (push>=item.pushups && plank>=item.plank)};
 }
 function openWorkout(){
   const key=todayKey(), due=EXACT_PLAN.filter(x=>x.date<=key);
@@ -268,13 +273,18 @@ document.querySelector("#addPlankBtn").addEventListener("click", ()=>{
 });
 
 document.querySelector("#finishWorkout").addEventListener("click", ()=>{
-  if(state.todayPushups===0 && state.todayPlank===0) return;
+  const open=openWorkout();
+  if(state.todayPushups===0 && state.todayPlank===0 && !open) return;
+
   state.records.push({
     id: createRecordId(),
     date: state.todayDate,
+    targetDate: open ? open.date : state.todayDate,
     pushups: state.todayPushups,
-    plank: state.todayPlank
+    plank: state.todayPlank,
+    completedWorkout: true
   });
+
   state.todayPushups = 0;
   state.todayPlank = 0;
   save(); render();
@@ -397,7 +407,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=20", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=21", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
