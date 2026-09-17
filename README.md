@@ -158,3 +158,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Der gespeicherte Eintrag behält dabei weiterhin die tatsächlich eingetragenen Werte.
 - Der Abschluss wird intern an das fällige Trainingsdatum gekoppelt, damit das Training am Folgetag nicht erneut als offen erscheint.
 - Cache-/Versionsnummer auf v21 erhöht.
+
+## Update v24 – offene Stabilitätsübungen bleiben sichtbar
+- Das zuletzt fällige Stabilitätstraining bleibt auch an Folgetagen sichtbar, solange die Pflichtsätze noch nicht abgeschlossen sind.
+- Fortschritt und Batteriestände bleiben dem ursprünglichen Fälligkeitstag zugeordnet.
+- Auf Folgetagen erscheint zusätzlich **„Fällig seit …“**.
+- Nach vollständigem Abschluss erscheint Regeneration bis zum nächsten Stabilitätstermin.
+- Satz-Buttons arbeiten auch bei einem überfälligen Stabilitätstraining weiter auf dessen gespeichertem Fortschritt.
+- Cache-/Versionsnummer auf v24 erhöht.

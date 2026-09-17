@@ -407,7 +407,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=21", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=24", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -512,6 +512,7 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
 
 // ---- Knee / stability plan ----
 const KNEE_START="2026-09-14";
+const KNEE_END="2026-12-31";
 
 function kneePhase(k){
   if(k<"2026-09-14") return 0;
@@ -524,6 +525,34 @@ function kneePhase(k){
 function kneeDay(k){
   const d=new Date(k+"T12:00:00").getDay();
   return d===1?"A":d===3?"M":d===5?"B":null;
+}
+
+function dateKeyFromDate(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function latestKneeDateOnOrBefore(k){
+  if(k<KNEE_START) return null;
+  let d=new Date(k+"T12:00:00");
+  const start=new Date(KNEE_START+"T12:00:00");
+  for(let i=0;i<450 && d>=start;i++){
+    const key=dateKeyFromDate(d);
+    if(key<=KNEE_END && kneeDay(key)) return key;
+    d.setDate(d.getDate()-1);
+  }
+  return null;
+}
+
+function nextKneeDateAfter(k){
+  let d=new Date(k+"T12:00:00");
+  const end=new Date(KNEE_END+"T12:00:00");
+  d.setDate(d.getDate()+1);
+  for(let i=0;i<450 && d<=end;i++){
+    const key=dateKeyFromDate(d);
+    if(key>=KNEE_START && kneeDay(key)) return key;
+    d.setDate(d.getDate()+1);
+  }
+  return null;
 }
 
 function kneePlanFor(k){
@@ -645,6 +674,25 @@ function migrateLegacyKneeDone(k, plan){
 }
 
 
+function activeKneeWorkoutStatus(){
+  ensureKneeState();
+  const today=todayKey();
+  const dueDate=latestKneeDateOnOrBefore(today);
+  if(!dueDate) return {date:null, plan:null, done:true, overdue:false};
+
+  const plan=kneePlanFor(dueDate);
+  migrateLegacyKneeDone(dueDate,plan);
+  const done=allRequiredKneeSetsDone(dueDate,plan);
+  state.kneeDone[dueDate]=done;
+
+  return {
+    date:dueDate,
+    plan,
+    done,
+    overdue:dueDate<today
+  };
+}
+
 function exerciseCompletionCount(k, exercise){
   let done=0;
   for(let s=1;s<=exercise.sets;s++){
@@ -708,30 +756,43 @@ function renderKnee(){
   const b=document.querySelector("#toggleKneeDone");
   if(!box || !p || !e || !b) return;
 
-  const k=todayKey();
-  const plan=kneePlanFor(k);
-  ensureKneeState();
+  const today=todayKey();
+  const status=activeKneeWorkoutStatus();
 
-  if(!plan.day || !plan.exercises.length){
-    p.innerHTML="<strong>Heute keine Stabilitätsübungen Beine.</strong><br><span>Di/Do/Sa: Joggen oder Ruhe · Sonntag bevorzugt Erholung/Spaziergang.</span>";
+  if(!status.date || !status.plan){
+    const next=nextKneeDateAfter(today);
+    p.innerHTML=`<strong>Noch kein Stabilitätstraining fällig.</strong>${next?`<br><span>Nächste Stabilitätsübungen: ${fmtDateDE(next)}</span>`:""}`;
     e.innerHTML="";
-    renderKneeBatteries(k, plan);
+    renderKneeBatteries(today,{exercises:[]});
     if(progress) progress.textContent="";
     b.hidden=true;
     return;
   }
 
-  migrateLegacyKneeDone(k,plan);
+  if(status.done){
+    const next=nextKneeDateAfter(today);
+    p.innerHTML=`<strong style="color:var(--plank)">Stabilitätsübungen erledigt.</strong><br><span>Regeneration${next?` · nächster Termin: ${fmtDateDE(next)}`:""}</span>`;
+    e.innerHTML="";
+    renderKneeBatteries(status.date,{exercises:[]});
+    if(progress) progress.textContent="";
+    b.hidden=true;
+    save();
+    return;
+  }
 
+  const k=status.date;
+  const plan=status.plan;
   const title=plan.day==="A"
     ?"Stabilitätsübungen Beine – Kraft & Kniekontrolle A"
     :plan.day==="M"
       ?"Stabilitätsübungen Beine – leichte Stabilität / Balance"
       :"Stabilitätsübungen Beine – Kraft & Stabilität B";
 
-  p.innerHTML=`<strong>${title}</strong><br><span>Nach Liegestützen und Plank · pro Übung bestätigst du jeden abgeschlossenen Satz mit einem Button.</span>`;
+  p.innerHTML=`<strong>${status.overdue?"Stabilitätstraining noch offen":"Stabilitätstraining heute fällig"}: ${title}</strong>`
+    +`${status.overdue?`<br><span>Fällig seit: ${fmtDateDE(k)}</span>`:""}`
+    +`<br><span>Die Übungen bleiben sichtbar, bis alle Pflichtsätze erledigt sind.</span>`;
 
-  renderKneeBatteries(k, plan);
+  renderKneeBatteries(k,plan);
 
   if(plan.notes.length){
     e.innerHTML=`<div class="knee-notes">${plan.notes.map(n=>`<div>ℹ︎ ${n}</div>`).join("")}</div>`;
@@ -761,25 +822,28 @@ document.querySelector("#kneeBatteries")?.addEventListener("click",(event)=>{
   const btn=event.target.closest(".battery-set-btn");
   if(!btn || btn.disabled) return;
 
-  const k=todayKey();
-  const plan=kneePlanFor(k);
-  const exercise=plan.exercises.find(ex=>ex.id===btn.dataset.exerciseId);
+  const status=activeKneeWorkoutStatus();
+  if(!status.date || !status.plan || status.done) return;
+
+  const exercise=status.plan.exercises.find(ex=>ex.id===btn.dataset.exerciseId);
   if(!exercise) return;
 
-  const nextSet=nextIncompleteSet(k, exercise);
+  const nextSet=nextIncompleteSet(status.date,exercise);
   if(nextSet==null) return;
 
-  setKneeSetDone(k, exercise.id, nextSet, true);
+  setKneeSetDone(status.date,exercise.id,nextSet,true);
   save();
   renderKnee();
 });
 
 document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
-  const k=todayKey();
-  const plan=kneePlanFor(k);
-  if(!plan.exercises.length) return;
+  const status=activeKneeWorkoutStatus();
+  if(!status.date || !status.plan) return;
 
+  const k=status.date;
+  const plan=status.plan;
   const markDone=!allRequiredKneeSetsDone(k,plan);
+
   plan.exercises.forEach(ex=>{
     for(let s=1;s<=ex.sets;s++){
       if(!isOptionalKneeSet(ex,s)) setKneeSetDone(k,ex.id,s,markDone);
