@@ -554,3 +554,14 @@ html[data-theme="light"]{
   margin:0;
   padding:0 11px 11px;
 }
+
+
+/* v25: Stabilität in Historie & Editor */
+.history-main{display:flex;flex-direction:column;gap:2px}
+.history-subtitle{font-size:12px;color:var(--muted);font-weight:700}
+.history-row-knee strong{white-space:nowrap}
+.edit-knee-head{font-size:16px;font-weight:800;margin:4px 0 6px}
+.edit-knee-help{font-size:12px;color:var(--muted);margin-bottom:10px;line-height:1.45}
+.edit-knee-list{display:grid;gap:10px}
+.edit-knee-item input{width:100%}
+.edit-knee-item small{color:var(--muted);font-weight:600}

@@ -166,3 +166,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Nach vollständigem Abschluss erscheint Regeneration bis zum nächsten Stabilitätstermin.
 - Satz-Buttons arbeiten auch bei einem überfälligen Stabilitätstraining weiter auf dessen gespeichertem Fortschritt.
 - Cache-/Versionsnummer auf v24 erhöht.
+
+## Update v25 – Stabilitätsübungen nur komplett abgeschlossen + Historie
+- Stabilitätsübungen gelten jetzt erst dann als abgeschlossen, wenn **alle Übungen mit allen Sätzen** erfüllt sind.
+- Die Fortschrittsanzeige zählt jetzt alle Sätze der fälligen Übungen.
+- Stabilitätsübungen werden jetzt in der **Historie** gespeichert.
+- Historieneinträge der Stabilitätsübungen können nachträglich bearbeitet werden; die Satzanzahl je Übung ist korrigierbar.
+- Änderungen in der Historie werden mit dem aktuellen Stabilitätsstatus synchronisiert.
+- Cache-/Versionsnummer auf v25 erhöht.
