@@ -174,3 +174,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Historieneinträge der Stabilitätsübungen können nachträglich bearbeitet werden; die Satzanzahl je Übung ist korrigierbar.
 - Änderungen in der Historie werden mit dem aktuellen Stabilitätsstatus synchronisiert.
 - Cache-/Versionsnummer auf v25 erhöht.
+
+## Update v26 – Erinnerungszeiten direkt am iPhone
+- Zwei Erinnerungszeiten direkt in der PWA einstellbar.
+- Beide Erinnerungen lassen sich einzeln aktivieren/deaktivieren.
+- Einstellungen werden lokal gespeichert und als OneSignal-Tags synchronisiert.
+- Standard bleibt 18:00 und 18:55 Uhr.
+- Cache-/Versionsnummer auf v26 erhöht.

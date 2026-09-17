@@ -474,7 +474,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=25", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=26", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1026,53 +1026,131 @@ window.addEventListener("load",renderKnee);
 
 // ---------- Web Push reminders via OneSignal ----------
 let oneSignalReady=false;
+let oneSignalInstance=null;
+
+const REMINDER_PREFS_KEY="356Coach.reminderPrefs.v1";
+const DEFAULT_REMINDER_PREFS={
+  reminder1Enabled:true,
+  reminder1Time:"18:00",
+  reminder2Enabled:true,
+  reminder2Time:"18:55"
+};
+
+function validReminderTime(value){
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(value||"");
+}
+
+function loadReminderPrefs(){
+  try{
+    const raw=localStorage.getItem(REMINDER_PREFS_KEY);
+    const parsed=raw?JSON.parse(raw):{};
+    return {
+      reminder1Enabled:parsed.reminder1Enabled!==false,
+      reminder1Time:validReminderTime(parsed.reminder1Time)?parsed.reminder1Time:DEFAULT_REMINDER_PREFS.reminder1Time,
+      reminder2Enabled:parsed.reminder2Enabled!==false,
+      reminder2Time:validReminderTime(parsed.reminder2Time)?parsed.reminder2Time:DEFAULT_REMINDER_PREFS.reminder2Time
+    };
+  }catch(err){
+    return {...DEFAULT_REMINDER_PREFS};
+  }
+}
+
+function saveReminderPrefsLocal(prefs){
+  localStorage.setItem(REMINDER_PREFS_KEY,JSON.stringify(prefs));
+}
+
+function readReminderForm(){
+  return {
+    reminder1Enabled:!!document.querySelector("#reminder1Enabled")?.checked,
+    reminder1Time:document.querySelector("#reminder1Time")?.value || "18:00",
+    reminder2Enabled:!!document.querySelector("#reminder2Enabled")?.checked,
+    reminder2Time:document.querySelector("#reminder2Time")?.value || "18:55"
+  };
+}
+
+function renderReminderPrefs(prefs){
+  const e1=document.querySelector("#reminder1Enabled");
+  const t1=document.querySelector("#reminder1Time");
+  const e2=document.querySelector("#reminder2Enabled");
+  const t2=document.querySelector("#reminder2Time");
+  if(e1)e1.checked=!!prefs.reminder1Enabled;
+  if(t1)t1.value=prefs.reminder1Time;
+  if(e2)e2.checked=!!prefs.reminder2Enabled;
+  if(t2)t2.value=prefs.reminder2Time;
+  updateReminderSummary(prefs);
+}
+
+function updateReminderSummary(prefs=readReminderForm()){
+  const el=document.querySelector("#reminderSavedSummary");
+  if(!el)return;
+  const active=[];
+  if(prefs.reminder1Enabled)active.push(prefs.reminder1Time);
+  if(prefs.reminder2Enabled)active.push(prefs.reminder2Time);
+  el.textContent=active.length?`Aktiv: ${active.join(" & ")} Uhr`:"Alle Trainingserinnerungen ausgeschaltet";
+}
+
+async function syncReminderPrefsToOneSignal(OneSignal,prefs){
+  if(!OneSignal)return false;
+  try{
+    OneSignal.User.addTags({
+      coach_reminder_1_time:prefs.reminder1Time,
+      coach_reminder_1_enabled:prefs.reminder1Enabled?"1":"0",
+      coach_reminder_2_time:prefs.reminder2Time,
+      coach_reminder_2_enabled:prefs.reminder2Enabled?"1":"0"
+    });
+    return true;
+  }catch(err){
+    console.warn("Reminder tags konnten nicht synchronisiert werden:",err);
+    return false;
+  }
+}
+
+async function loadRemoteReminderPrefs(OneSignal){
+  try{
+    const tags=OneSignal.User.getTags?.() || {};
+    const prefs=loadReminderPrefs();
+    if(validReminderTime(tags.coach_reminder_1_time))prefs.reminder1Time=tags.coach_reminder_1_time;
+    if(tags.coach_reminder_1_enabled==="0" || tags.coach_reminder_1_enabled==="1")prefs.reminder1Enabled=tags.coach_reminder_1_enabled==="1";
+    if(validReminderTime(tags.coach_reminder_2_time))prefs.reminder2Time=tags.coach_reminder_2_time;
+    if(tags.coach_reminder_2_enabled==="0" || tags.coach_reminder_2_enabled==="1")prefs.reminder2Enabled=tags.coach_reminder_2_enabled==="1";
+    saveReminderPrefsLocal(prefs);
+    renderReminderPrefs(prefs);
+  }catch(err){
+    console.warn("Reminder tags konnten nicht gelesen werden:",err);
+  }
+}
 
 function setPushStatus(message,isError=false){
   const el=document.querySelector("#pushStatus");
-  if(!el) return;
+  if(!el)return;
   el.textContent=message;
   el.classList.toggle("error",!!isError);
 }
 
 function pushConfigured(){
-  return !!(
-    window.PUSH_CONFIG &&
-    window.PUSH_CONFIG.oneSignalAppId &&
-    !window.PUSH_CONFIG.oneSignalAppId.includes("YOUR_")
-  );
+  return !!(window.PUSH_CONFIG && window.PUSH_CONFIG.oneSignalAppId && !window.PUSH_CONFIG.oneSignalAppId.includes("YOUR_"));
 }
 
 function isStandaloneWebApp(){
-  return window.matchMedia?.("(display-mode: standalone)")?.matches ||
-         window.navigator.standalone===true;
+  return window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone===true;
 }
 
 function showSubscriptionId(id){
   const panel=document.querySelector("#pushDevicePanel");
   const code=document.querySelector("#pushSubscriptionId");
-  if(!panel || !code) return;
-
-  if(id){
-    code.textContent=id;
-    panel.hidden=false;
-  }else{
-    code.textContent="–";
-    panel.hidden=true;
-  }
+  if(!panel||!code)return;
+  if(id){code.textContent=id;panel.hidden=false;}
+  else{code.textContent="–";panel.hidden=true;}
 }
 
 async function refreshPushUi(OneSignal){
   const subscribed=!!OneSignal.User.PushSubscription.optedIn;
-  const id=OneSignal.User.PushSubscription.id || null;
-
+  const id=OneSignal.User.PushSubscription.id||null;
   document.querySelector("#enablePushBtn").hidden=subscribed;
   document.querySelector("#disablePushBtn").hidden=!subscribed;
   showSubscriptionId(id);
-
   if(subscribed){
-    setPushStatus(id
-      ?"Aktiv. Kopiere jetzt die persönliche Push-ID in das private Scheduler-Repository."
-      :"Push ist aktiv. Die persönliche Push-ID wird noch erstellt …");
+    setPushStatus(id?"Push ist aktiv. Erinnerungszeiten kannst du oben jederzeit ändern.":"Push ist aktiv. Die persönliche Push-ID wird noch erstellt …");
   }else if(Notification.permission==="denied"){
     setPushStatus("Mitteilungen sind für diese Web-App blockiert.",true);
   }else if(!isStandaloneWebApp()){
@@ -1082,17 +1160,18 @@ async function refreshPushUi(OneSignal){
   }
 }
 
-async function waitForSubscriptionId(OneSignal, maxMs=20000){
+async function waitForSubscriptionId(OneSignal,maxMs=20000){
   const started=Date.now();
-  while(Date.now()-started < maxMs){
-    const id=OneSignal.User.PushSubscription.id || null;
-    if(id) return id;
+  while(Date.now()-started<maxMs){
+    const id=OneSignal.User.PushSubscription.id||null;
+    if(id)return id;
     await new Promise(resolve=>setTimeout(resolve,750));
   }
   return null;
 }
 
 async function initTrainingPush(){
+  renderReminderPrefs(loadReminderPrefs());
   if(!pushConfigured()){
     setPushStatus("Push ist vorbereitet, aber OneSignal ist noch nicht verbunden.");
     return;
@@ -1101,13 +1180,9 @@ async function initTrainingPush(){
   window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
-      // GitHub Project Pages lives below /Pushup_Coach/.
-      // The OneSignal worker is intentionally stored in the app root so it is
-      // easy to upload through GitHub's web UI. It gets a dedicated child
-      // scope so it does not replace the main PWA caching worker.
       const appBasePath=new URL("./",window.location.href).pathname;
-      const normalizedBase=appBasePath.endsWith("/") ? appBasePath : appBasePath+"/";
-      const workerPath=(normalizedBase+"OneSignalSDKWorker.js").replace(/^\/+/,"");
+      const normalizedBase=appBasePath.endsWith("/")?appBasePath:appBasePath+"/";
+      const workerPath=(normalizedBase+"OneSignalSDKWorker.js").replace(/^\/+/ ,"");
       const workerScope=normalizedBase+"onesignal-push-scope/";
 
       await OneSignal.init({
@@ -1119,23 +1194,25 @@ async function initTrainingPush(){
       });
 
       oneSignalReady=true;
+      oneSignalInstance=OneSignal;
 
-      OneSignal.User.PushSubscription.addEventListener("change",(event)=>{
-        const id=event?.current?.id || OneSignal.User.PushSubscription.id || null;
-        if(id) showSubscriptionId(id);
+      OneSignal.User.PushSubscription.addEventListener("change",event=>{
+        const id=event?.current?.id||OneSignal.User.PushSubscription.id||null;
+        if(id)showSubscriptionId(id);
         refreshPushUi(OneSignal);
       });
 
+      await loadRemoteReminderPrefs(OneSignal);
       await refreshPushUi(OneSignal);
 
-      // If already subscribed, the ID can arrive slightly after SDK init.
+      if(OneSignal.User.PushSubscription.optedIn){
+        await syncReminderPrefsToOneSignal(OneSignal,loadReminderPrefs());
+      }
+
       if(OneSignal.User.PushSubscription.optedIn && !OneSignal.User.PushSubscription.id){
         setPushStatus("Push ist aktiv. Persönliche Push-ID wird noch erstellt …");
         const id=await waitForSubscriptionId(OneSignal);
-        if(id){
-          showSubscriptionId(id);
-          setPushStatus("Aktiv. Kopiere jetzt die persönliche Push-ID in das private Scheduler-Repository.");
-        }
+        if(id){showSubscriptionId(id);setPushStatus("Push ist aktiv. Erinnerungszeiten kannst du oben jederzeit ändern.");}
       }
     }catch(err){
       setPushStatus("Push konnte nicht initialisiert werden. Prüfe den OneSignal-Service-Worker.",true);
@@ -1144,37 +1221,42 @@ async function initTrainingPush(){
   });
 }
 
-document.querySelector("#enablePushBtn")?.addEventListener("click",()=>{
-  if(!pushConfigured()){
-    setPushStatus("OneSignal muss zuerst mit der App verbunden werden.",true);
+document.querySelector("#saveReminderTimesBtn")?.addEventListener("click",async()=>{
+  const prefs=readReminderForm();
+  if(!validReminderTime(prefs.reminder1Time)||!validReminderTime(prefs.reminder2Time)){
+    setPushStatus("Bitte gültige Erinnerungszeiten auswählen.",true);
     return;
   }
+  saveReminderPrefsLocal(prefs);
+  updateReminderSummary(prefs);
+  if(oneSignalInstance){
+    const ok=await syncReminderPrefsToOneSignal(oneSignalInstance,prefs);
+    setPushStatus(ok?"Erinnerungszeiten gespeichert und mit OneSignal synchronisiert.":"Zeiten lokal gespeichert; OneSignal-Synchronisierung ist fehlgeschlagen.",!ok);
+  }else{
+    setPushStatus("Erinnerungszeiten lokal gespeichert. Nach Push-Aktivierung werden sie mit OneSignal synchronisiert.");
+  }
+});
 
-  if(!isStandaloneWebApp()){
-    setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.",true);
-    return;
-  }
+["#reminder1Enabled","#reminder2Enabled","#reminder1Time","#reminder2Time"].forEach(sel=>{
+  document.querySelector(sel)?.addEventListener("change",()=>updateReminderSummary());
+});
+
+document.querySelector("#enablePushBtn")?.addEventListener("click",()=>{
+  if(!pushConfigured()){setPushStatus("OneSignal muss zuerst mit der App verbunden werden.",true);return;}
+  if(!isStandaloneWebApp()){setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.",true);return;}
 
   window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
     try{
       await OneSignal.Notifications.requestPermission();
-
-      if(Notification.permission!=="granted"){
-        setPushStatus("Mitteilungen wurden nicht erlaubt.",true);
-        return;
-      }
-
+      if(Notification.permission!=="granted"){setPushStatus("Mitteilungen wurden nicht erlaubt.",true);return;}
       await OneSignal.User.PushSubscription.optIn();
+      const prefs=loadReminderPrefs();
+      await syncReminderPrefsToOneSignal(OneSignal,prefs);
       await refreshPushUi(OneSignal);
-
       const id=await waitForSubscriptionId(OneSignal);
-      if(id){
-        showSubscriptionId(id);
-        setPushStatus("Aktiv. Persönliche Push-ID ist bereit.");
-      }else{
-        setPushStatus("Mitteilungen sind erlaubt, aber OneSignal hat noch keine Push-ID geliefert. Bitte App einmal schließen und neu öffnen.",true);
-      }
+      if(id){showSubscriptionId(id);setPushStatus("Push ist aktiv und die Erinnerungszeiten sind synchronisiert.");}
+      else{setPushStatus("Mitteilungen sind erlaubt, aber OneSignal hat noch keine Push-ID geliefert. Bitte App einmal schließen und neu öffnen.",true);}
     }catch(err){
       setPushStatus("Aktivierung der Erinnerungen fehlgeschlagen.",true);
       console.warn("Push opt-in:",err);
@@ -1189,22 +1271,15 @@ document.querySelector("#disablePushBtn")?.addEventListener("click",()=>{
       await OneSignal.User.PushSubscription.optOut();
       await refreshPushUi(OneSignal);
       setPushStatus("Trainingserinnerungen sind auf diesem Gerät deaktiviert.");
-    }catch(err){
-      setPushStatus("Deaktivierung fehlgeschlagen.",true);
-    }
+    }catch(err){setPushStatus("Deaktivierung fehlgeschlagen.",true);}
   });
 });
 
 document.querySelector("#copySubscriptionId")?.addEventListener("click",async()=>{
   const value=document.querySelector("#pushSubscriptionId")?.textContent?.trim();
-  if(!value || value==="–") return;
-
-  try{
-    await navigator.clipboard.writeText(value);
-    setPushStatus("Persönliche Push-ID kopiert.");
-  }catch(err){
-    setPushStatus("Kopieren nicht möglich. Halte die ID gedrückt und kopiere sie manuell.",true);
-  }
+  if(!value||value==="–")return;
+  try{await navigator.clipboard.writeText(value);setPushStatus("Persönliche Push-ID kopiert.");}
+  catch(err){setPushStatus("Kopieren nicht möglich. Halte die ID gedrückt und kopiere sie manuell.",true);}
 });
 
 window.addEventListener("load",initTrainingPush);

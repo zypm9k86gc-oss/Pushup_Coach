@@ -565,3 +565,13 @@ html[data-theme="light"]{
 .edit-knee-list{display:grid;gap:10px}
 .edit-knee-item input{width:100%}
 .edit-knee-item small{color:var(--muted);font-weight:600}
+
+
+/* v26: Erinnerungszeiten direkt in der PWA */
+.reminder-settings{display:grid;gap:12px;margin:12px 0}
+.reminder-setting-row{padding:12px;border:1px solid var(--border);border-radius:13px;background:var(--bg)}
+.reminder-toggle-line{display:flex;align-items:center;gap:9px;font-weight:850;margin-bottom:9px}
+.reminder-toggle-line input{width:20px;height:20px}
+.reminder-setting-row input[type="time"]{width:100%;font-size:18px;padding:10px 12px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text)}
+.reminder-setting-help{margin-top:7px;font-size:12px;line-height:1.4;color:var(--muted)}
+.reminder-saved-summary{margin:9px 0 12px;padding:9px 11px;border-radius:11px;background:var(--bg);font-size:13px;font-weight:800}
