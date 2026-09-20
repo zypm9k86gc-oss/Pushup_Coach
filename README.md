@@ -181,3 +181,19 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Einstellungen werden lokal gespeichert und als OneSignal-Tags synchronisiert.
 - Standard bleibt 18:00 und 18:55 Uhr.
 - Cache-/Versionsnummer auf v26 erhöht.
+
+
+## Update v27 – neues Ziel bis Ende November
+- Neues Enddatum: **30. November 2026**.
+- Ziel: **356 Liegestütze + 4:00 Minuten Plank**.
+- Trainingsprogression ab 21. September neu bis Ende November verteilt.
+- **Trainingseintrag speichern** speichert nun zusätzlich den aktuellen Stand der fälligen Stabilitätsübungen in der Historie.
+- Unvollständige Stabilitätsübungen werden dadurch **nicht** als erledigt markiert; sie bleiben offen, bis alle Sätze aller fälligen Übungen abgeschlossen sind.
+- Bei mehreren offenen Stabilitätsterminen wird immer der älteste noch nicht vollständig erledigte Termin weiter angezeigt.
+- Cache-/Versionsnummer auf v27 erhöht.
+
+## Update v28 – Stabilität beim Speichern abschließen
+- Mit **„Trainingseintrag speichern“** wird das aktuell offene Stabilitätstraining jetzt ebenfalls als **vollständig abgeschlossen** gespeichert.
+- Das gilt unabhängig davon, wie viele Sätze zuvor einzeln bestätigt wurden.
+- In der Historie wird der Stabilitätseintrag anschließend als komplett geführt.
+- Cache-/Versionsnummer auf v28 erhöht.

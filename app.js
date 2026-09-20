@@ -1,31 +1,32 @@
 
 const PLAN_START = new Date("2026-08-17T00:00:00");
-const GOAL_DATE = new Date("2026-10-31T23:59:59");
+const GOAL_DATE = new Date("2026-11-30T23:59:59");
 
 const targets = [
   {pushups:80, plank:70},
-  {pushups:90, plank:80},
-  {pushups:100, plank:90},
   {pushups:120, plank:105},
-  {pushups:140, plank:120},
   {pushups:160, plank:135},
-  {pushups:120, plank:105, deload:true},
-  {pushups:180, plank:150},
-  {pushups:220, plank:180},
-  {pushups:280, plank:240},
-  {pushups:320, plank:270},
-  {pushups:356, plank:300}
+  {pushups:188, plank:159},
+  {pushups:216, plank:173},
+  {pushups:250, plank:189},
+  {pushups:283, plank:205},
+  {pushups:317, plank:221},
+  {pushups:350, plank:237},
+  {pushups:356, plank:240}
 ];
 
 const checkpoints = [
   ["30.08.2026","90 Liegestütze / 80 s Plank"],
   ["20.09.2026","140 Liegestütze / 120 s Plank"],
-  ["04.10.2026","Deload abgeschlossen"],
-  ["25.10.2026","280 Liegestütze / 4:00 Plank"],
-  ["31.10.2026","356 Liegestütze / 5:00 Plank"]
+  ["02.10.2026","216 Liegestütze / 2:53 Plank"],
+  ["16.10.2026","250 Liegestütze / 3:09 Plank"],
+  ["30.10.2026","283 Liegestütze / 3:25 Plank"],
+  ["13.11.2026","317 Liegestütze / 3:41 Plank"],
+  ["27.11.2026","350 Liegestütze / 3:57 Plank"],
+  ["30.11.2026","356 Liegestütze / 4:00 Plank"]
 ];
 
-const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":197,"plank":166,"sets":"10×12 + 7×11","checkpoint":false},{"date":"2026-09-25","pushups":206,"plank":174,"sets":"14×13 + 2×12","checkpoint":false},{"date":"2026-09-28","pushups":214,"plank":181,"sets":"10×13 + 7×12","checkpoint":false},{"date":"2026-09-30","pushups":223,"plank":189,"sets":"15×14 + 1×13","checkpoint":false},{"date":"2026-10-02","pushups":232,"plank":196,"sets":"11×14 + 6×13","checkpoint":true},{"date":"2026-10-05","pushups":241,"plank":203,"sets":"7×14 + 11×13","checkpoint":false},{"date":"2026-10-07","pushups":250,"plank":211,"sets":"12×15 + 5×14","checkpoint":false},{"date":"2026-10-09","pushups":259,"plank":218,"sets":"7×15 + 11×14","checkpoint":false},{"date":"2026-10-12","pushups":268,"plank":226,"sets":"16×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":277,"plank":233,"sets":"7×16 + 11×15","checkpoint":false},{"date":"2026-10-16","pushups":286,"plank":241,"sets":"16×16 + 2×15","checkpoint":true},{"date":"2026-10-19","pushups":295,"plank":248,"sets":"10×16 + 9×15","checkpoint":false},{"date":"2026-10-21","pushups":304,"plank":255,"sets":"16×17 + 2×16","checkpoint":false},{"date":"2026-10-23","pushups":313,"plank":263,"sets":"9×17 + 10×16","checkpoint":false},{"date":"2026-10-26","pushups":322,"plank":270,"sets":"18×17 + 1×16","checkpoint":false},{"date":"2026-10-28","pushups":331,"plank":278,"sets":"8×18 + 11×17","checkpoint":false},{"date":"2026-10-30","pushups":340,"plank":285,"sets":"17×18 + 2×17","checkpoint":true},{"date":"2026-10-31","pushups":356,"plank":300,"sets":"14×20 + 4×19","checkpoint":true}];
+const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":289,"plank":208,"sets":"17×17","checkpoint":false},{"date":"2026-11-04","pushups":294,"plank":210,"sets":"5×18 + 12×17","checkpoint":false},{"date":"2026-11-06","pushups":300,"plank":213,"sets":"12×17 + 6×16","checkpoint":false},{"date":"2026-11-09","pushups":306,"plank":216,"sets":"18×17","checkpoint":false},{"date":"2026-11-11","pushups":311,"plank":218,"sets":"5×18 + 13×17","checkpoint":false},{"date":"2026-11-13","pushups":317,"plank":221,"sets":"11×18 + 7×17","checkpoint":true},{"date":"2026-11-16","pushups":322,"plank":224,"sets":"16×18 + 2×17","checkpoint":false},{"date":"2026-11-18","pushups":328,"plank":227,"sets":"4×19 + 14×18","checkpoint":false},{"date":"2026-11-20","pushups":334,"plank":229,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-11-23","pushups":339,"plank":232,"sets":"15×19 + 3×18","checkpoint":false},{"date":"2026-11-25","pushups":345,"plank":235,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-11-27","pushups":350,"plank":237,"sets":"8×20 + 10×19","checkpoint":true},{"date":"2026-11-30","pushups":356,"plank":240,"sets":"14×20 + 4×19","checkpoint":true}];
 function planForDate(k){return EXACT_PLAN.find(x=>x.date===k)||null;}
 function nextPlanEntry(k){return EXACT_PLAN.find(x=>x.date>=k)||null;}
 function latestPlanOnOrBefore(k){
@@ -199,7 +200,7 @@ function render(){
   }
 
   const pushPct = Math.min(100, Math.round(t.pushups/356*100));
-  const plankPct = Math.min(100, Math.round(t.plank/300*100));
+  const plankPct = Math.min(100, Math.round(t.plank/240*100));
   const displayPushups=open?open.progressPush:state.todayPushups;
   const displayPlank=open?open.progressPlank:state.todayPlank;
   const todayPushPct = Math.min(100, Math.round(displayPushups/t.pushups*100));
@@ -296,20 +297,37 @@ document.querySelector("#addPlankBtn").addEventListener("click", ()=>{
 
 document.querySelector("#finishWorkout").addEventListener("click", ()=>{
   const open=openWorkout();
-  if(state.todayPushups===0 && state.todayPlank===0 && !open) return;
+  const kneeStatus=activeKneeWorkoutStatus();
+  if(state.todayPushups===0 && state.todayPlank===0 && !open && (!kneeStatus.date || kneeStatus.done)) return;
 
-  state.records.push({
-    id: createRecordId(),
-    date: state.todayDate,
-    targetDate: open ? open.date : state.todayDate,
-    pushups: state.todayPushups,
-    plank: state.todayPlank,
-    completedWorkout: true
-  });
+  if(kneeStatus.date && kneeStatus.plan && !kneeStatus.done){
+    // "Trainingseintrag speichern" schließt auch das aktuell offene Stabilitätstraining ab.
+    kneeStatus.plan.exercises.forEach(ex=>{
+      for(let s=1;s<=ex.sets;s++){
+        setKneeSetDone(kneeStatus.date,ex.id,s,true);
+      }
+    });
+    state.kneeDone=state.kneeDone||{};
+    state.kneeDone[kneeStatus.date]=true;
+    syncKneeHistoryForDate(kneeStatus.date,kneeStatus.plan,true);
+  }
+
+  if(state.todayPushups>0 || state.todayPlank>0 || open){
+    state.records.push({
+      id: createRecordId(),
+      date: state.todayDate,
+      targetDate: open ? open.date : state.todayDate,
+      pushups: state.todayPushups,
+      plank: state.todayPlank,
+      completedWorkout: true
+    });
+  }
 
   state.todayPushups = 0;
   state.todayPlank = 0;
-  save(); render();
+  save();
+  render();
+  renderKnee();
 });
 
 document.querySelector("#resetToday").addEventListener("click", ()=>{
@@ -474,7 +492,7 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=26", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=28", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -728,13 +746,13 @@ function findKneeRecordByDate(k){
   return state.records.find(r=>r.type==="knee" && (r.kneeDate || r.date)===k) || null;
 }
 
-function syncKneeHistoryForDate(k, plan){
+function syncKneeHistoryForDate(k, plan, force=false){
   ensureKneeState();
   const total=totalKneeSetCount(plan);
   const completed=completedKneeSetCount(k,plan);
   const existing=findKneeRecordByDate(k);
 
-  if(completed===0){
+  if(completed===0 && !force){
     if(existing){
       state.records=state.records.filter(r=>r.id!==existing.id);
     }
@@ -840,20 +858,33 @@ function migrateLegacyKneeDone(k, plan){
 function activeKneeWorkoutStatus(){
   ensureKneeState();
   const today=todayKey();
-  const dueDate=latestKneeDateOnOrBefore(today);
-  if(!dueDate) return {date:null, plan:null, done:true, overdue:false};
+  const start=new Date(KNEE_START+"T12:00:00");
+  const end=new Date(today+"T12:00:00");
+  let latestDue=null;
+  let latestPlan=null;
 
-  const plan=kneePlanFor(dueDate);
-  migrateLegacyKneeDone(dueDate,plan);
-  const done=allRequiredKneeSetsDone(dueDate,plan);
-  state.kneeDone[dueDate]=done;
+  for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+    const k=dateKeyFromDate(d);
+    if(k>KNEE_END) break;
+    if(!kneeDay(k)) continue;
 
-  return {
-    date:dueDate,
-    plan,
-    done,
-    overdue:dueDate<today
-  };
+    const plan=kneePlanFor(k);
+    latestDue=k;
+    latestPlan=plan;
+    migrateLegacyKneeDone(k,plan);
+    const done=allRequiredKneeSetsDone(k,plan);
+    state.kneeDone[k]=done;
+    if(done) syncKneeHistoryForDate(k,plan);
+
+    if(!done){
+      return {date:k,plan,done:false,overdue:k<today};
+    }
+  }
+
+  if(latestDue && latestPlan){
+    return {date:latestDue,plan:latestPlan,done:true,overdue:false};
+  }
+  return {date:null,plan:null,done:true,overdue:false};
 }
 
 function exerciseCompletionCount(k, exercise){
