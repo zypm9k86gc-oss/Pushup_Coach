@@ -663,3 +663,29 @@ html[data-theme="light"]{
   .weekly-bars{gap:4px}
   .weekly-bar-col{min-width:30px}
 }
+
+
+/* v30: zusammengefasste Tageshistorie */
+.history-row-day{
+  grid-template-columns:minmax(130px,.9fr) minmax(0,2fr) auto;
+  align-items:center;
+  gap:12px;
+}
+.history-row-day .history-metrics{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(72px,1fr));
+  gap:8px;
+}
+.history-row-day .history-metrics span{
+  min-width:0;
+  padding:8px 9px;
+  border-radius:10px;
+  background:var(--bg);
+}
+.history-row-day .history-metrics strong{font-size:14px}
+.history-row-day .history-metrics small{line-height:1.2}
+@media(max-width:620px){
+  .history-row-day{grid-template-columns:1fr auto;align-items:start}
+  .history-row-day .history-metrics{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));order:3}
+  .history-row-day .history-edit-btn{grid-column:2;grid-row:1}
+}

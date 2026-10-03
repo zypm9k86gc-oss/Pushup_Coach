@@ -207,3 +207,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Einzel-Planks werden ab v29 bei Timer und manueller Eingabe separat als Tagesbestwert erfasst; ältere Einträge können im Historien-Editor ergänzt werden.
 - Einstellungen enthält Trainingserinnerungen und Datensicherung.
 - Cache-/Versionsnummer auf v29 erhöht.
+
+
+## Update v30 – Kalenderwochen & zusammengefasste Tageshistorie
+- Die 8-Wochen-Grafik verwendet jetzt ISO-Kalenderwochen als `KWxx`.
+- Die Historie zeigt pro Datum nur noch einen gemeinsamen Trainingstag mit Liegestützen, Plank und Stabilitätsübungen.
+- Über **Bearbeiten** lassen sich alle Werte des Tages gemeinsam korrigieren: Liegestütze, Plank-Gesamtzeit, längster Plank am Stück und erledigte Stabilitätssätze je Übung.
+- Beim Speichern einer Korrektur werden alte Mehrfacheinträge dieses Tages konsolidiert.
+- **Trainingstag löschen** entfernt alle Trainings- und Stabilitätsdaten des gewählten Tages.
+- Cache-/Versionsnummer auf v30 erhöht.

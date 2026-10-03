@@ -182,9 +182,14 @@ function mondayKeyFor(dateLike){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 }
 
-function shortDateDE(key){
-  const [y,m,d]=key.split("-");
-  return `${d}.${m}.`;
+function isoWeekLabel(key){
+  const [y,m,d]=key.split("-").map(Number);
+  const date=new Date(Date.UTC(y,m-1,d));
+  const day=date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate()+4-day);
+  const yearStart=new Date(Date.UTC(date.getUTCFullYear(),0,1));
+  const week=Math.ceil((((date-yearStart)/86400000)+1)/7);
+  return `KW${String(week).padStart(2,"0")}`;
 }
 
 function weeklyPerformance(weeks=8){
@@ -194,7 +199,7 @@ function weeklyPerformance(weeks=8){
     const d=new Date(currentMonday);
     d.setDate(d.getDate()-i*7);
     const key=mondayKeyFor(d);
-    rows.push({key,label:shortDateDE(key),pushups:0,plank:0});
+    rows.push({key,label:isoWeekLabel(key),pushups:0,plank:0});
   }
   const byKey=new Map(rows.map(r=>[r.key,r]));
   state.records.filter(r=>r.type!=="knee" && r.date).forEach(r=>{
@@ -205,6 +210,129 @@ function weeklyPerformance(weeks=8){
     row.plank+=Number(r.plank)||0;
   });
   return rows;
+}
+
+function historyDaySummaries(){
+  const byDate=new Map();
+
+  state.records.forEach(record=>{
+    const date=record?.date;
+    if(!date) return;
+    if(!byDate.has(date)){
+      byDate.set(date,{
+        date,
+        workoutRecords:[],
+        kneeRecords:[],
+        pushups:0,
+        plank:0,
+        bestSinglePlank:0,
+        kneeCompletedSets:0,
+        kneeTotalSets:0,
+        kneeDone:false,
+        kneeExercises:[]
+      });
+    }
+    const day=byDate.get(date);
+    if(record.type==="knee"){
+      day.kneeRecords.push(record);
+    }else{
+      day.workoutRecords.push(record);
+      day.pushups+=Number(record.pushups)||0;
+      day.plank+=Number(record.plank)||0;
+      day.bestSinglePlank=Math.max(day.bestSinglePlank,Number(record.bestSinglePlank)||0);
+    }
+  });
+
+  for(const day of byDate.values()){
+    // Normalerweise existiert pro Tag genau ein Stabilitätseintrag. Falls alte Daten
+    // mehrere enthalten, wird je Übung der höchste erfasste Satzstand verwendet.
+    const exerciseMap=new Map();
+    day.kneeRecords.forEach(record=>{
+      (record.kneeExercises||[]).forEach(ex=>{
+        const existing=exerciseMap.get(ex.id);
+        const doneSets=Math.max(0,Number(ex.doneSets)||0);
+        const sets=Math.max(0,Number(ex.sets)||0);
+        if(!existing){
+          exerciseMap.set(ex.id,{...ex,sets,doneSets:Math.min(sets,doneSets)});
+        }else{
+          existing.sets=Math.max(existing.sets,sets);
+          existing.doneSets=Math.max(existing.doneSets,Math.min(sets,doneSets));
+          existing.name=existing.name||ex.name;
+          existing.prescription=existing.prescription||ex.prescription;
+        }
+      });
+    });
+    day.kneeExercises=[...exerciseMap.values()];
+
+    // Falls für einen Trainingstag noch kein eigener Historieneintrag der Stabilität
+    // existiert, trotzdem den geplanten/aktuellen Satzstand dieses Tages anzeigen.
+    if(!day.kneeExercises.length){
+      const planned=kneePlanFor(day.date);
+      if(planned.exercises.length){
+        day.kneeExercises=planned.exercises.map(ex=>({
+          id:ex.id,
+          name:ex.name,
+          sets:ex.sets,
+          doneSets:exerciseCompletionCount(day.date,ex),
+          prescription:ex.prescription
+        }));
+      }
+    }
+
+    if(day.kneeExercises.length){
+      day.kneeCompletedSets=day.kneeExercises.reduce((sum,ex)=>sum+Math.min(ex.sets,ex.doneSets),0);
+      day.kneeTotalSets=day.kneeExercises.reduce((sum,ex)=>sum+ex.sets,0);
+      day.kneeDone=day.kneeTotalSets>0 && day.kneeCompletedSets===day.kneeTotalSets;
+    }else if(day.kneeRecords.length){
+      day.kneeCompletedSets=Math.max(0,...day.kneeRecords.map(r=>Number(r.kneeCompletedSets)||0));
+      day.kneeTotalSets=Math.max(0,...day.kneeRecords.map(r=>Number(r.kneeTotalSets)||0));
+      day.kneeDone=day.kneeTotalSets>0 && day.kneeCompletedSets===day.kneeTotalSets;
+    }
+  }
+
+  return [...byDate.values()].sort((a,b)=>b.date.localeCompare(a.date));
+}
+
+function workoutRecordsForDate(date){
+  return state.records.filter(r=>r.date===date && r.type!=="knee");
+}
+
+function kneeRecordsForDate(date){
+  return state.records.filter(r=>r.date===date && r.type==="knee");
+}
+
+function mergedKneeExercisesForDate(date){
+  const summary=historyDaySummaries().find(d=>d.date===date);
+  return summary?.kneeExercises || [];
+}
+
+function renderKneeEditorForDate(date, preferredExercises=null){
+  const plan=kneePlanFor(date);
+  const source=preferredExercises || mergedKneeExercisesForDate(date);
+  const sourceMap=new Map((source||[]).map(ex=>[ex.id,ex]));
+  const exercises=plan.exercises.length
+    ? plan.exercises.map(ex=>({
+        id:ex.id,
+        name:ex.name,
+        sets:ex.sets,
+        prescription:ex.prescription,
+        doneSets:Math.max(0,Math.min(ex.sets,Number(sourceMap.get(ex.id)?.doneSets)||0))
+      }))
+    : (source||[]).map(ex=>({
+        ...ex,
+        sets:Math.max(0,Number(ex.sets)||0),
+        doneSets:Math.max(0,Math.min(Number(ex.sets)||0,Number(ex.doneSets)||0))
+      }));
+
+  if(!exercises.length){
+    editKneeFieldsList.innerHTML=`<div class="edit-knee-help">Für diesen Tag sind keine Stabilitätsübungen gespeichert oder geplant.</div>`;
+    return;
+  }
+
+  editKneeFieldsList.innerHTML=exercises.map((ex,idx)=>`<label class="edit-field edit-knee-item">
+    <span>Übung ${idx+1}: ${ex.name} <small>(${ex.sets} Sätze)</small></span>
+    <input type="number" min="0" max="${ex.sets}" step="1" inputmode="numeric" data-knee-edit-id="${ex.id}" data-knee-name="${ex.name.replace(/"/g,"&quot;")}" data-knee-sets="${ex.sets}" data-knee-prescription="${(ex.prescription||"").replace(/"/g,"&quot;")}" value="${ex.doneSets}">
+  </label>`).join("");
 }
 
 function renderWeeklyChart(){
@@ -294,34 +422,24 @@ function render(){
   document.querySelector("#checkpoints").innerHTML =
     checkpoints.map(c=>`<div class="checkpoint"><span class="date">${c[0]}</span><span>${c[1]}</span></div>`).join("");
 
-  const hist = [...state.records].sort((a,b)=>{
-    const dateCmp=(b.date||"").localeCompare(a.date||"");
-    if(dateCmp!==0) return dateCmp;
-    return (a.type==="knee")-(b.type==="knee");
-  });
+  const hist=historyDaySummaries();
   document.querySelector("#history").innerHTML = hist.length
-    ? hist.map(r=>{
-        if(r.type==="knee"){
-          const total=r.kneeTotalSets||0;
-          const done=r.kneeCompletedSets||0;
-          return `<div class="history-row history-row-knee">
-            <div class="history-main">
-              <div class="history-date">${fmtDateDE(r.date)}</div>
-              <div class="history-subtitle">Stabilitätsübungen Beine</div>
-            </div>
-            <div class="history-metrics"><span><strong>${done}/${total}</strong><small>Sätze</small></span><span><strong>${r.kneeDone?"✓":"–"}</strong><small>${r.kneeDone?"komplett":"offen"}</small></span></div>
-            <button class="history-edit-btn" type="button" data-edit-record="${r.id}" aria-label="Stabilitätsübungen vom ${r.date} bearbeiten">Bearbeiten</button>
-          </div>`;
-        }
-        const single=r.bestSinglePlank||0;
-        return `<div class="history-row">
-          <div class="history-main"><div class="history-date">${fmtDateDE(r.date)}</div><div class="history-subtitle">Training</div></div>
-          <div class="history-metrics">
-            <span><strong>${r.pushups || 0}</strong><small>LS</small></span>
-            <span><strong>${fmtTime(r.plank || 0)}</strong><small>Plank gesamt</small></span>
-            <span><strong>${single?fmtTime(single):"–"}</strong><small>am Stück</small></span>
+    ? hist.map(day=>{
+        const hasKnee=day.kneeTotalSets>0 || day.kneeRecords.length>0;
+        const kneeValue=hasKnee?`${day.kneeCompletedSets}/${day.kneeTotalSets}`:"–";
+        const kneeLabel=hasKnee?(day.kneeDone?"Stabilität ✓":"Stabilität offen"):"keine Stabilität";
+        return `<div class="history-row history-row-day">
+          <div class="history-main">
+            <div class="history-date">${fmtDateDE(day.date)}</div>
+            <div class="history-subtitle">Trainingstag</div>
           </div>
-          <button class="history-edit-btn" type="button" data-edit-record="${r.id}" aria-label="Training vom ${r.date} bearbeiten">Bearbeiten</button>
+          <div class="history-metrics">
+            <span><strong>${day.pushups}</strong><small>LS</small></span>
+            <span><strong>${fmtTime(day.plank)}</strong><small>Plank gesamt</small></span>
+            <span><strong>${day.bestSinglePlank?fmtTime(day.bestSinglePlank):"–"}</strong><small>am Stück</small></span>
+            <span><strong>${kneeValue}</strong><small>${kneeLabel}</small></span>
+          </div>
+          <button class="history-edit-btn" type="button" data-edit-date="${day.date}" aria-label="Trainingstag vom ${day.date} bearbeiten">Bearbeiten</button>
         </div>`;
       }).join("")
     : `<div class="empty">Noch keine abgeschlossenen Trainingstage.</div>`;
@@ -465,36 +583,42 @@ const editWorkoutFields = document.querySelector("#editWorkoutFields");
 const editKneeFields = document.querySelector("#editKneeFields");
 const editKneeFieldsList = document.querySelector("#editKneeFieldsList");
 
-function openRecordEditor(id){
-  const record=findRecordById(id);
-  if(!record) return;
-  editRecordId.value=record.id;
-  editDate.value=record.date;
+function openDailyEditor(date){
+  const day=historyDaySummaries().find(d=>d.date===date);
+  if(!day) return;
+
+  editRecordId.value=date; // Originaldatum des zusammengefassten Tages
+  editRecordType.value="day";
+  editDate.value=date;
   editDate.max=todayKey();
-  editRecordType.value=record.type || "workout";
 
-  if(record.type==="knee"){
-    editWorkoutFields.hidden=true;
-    editKneeFields.hidden=false;
-    const exercises=(record.kneeExercises || []).map((ex,idx)=>`<label class="edit-field edit-knee-item"><span>Übung ${idx+1}: ${ex.name} <small>(${ex.sets} Sätze)</small></span><input type="number" min="0" max="${ex.sets}" step="1" inputmode="numeric" data-knee-edit-id="${ex.id}" value="${Math.max(0,Math.min(ex.sets,ex.doneSets||0))}"></label>`).join("");
-    editKneeFieldsList.innerHTML=exercises || `<div class="edit-knee-help">Keine Übungen gespeichert.</div>`;
-  }else{
-    editWorkoutFields.hidden=false;
-    editKneeFields.hidden=true;
-    editKneeFieldsList.innerHTML="";
-    editPushups.value=record.pushups || 0;
-    editPlankMin.value=Math.floor((record.plank || 0)/60);
-    editPlankSec.value=(record.plank || 0)%60;
-    editBestPlankMin.value=Math.floor((record.bestSinglePlank || 0)/60);
-    editBestPlankSec.value=(record.bestSinglePlank || 0)%60;
-  }
+  editWorkoutFields.hidden=false;
+  editKneeFields.hidden=false;
+  editPushups.value=day.pushups || 0;
+  editPlankMin.value=Math.floor((day.plank || 0)/60);
+  editPlankSec.value=(day.plank || 0)%60;
+  editBestPlankMin.value=Math.floor((day.bestSinglePlank || 0)/60);
+  editBestPlankSec.value=(day.bestSinglePlank || 0)%60;
 
+  renderKneeEditorForDate(date,day.kneeExercises);
   editDialog.showModal();
 }
 
 document.querySelector("#history").addEventListener("click", event=>{
-  const btn=event.target.closest("[data-edit-record]");
-  if(btn) openRecordEditor(btn.dataset.editRecord);
+  const btn=event.target.closest("[data-edit-date]");
+  if(btn) openDailyEditor(btn.dataset.editDate);
+});
+
+editDate.addEventListener("change",()=>{
+  if(!editDialog.open) return;
+  const current=[...editKneeFieldsList.querySelectorAll("[data-knee-edit-id]")].map(input=>({
+    id:input.dataset.kneeEditId,
+    name:input.dataset.kneeName || input.dataset.kneeEditId,
+    sets:Number(input.dataset.kneeSets)||Number(input.max)||0,
+    doneSets:Math.max(0,Number(input.value)||0),
+    prescription:input.dataset.kneePrescription || ""
+  }));
+  renderKneeEditorForDate(editDate.value,current);
 });
 
 document.querySelector("#closeEditRecord").addEventListener("click", ()=>editDialog.close());
@@ -505,70 +629,117 @@ editDialog.addEventListener("click", event=>{
 
 editForm.addEventListener("submit", event=>{
   event.preventDefault();
-  const record=findRecordById(editRecordId.value);
-  if(!record) return editDialog.close();
 
+  const originalDate=editRecordId.value;
   const date=editDate.value;
+  if(!originalDate) return editDialog.close();
   if(!date || date>todayKey()){
     alert("Bitte ein gültiges Datum bis einschließlich heute wählen.");
     return;
   }
 
-  if((editRecordType.value || record.type || "workout")==="knee"){
-    const previousDate=record.kneeDate || record.date;
-    const inputs=[...editKneeFieldsList.querySelectorAll("[data-knee-edit-id]")];
-    record.date=date;
-    record.kneeDate=date;
-    record.kneeExercises=inputs.map(input=>{
-      const previous=(record.kneeExercises || []).find(ex=>ex.id===input.dataset.kneeEditId);
-      const planExercise=kneePlanFor(date).exercises.find(ex=>ex.id===input.dataset.kneeEditId);
-      const maxSets=planExercise?.sets || previous?.sets || Number(input.max) || 0;
-      const doneSets=Math.max(0, Math.min(maxSets, Math.floor(Number(input.value) || 0)));
-      return {
-        id: input.dataset.kneeEditId,
-        name: planExercise?.name || previous?.name || input.dataset.kneeEditId,
-        sets: maxSets,
-        doneSets,
-        prescription: planExercise?.prescription || previous?.prescription || ""
-      };
+  const pushups=Math.max(0,Math.floor(Number(editPushups.value)||0));
+  const minutes=Math.max(0,Math.floor(Number(editPlankMin.value)||0));
+  const seconds=Math.max(0,Math.min(59,Math.floor(Number(editPlankSec.value)||0)));
+  const plank=minutes*60+seconds;
+  const bestMinutes=Math.max(0,Math.floor(Number(editBestPlankMin.value)||0));
+  const bestSeconds=Math.max(0,Math.min(59,Math.floor(Number(editBestPlankSec.value)||0)));
+  const bestSinglePlank=Math.min(plank,bestMinutes*60+bestSeconds);
+
+  const previousWorkout=workoutRecordsForDate(originalDate);
+  const previousWorkoutMeta=previousWorkout[0] || null;
+  const hadWorkout=previousWorkout.length>0;
+  const hadKnee=kneeRecordsForDate(originalDate).length>0;
+
+  if(date!==originalDate && state.records.some(r=>r.date===date)){
+    alert("Für das gewählte Datum existiert bereits ein Trainingstag. Bitte diesen Tag direkt in der Historie bearbeiten.");
+    return;
+  }
+
+  // Alle bisherigen Einträge dieses Tages werden durch genau einen gemeinsamen
+  // Workout-Datensatz plus höchstens einen Stabilitätsdatensatz ersetzt.
+  state.records=state.records.filter(r=>r.date!==originalDate);
+
+  if(hadWorkout || pushups>0 || plank>0 || bestSinglePlank>0){
+    state.records.push({
+      id:previousWorkoutMeta?.id || createRecordId(),
+      date,
+      targetDate:previousWorkoutMeta?.targetDate || date,
+      pushups,
+      plank,
+      bestSinglePlank,
+      completedWorkout:previousWorkoutMeta?.completedWorkout ?? true
     });
-    applyKneeRecordToState(record, previousDate);
-  }else{
-    const pushups=Math.max(0, Math.floor(Number(editPushups.value) || 0));
-    const minutes=Math.max(0, Math.floor(Number(editPlankMin.value) || 0));
-    const seconds=Math.max(0, Math.min(59, Math.floor(Number(editPlankSec.value) || 0)));
-    const bestMinutes=Math.max(0, Math.floor(Number(editBestPlankMin.value) || 0));
-    const bestSeconds=Math.max(0, Math.min(59, Math.floor(Number(editBestPlankSec.value) || 0)));
-    const totalPlank=minutes*60+seconds;
-    const bestSingle=Math.min(totalPlank,bestMinutes*60+bestSeconds);
-    record.date=date;
-    record.pushups=pushups;
-    record.plank=totalPlank;
-    record.bestSinglePlank=bestSingle;
+  }
+
+  ensureKneeState();
+  delete state.kneeSets[originalDate];
+  delete state.kneeDone[originalDate];
+  if(date!==originalDate){
+    delete state.kneeSets[date];
+    delete state.kneeDone[date];
+  }
+
+  const plan=kneePlanFor(date);
+  const kneeInputs=[...editKneeFieldsList.querySelectorAll("[data-knee-edit-id]")];
+  const hasEnteredKnee=kneeInputs.some(input=>(Number(input.value)||0)>0);
+
+  if(plan.exercises.length){
+    state.kneeSets[date]={};
+    plan.exercises.forEach(ex=>{
+      const input=kneeInputs.find(i=>i.dataset.kneeEditId===ex.id);
+      const doneSets=Math.max(0,Math.min(ex.sets,Math.floor(Number(input?.value)||0)));
+      for(let s=1;s<=doneSets;s++) setKneeSetDone(date,ex.id,s,true);
+    });
+    state.kneeDone[date]=allRequiredKneeSetsDone(date,plan);
+    if(hasEnteredKnee || hadKnee){
+      syncKneeHistoryForDate(date,plan,true);
+    }
+  }else if(kneeInputs.length && hasEnteredKnee){
+    // Historische Stabilitätsdaten ohne aktuellen Plan erhalten.
+    const exercises=kneeInputs.map(input=>({
+      id:input.dataset.kneeEditId,
+      name:input.dataset.kneeName || input.dataset.kneeEditId,
+      sets:Math.max(0,Number(input.dataset.kneeSets)||Number(input.max)||0),
+      doneSets:Math.max(0,Math.min(Number(input.dataset.kneeSets)||Number(input.max)||0,Math.floor(Number(input.value)||0))),
+      prescription:input.dataset.kneePrescription || ""
+    }));
+    const total=exercises.reduce((sum,ex)=>sum+ex.sets,0);
+    const completed=exercises.reduce((sum,ex)=>sum+ex.doneSets,0);
+    state.records.push({
+      id:createRecordId(),
+      type:"knee",
+      date,
+      kneeDate:date,
+      kneeLabel:"Stabilitätsübungen Beine",
+      kneeExercises:exercises,
+      kneeCompletedSets:completed,
+      kneeTotalSets:total,
+      kneeDone:total>0 && completed===total
+    });
   }
 
   save();
+  editRecordId.value=date;
   editDialog.close();
   render();
   renderKnee();
 });
 
 document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
-  const record=findRecordById(editRecordId.value);
-  if(!record) return editDialog.close();
-  if(!confirm(`Training vom ${fmtDateDE(record.date)} wirklich löschen?`)) return;
-  if(record.type==="knee"){
-    const k=record.kneeDate || record.date;
-    if(state.kneeSets) delete state.kneeSets[k];
-    if(state.kneeDone) delete state.kneeDone[k];
-  }
-  state.records=state.records.filter(r=>r.id!==record.id);
+  const date=editRecordId.value;
+  if(!date) return editDialog.close();
+  if(!confirm(`Gesamten Trainingstag vom ${fmtDateDE(date)} wirklich löschen?`)) return;
+
+  state.records=state.records.filter(r=>r.date!==date);
+  if(state.kneeSets) delete state.kneeSets[date];
+  if(state.kneeDone) delete state.kneeDone[date];
+
   save();
   editDialog.close();
   render();
   renderKnee();
 });
-
 
 
 // ---------- 3-Seiten-Navigation ----------
@@ -595,7 +766,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=29", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=30", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -636,7 +807,7 @@ document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi
 function makeBackupPayload(){
   return {
     app: "356 Coach",
-    version: 29,
+    version: 30,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state

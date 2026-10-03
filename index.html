@@ -11,11 +11,11 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="356 Coach" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=29" rel="manifest"/>
-<link href="icon-192.png?v=29" rel="apple-touch-icon"/>
-<link href="styles.css?v=29" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=30" rel="manifest"/>
+<link href="icon-192.png?v=30" rel="apple-touch-icon"/>
+<link href="styles.css?v=30" rel="stylesheet"/>
 <title>356 Coach</title>
-<script src="push-config.js?v=29"></script>
+<script src="push-config.js?v=30"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -159,7 +159,7 @@
 <div aria-label="Wochenverlauf Liegestütze und Plank" class="weekly-chart" id="weeklyChart"></div>
 </section>
 <h2>Historie in Zahlen</h2><section class="card">
-<div class="history-help">Gespeicherte Trainingseinträge können nachträglich korrigiert oder gelöscht werden.</div>
+<div class="history-help">Pro Tag werden Liegestütze, Plank und Stabilitätsübungen gemeinsam dargestellt und können zusammen bearbeitet werden.</div>
 <div class="history" id="history"></div>
 </section></section><section class="page-view" data-page="settings" hidden="" id="page-settings"><div class="page-heading">
 <div class="eyebrow">356 Coach</div>
@@ -216,8 +216,8 @@
 <form id="editRecordForm" method="dialog">
 <div class="edit-dialog-head">
 <div>
-<div class="label">Vergangenes Training</div>
-<div class="edit-dialog-title">Eintrag bearbeiten</div>
+<div class="label">Vergangener Trainingstag</div>
+<div class="edit-dialog-title">Trainingstag bearbeiten</div>
 </div>
 <button aria-label="Bearbeiten schließen" class="iconbtn" id="closeEditRecord" type="button">×</button>
 </div>
@@ -248,13 +248,13 @@
 </div>
 </div>
 </div>
-<div hidden="" id="editKneeFields">
+<div id="editKneeFields">
 <div class="edit-knee-head">Stabilitätsübungen Beine</div>
-<div class="edit-knee-help">Hier kannst du nachträglich anpassen, wie viele Sätze je Übung erledigt wurden.</div>
+<div class="edit-knee-help">Passe nachträglich an, wie viele Sätze je Übung an diesem Tag erledigt wurden.</div>
 <div class="edit-knee-list" id="editKneeFieldsList"></div>
 </div>
 <div class="edit-dialog-actions">
-<button class="danger" id="deleteRecordBtn" type="button">Eintrag löschen</button>
+<button class="danger" id="deleteRecordBtn" type="button">Trainingstag löschen</button>
 <button class="primary" type="submit">Änderungen speichern</button>
 </div>
 </form>
@@ -263,6 +263,6 @@
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
 </nav>
-<script src="app.js?v=29"></script>
+<script src="app.js?v=30"></script>
 </body>
 </html>
