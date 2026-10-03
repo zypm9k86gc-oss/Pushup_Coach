@@ -74,6 +74,7 @@ let state = {
   todayDate: todayKey(),
   todayPushups: 0,
   todayPlank: 0,
+  todayBestSinglePlank: 0,
   records: [],
   kneeSets: {},
   kneeDone: {}
@@ -148,12 +149,14 @@ function rollover(){
         id: createRecordId(),
         date: state.todayDate,
         pushups: state.todayPushups,
-        plank: state.todayPlank
+        plank: state.todayPlank,
+        bestSinglePlank: state.todayBestSinglePlank || 0
       });
     }
     state.todayDate = t;
     state.todayPushups = 0;
     state.todayPlank = 0;
+    state.todayBestSinglePlank = 0;
     save();
   }
 }
@@ -163,7 +166,7 @@ function totals(){
   const completedPush = workoutRecords.reduce((a,r)=>a+(r.pushups||0),0);
   const completedPlank = workoutRecords.reduce((a,r)=>a+(r.plank||0),0);
   const bestPush = Math.max(state.todayPushups, ...workoutRecords.map(r=>r.pushups||0), 0);
-  const bestPlank = Math.max(state.todayPlank, ...workoutRecords.map(r=>r.plank||0), 0);
+  const bestPlank = Math.max(state.todayBestSinglePlank||0, ...workoutRecords.map(r=>r.bestSinglePlank||0), 0);
   return {
     pushups: completedPush,
     plank: completedPlank,
@@ -171,6 +174,64 @@ function totals(){
     bestPlank
   };
 }
+
+function mondayKeyFor(dateLike){
+  const d=typeof dateLike==="string" ? new Date(dateLike+"T12:00:00") : new Date(dateLike);
+  const day=(d.getDay()+6)%7;
+  d.setDate(d.getDate()-day);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+function shortDateDE(key){
+  const [y,m,d]=key.split("-");
+  return `${d}.${m}.`;
+}
+
+function weeklyPerformance(weeks=8){
+  const currentMonday=new Date(mondayKeyFor(todayKey())+"T12:00:00");
+  const rows=[];
+  for(let i=weeks-1;i>=0;i--){
+    const d=new Date(currentMonday);
+    d.setDate(d.getDate()-i*7);
+    const key=mondayKeyFor(d);
+    rows.push({key,label:shortDateDE(key),pushups:0,plank:0});
+  }
+  const byKey=new Map(rows.map(r=>[r.key,r]));
+  state.records.filter(r=>r.type!=="knee" && r.date).forEach(r=>{
+    const wk=mondayKeyFor(r.date);
+    const row=byKey.get(wk);
+    if(!row) return;
+    row.pushups+=Number(r.pushups)||0;
+    row.plank+=Number(r.plank)||0;
+  });
+  return rows;
+}
+
+function renderWeeklyChart(){
+  const el=document.querySelector("#weeklyChart");
+  if(!el) return;
+  const rows=weeklyPerformance(8);
+  const maxPush=Math.max(1,...rows.map(r=>r.pushups));
+  const maxPlank=Math.max(1,...rows.map(r=>r.plank));
+
+  const series=(kind,title,unit,maxValue)=>`<div class="weekly-series ${kind}">
+    <div class="weekly-series-title"><span>${title}</span><span class="weekly-series-unit">${unit}</span></div>
+    <div class="weekly-bars">${rows.map(r=>{
+      const value=kind==="push"?r.pushups:r.plank;
+      const pct=value>0?Math.max(4,Math.round(value/maxValue*100)):0;
+      const label=kind==="push"?String(value):(value?`${Math.round(value/60)} min`:"0 min");
+      return `<div class="weekly-bar-col">
+        <div class="weekly-value">${label}</div>
+        <div class="weekly-bar-track"><div class="weekly-bar-fill" style="height:${pct}%"></div></div>
+        <div class="weekly-week-label">${r.label}</div>
+      </div>`;
+    }).join("")}</div>
+  </div>`;
+
+  el.innerHTML=series("push","Liegestütze","Wiederholungen / Woche",maxPush)
+    +series("plank","Plank","Gesamtzeit / Woche",maxPlank);
+}
+
 
 function render(){
   rollover();
@@ -248,19 +309,24 @@ function render(){
               <div class="history-date">${fmtDateDE(r.date)}</div>
               <div class="history-subtitle">Stabilitätsübungen Beine</div>
             </div>
-            <strong>${done}/${total} Sätze</strong>
-            <strong>${r.kneeDone?"✓ komplett":"offen"}</strong>
+            <div class="history-metrics"><span><strong>${done}/${total}</strong><small>Sätze</small></span><span><strong>${r.kneeDone?"✓":"–"}</strong><small>${r.kneeDone?"komplett":"offen"}</small></span></div>
             <button class="history-edit-btn" type="button" data-edit-record="${r.id}" aria-label="Stabilitätsübungen vom ${r.date} bearbeiten">Bearbeiten</button>
           </div>`;
         }
+        const single=r.bestSinglePlank||0;
         return `<div class="history-row">
-          <div class="history-date">${fmtDateDE(r.date)}</div>
-          <strong>${r.pushups || 0} LS</strong>
-          <strong>${fmtTime(r.plank || 0)}</strong>
+          <div class="history-main"><div class="history-date">${fmtDateDE(r.date)}</div><div class="history-subtitle">Training</div></div>
+          <div class="history-metrics">
+            <span><strong>${r.pushups || 0}</strong><small>LS</small></span>
+            <span><strong>${fmtTime(r.plank || 0)}</strong><small>Plank gesamt</small></span>
+            <span><strong>${single?fmtTime(single):"–"}</strong><small>am Stück</small></span>
+          </div>
           <button class="history-edit-btn" type="button" data-edit-record="${r.id}" aria-label="Training vom ${r.date} bearbeiten">Bearbeiten</button>
         </div>`;
       }).join("")
     : `<div class="empty">Noch keine abgeschlossenen Trainingstage.</div>`;
+
+  renderWeeklyChart();
 }
 
 document.querySelectorAll("[data-add]").forEach(btn=>{
@@ -289,6 +355,7 @@ document.querySelector("#addPlankBtn").addEventListener("click", ()=>{
 
   if(total > 0){
     state.todayPlank += total;
+    state.todayBestSinglePlank=Math.max(state.todayBestSinglePlank||0,total);
     minInput.value = "";
     secInput.value = "";
     save(); render();
@@ -319,12 +386,14 @@ document.querySelector("#finishWorkout").addEventListener("click", ()=>{
       targetDate: open ? open.date : state.todayDate,
       pushups: state.todayPushups,
       plank: state.todayPlank,
+      bestSinglePlank: state.todayBestSinglePlank || 0,
       completedWorkout: true
     });
   }
 
   state.todayPushups = 0;
   state.todayPlank = 0;
+  state.todayBestSinglePlank = 0;
   save();
   render();
   renderKnee();
@@ -334,6 +403,7 @@ document.querySelector("#resetToday").addEventListener("click", ()=>{
   if(confirm("Heutige Eingaben wirklich löschen?")){
     state.todayPushups = 0;
     state.todayPlank = 0;
+    state.todayBestSinglePlank = 0;
     save(); render();
   }
 });
@@ -353,6 +423,7 @@ document.querySelector("#timerStop").addEventListener("click", ()=>{
   }
   if(timerElapsed > 0){
     state.todayPlank += timerElapsed;
+    state.todayBestSinglePlank=Math.max(state.todayBestSinglePlank||0,timerElapsed);
     save();
     timerElapsed = 0;
     document.querySelector("#timerDisplay").textContent = "0:00";
@@ -386,6 +457,8 @@ const editDate = document.querySelector("#editRecordDate");
 const editPushups = document.querySelector("#editRecordPushups");
 const editPlankMin = document.querySelector("#editRecordPlankMin");
 const editPlankSec = document.querySelector("#editRecordPlankSec");
+const editBestPlankMin = document.querySelector("#editRecordBestPlankMin");
+const editBestPlankSec = document.querySelector("#editRecordBestPlankSec");
 const editRecordId = document.querySelector("#editRecordId");
 const editRecordType = document.querySelector("#editRecordType");
 const editWorkoutFields = document.querySelector("#editWorkoutFields");
@@ -412,6 +485,8 @@ function openRecordEditor(id){
     editPushups.value=record.pushups || 0;
     editPlankMin.value=Math.floor((record.plank || 0)/60);
     editPlankSec.value=(record.plank || 0)%60;
+    editBestPlankMin.value=Math.floor((record.bestSinglePlank || 0)/60);
+    editBestPlankSec.value=(record.bestSinglePlank || 0)%60;
   }
 
   editDialog.showModal();
@@ -462,9 +537,14 @@ editForm.addEventListener("submit", event=>{
     const pushups=Math.max(0, Math.floor(Number(editPushups.value) || 0));
     const minutes=Math.max(0, Math.floor(Number(editPlankMin.value) || 0));
     const seconds=Math.max(0, Math.min(59, Math.floor(Number(editPlankSec.value) || 0)));
+    const bestMinutes=Math.max(0, Math.floor(Number(editBestPlankMin.value) || 0));
+    const bestSeconds=Math.max(0, Math.min(59, Math.floor(Number(editBestPlankSec.value) || 0)));
+    const totalPlank=minutes*60+seconds;
+    const bestSingle=Math.min(totalPlank,bestMinutes*60+bestSeconds);
     record.date=date;
     record.pushups=pushups;
-    record.plank=minutes*60+seconds;
+    record.plank=totalPlank;
+    record.bestSinglePlank=bestSingle;
   }
 
   save();
@@ -489,10 +569,33 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
   renderKnee();
 });
 
+
+
+// ---------- 3-Seiten-Navigation ----------
+function setActivePage(page, {scroll=true}={}){
+  const valid=["training","history","settings"];
+  const next=valid.includes(page)?page:"training";
+  document.querySelectorAll(".page-view").forEach(view=>{
+    view.hidden=view.dataset.page!==next;
+  });
+  document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
+    const active=btn.dataset.pageTarget===next;
+    btn.classList.toggle("active",active);
+    btn.setAttribute("aria-selected",active?"true":"false");
+  });
+  localStorage.setItem("356Coach.activePage",next);
+  if(next==="history") renderWeeklyChart();
+  if(scroll) window.scrollTo({top:0,behavior:"auto"});
+}
+
+document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
+  btn.addEventListener("click",()=>setActivePage(btn.dataset.pageTarget));
+});
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=28", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=29", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -523,16 +626,17 @@ if ("serviceWorker" in navigator) {
 
 load();
 render();
+setActivePage(localStorage.getItem("356Coach.activePage") || "training", {scroll:false});
 
 document.querySelector("#addPushAlways").addEventListener("click",()=>{const i=document.querySelector("#pushInputAlways"),n=Number(i.value);if(n>0){state.todayPushups+=n;i.value="";save();render();}});
-document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi=document.querySelector("#plankMinAlways"),si=document.querySelector("#plankSecAlways");const n=(Math.max(0,Number(mi.value)||0)*60)+Math.max(0,Math.min(59,Number(si.value)||0));if(n>0){state.todayPlank+=Math.floor(n);mi.value="";si.value="";save();render();}});
+document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi=document.querySelector("#plankMinAlways"),si=document.querySelector("#plankSecAlways");const n=Math.floor((Math.max(0,Number(mi.value)||0)*60)+Math.max(0,Math.min(59,Number(si.value)||0)));if(n>0){state.todayPlank+=n;state.todayBestSinglePlank=Math.max(state.todayBestSinglePlank||0,n);mi.value="";si.value="";save();render();}});
 
 
 // ---------- Backup / Restore ----------
 function makeBackupPayload(){
   return {
     app: "356 Coach",
-    version: 10,
+    version: 29,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state

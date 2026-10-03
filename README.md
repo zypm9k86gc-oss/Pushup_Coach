@@ -197,3 +197,13 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Das gilt unabhängig davon, wie viele Sätze zuvor einzeln bestätigt wurden.
 - In der Historie wird der Stabilitätseintrag anschließend als komplett geführt.
 - Cache-/Versionsnummer auf v28 erhöht.
+
+
+## Update v29 – Drei Seiten & erweiterte Historie
+- Neue Hauptnavigation mit **Training**, **Historie** und **Einstellungen**.
+- Training enthält alle Übungs-, Ziel-, Eingabe- und Stabilitätsfunktionen.
+- Historie enthält Gesamtübersicht, Kontrollpunkte, Historie in Zahlen und einen 8-Wochen-Verlauf für Liegestütze/Plank.
+- „Längster Plank“ basiert nun auf dem längsten einzelnen Plank-Versuch statt der Tagessumme.
+- Einzel-Planks werden ab v29 bei Timer und manueller Eingabe separat als Tagesbestwert erfasst; ältere Einträge können im Historien-Editor ergänzt werden.
+- Einstellungen enthält Trainingserinnerungen und Datensicherung.
+- Cache-/Versionsnummer auf v29 erhöht.

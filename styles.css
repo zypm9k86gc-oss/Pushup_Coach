@@ -575,3 +575,91 @@ html[data-theme="light"]{
 .reminder-setting-row input[type="time"]{width:100%;font-size:18px;padding:10px 12px;border:1px solid var(--border);border-radius:11px;background:var(--card);color:var(--text)}
 .reminder-setting-help{margin-top:7px;font-size:12px;line-height:1.4;color:var(--muted)}
 .reminder-saved-summary{margin:9px 0 12px;padding:9px 11px;border-radius:11px;background:var(--bg);font-size:13px;font-weight:800}
+
+
+/* v29: 3 Seiten – Training / Historie / Einstellungen */
+.app{
+  padding-bottom:calc(108px + env(safe-area-inset-bottom));
+}
+.app-topbar{
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:calc(-18px - env(safe-area-inset-top)) -16px 12px;
+  padding:calc(14px + env(safe-area-inset-top)) 16px 10px;
+  background:color-mix(in srgb,var(--bg) 90%,transparent);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent);
+}
+.app-brand{display:flex;align-items:center;gap:7px;font-size:17px;font-weight:900;letter-spacing:-.02em}
+.app-brand-mark{display:grid;place-items:center;min-width:37px;height:28px;padding:0 7px;border-radius:9px;background:var(--text);color:var(--bg);font-size:13px}
+.page-view[hidden]{display:none!important}
+.page-heading{margin:18px 2px 22px}
+.page-heading h1{font-size:34px;line-height:1;margin:5px 0 7px}
+.page-heading p{max-width:520px}
+.bottom-nav{
+  position:fixed;
+  z-index:60;
+  left:50%;
+  bottom:0;
+  transform:translateX(-50%);
+  width:min(720px,100%);
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:4px;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--card) 94%,transparent);
+  border-top:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.bottom-nav-btn{
+  border:0;
+  background:transparent;
+  padding:7px 3px 5px;
+  border-radius:12px;
+  display:grid;
+  gap:3px;
+  place-items:center;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+}
+.bottom-nav-btn .nav-icon{font-size:20px;line-height:1}
+.bottom-nav-btn.active{color:var(--text);background:color-mix(in srgb,var(--text) 8%,transparent)}
+
+/* Historie */
+.history-note{font-size:12px;line-height:1.45;margin:10px 2px 18px}
+.history-row{
+  grid-template-columns:minmax(110px,1fr) minmax(0,2fr) auto;
+  align-items:center;
+  gap:10px;
+}
+.history-main{min-width:0}
+.history-metrics{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:flex-start}
+.history-metrics span{display:flex;flex-direction:column;min-width:58px}
+.history-metrics strong{font-size:14px}
+.history-metrics small{font-size:10px;color:var(--muted);margin-top:1px}
+.weekly-chart{display:grid;gap:22px;margin-top:14px}
+.weekly-series-title{display:flex;justify-content:space-between;gap:10px;align-items:end;font-size:14px;font-weight:850;margin-bottom:8px}
+.weekly-series-unit{font-size:11px;color:var(--muted);font-weight:650}
+.weekly-bars{display:grid;grid-template-columns:repeat(8,minmax(32px,1fr));gap:6px;align-items:end;overflow-x:auto;padding:2px 0 3px}
+.weekly-bar-col{min-width:32px;display:grid;grid-template-rows:18px 112px 18px;gap:4px;text-align:center;align-items:end}
+.weekly-value{font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.weekly-bar-track{height:112px;border-radius:8px;background:color-mix(in srgb,var(--border) 55%,transparent);display:flex;align-items:flex-end;overflow:hidden}
+.weekly-bar-fill{width:100%;border-radius:8px 8px 3px 3px;min-height:0;transition:height .2s ease}
+.weekly-series.push .weekly-bar-fill{background:var(--push)}
+.weekly-series.plank .weekly-bar-fill{background:var(--plank)}
+.weekly-week-label{font-size:9px;color:var(--muted);white-space:nowrap}
+
+@media(max-width:520px){
+  .history-row{grid-template-columns:1fr auto;align-items:start}
+  .history-metrics{grid-column:1/-1;order:3;padding-top:2px}
+  .history-edit-btn{grid-column:2;grid-row:1}
+  .weekly-bars{gap:4px}
+  .weekly-bar-col{min-width:30px}
+}

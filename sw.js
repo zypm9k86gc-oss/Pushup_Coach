@@ -1,11 +1,11 @@
-const CACHE = "pushup-plank-coach-v28";
+const CACHE = "pushup-plank-coach-v29";
 const CORE = [
-  "./push-config.js?v=28",
-  "./styles.css?v=28",
-  "./app.js?v=28",
-  "./manifest.webmanifest?v=28",
-  "./icon-192.png?v=28",
-  "./icon-512.png?v=28",
+  "./push-config.js?v=29",
+  "./styles.css?v=29",
+  "./app.js?v=29",
+  "./manifest.webmanifest?v=29",
+  "./icon-192.png?v=29",
+  "./icon-512.png?v=29",
   "./trainingsplan.json"
 ];
 

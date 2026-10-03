@@ -1,322 +1,268 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <meta name="theme-color" content="#111111">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="356 Coach">
-  <link rel="manifest" href="manifest.webmanifest?v=28">
-  <link rel="apple-touch-icon" href="icon-192.png?v=28">
-  <link rel="stylesheet" href="styles.css?v=28">
-  <title>356 Coach</title>
-
-  <script src="push-config.js?v=28"></script>
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<meta content="#111111" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
+<meta content="356 Coach" name="apple-mobile-web-app-title"/>
+<link href="manifest.webmanifest?v=29" rel="manifest"/>
+<link href="icon-192.png?v=29" rel="apple-touch-icon"/>
+<link href="styles.css?v=29" rel="stylesheet"/>
+<title>356 Coach</title>
+<script src="push-config.js?v=29"></script>
+<script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
-  <main class="app">
-    <header>
-      <div>
-        <div class="eyebrow">Ziel 30. November 2026</div>
-        <h1>356 Coach</h1>
-        <p>356 Liegestütze/Tag + 4:00 Min Plank</p>
-      </div>
-      <button id="themeBtn" class="iconbtn" aria-label="Darstellung wechseln">◐</button>
-    </header>
-
-    <section class="card">
-      <div class="row">
-        <div>
-          <div class="label">Aufbau Liegestütze</div>
-          <div class="value"><span id="targetPushups">80</span> / 356</div>
-        </div>
-        <div class="percent" id="goalPushPercent">22%</div>
-      </div>
-      <progress id="goalPushProgress" max="356" value="80"></progress>
-    </section>
-
-    <section class="card">
-      <div class="row">
-        <div>
-          <div class="label">Aufbau Plank</div>
-          <div class="value"><span id="targetPlank">1:10</span> / 4:00</div>
-        </div>
-        <div class="percent" id="goalPlankPercent">23%</div>
-      </div>
-      <progress id="goalPlankProgress" max="240" value="70"></progress>
-    </section>
-
-    <h2>Heute</h2>
-
-    <section class="card due-card">
-      <div class="label">Trainingsprogramm nach Datum</div>
-      <div id="todayProgram" class="program"></div>
-    </section>
-
-    <section id="trainingPanel" class="card training-battery-card">
-      <div class="battery-grid">
-        <div class="battery-column pushup-battery-column">
-          <div class="battery-title">Liegestütze</div>
-          <div class="battery-target"><span id="todayPushups">0</span> / <span id="todayPushTarget">80</span></div>
-
-          <div class="battery-shell" aria-label="Liegestütz-Fortschritt">
-            <div class="battery-cap"></div>
-            <div class="battery-inner">
-              <div id="pushBatteryFill" class="battery-fill push-fill"></div>
-              <div class="battery-center">
-                <strong id="todayPushPercent">0%</strong>
-                <span>erledigt</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="quick-grid compact">
-            <button data-add="5">+5</button>
-            <button data-add="10">+10</button>
-            <button data-add="15">+15</button>
-            <button data-add="20">+20</button>
-          </div>
-
-          <div class="manual-entry">
-            <label for="pushInput">Liegestütze manuell eintragen</label>
-            <div class="manual-row">
-              <input id="pushInput" inputmode="numeric" type="number" min="1" placeholder="z. B. 12">
-              <button id="addPushBtn">Eintragen</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="battery-column plank-battery-column">
-          <div class="battery-title">Plank</div>
-          <div class="battery-target"><span id="todayPlank">0:00</span> / <span id="todayPlankTarget">1:10</span></div>
-
-          <div class="battery-shell" aria-label="Plank-Fortschritt">
-            <div class="battery-cap"></div>
-            <div class="battery-inner">
-              <div id="plankBatteryFill" class="battery-fill plank-fill"></div>
-              <div class="battery-center">
-                <strong id="todayPlankPercent">0%</strong>
-                <span>erledigt</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="manual-entry plank-manual">
-            <label>Plank-Zeit manuell eintragen</label>
-            <div class="time-inputs">
-              <input id="plankMinutesInput" inputmode="numeric" type="number" min="0" placeholder="Min">
-              <span>:</span>
-              <input id="plankSecondsInput" inputmode="numeric" type="number" min="0" max="59" placeholder="Sek">
-              <button id="addPlankBtn">Eintragen</button>
-            </div>
-          </div>
-
-          <div class="timer battery-timer">
-            <div class="timer-label">oder Timer verwenden</div>
-            <div id="timerDisplay">0:00</div>
-            <div class="timer-actions vertical">
-              <button id="timerStart" class="primary plank-primary">Start</button>
-              <button id="timerStop">Stop & speichern</button>
-              <button id="timerReset">Reset</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="restPanel" class="card rest-card" hidden>
-      <div class="rest-icon">↻</div>
-      <div>
-        <div class="rest-title">Regenerationstag</div>
-        <p>Heute ist kein Training fällig. Das nächste Trainingsniveau wird erst am jeweiligen Trainingstag angezeigt.</p>
-        <div id="nextTrainingDate" class="next-date"></div>
-      </div>
-    </section>
-
-    <section class="card knee-card">
-  <div class="entry-heading">Stabilitätsübungen Beine</div>
-  <div id="kneeProgram"></div>
-  <div id="kneeBatteries" class="knee-batteries"></div>
-  <div id="kneeExercises"></div>
-  <div id="kneeProgress" class="knee-progress"></div>
-  <button id="toggleKneeDone" type="button">Alle Pflichtsätze markieren / zurücksetzen</button>
+<main class="app"><header class="app-topbar">
+<div class="app-brand"><span class="app-brand-mark">356</span><span>Coach</span></div>
+<button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
+</header><section class="page-view" data-page="training" id="page-training"><div class="page-heading">
+<div class="eyebrow">Ziel 30. November 2026</div>
+<h1>Training</h1>
+<p>356 Liegestütze/Tag + 4:00 Min Plank</p>
+</div><section class="card">
+<div class="row">
+<div>
+<div class="label">Aufbau Liegestütze</div>
+<div class="value"><span id="targetPushups">80</span> / 356</div>
+</div>
+<div class="percent" id="goalPushPercent">22%</div>
+</div>
+<progress id="goalPushProgress" max="356" value="80"></progress>
+</section><section class="card">
+<div class="row">
+<div>
+<div class="label">Aufbau Plank</div>
+<div class="value"><span id="targetPlank">1:10</span> / 4:00</div>
+</div>
+<div class="percent" id="goalPlankPercent">23%</div>
+</div>
+<progress id="goalPlankProgress" max="240" value="70"></progress>
+</section><h2>Heute</h2><section class="card due-card">
+<div class="label">Trainingsprogramm nach Datum</div>
+<div class="program" id="todayProgram"></div>
+</section><section class="card training-battery-card" id="trainingPanel">
+<div class="battery-grid">
+<div class="battery-column pushup-battery-column">
+<div class="battery-title">Liegestütze</div>
+<div class="battery-target"><span id="todayPushups">0</span> / <span id="todayPushTarget">80</span></div>
+<div aria-label="Liegestütz-Fortschritt" class="battery-shell">
+<div class="battery-cap"></div>
+<div class="battery-inner">
+<div class="battery-fill push-fill" id="pushBatteryFill"></div>
+<div class="battery-center">
+<strong id="todayPushPercent">0%</strong>
+<span>erledigt</span>
+</div>
+</div>
+</div>
+<div class="quick-grid compact">
+<button data-add="5">+5</button>
+<button data-add="10">+10</button>
+<button data-add="15">+15</button>
+<button data-add="20">+20</button>
+</div>
+<div class="manual-entry">
+<label for="pushInput">Liegestütze manuell eintragen</label>
+<div class="manual-row">
+<input id="pushInput" inputmode="numeric" min="1" placeholder="z. B. 12" type="number"/>
+<button id="addPushBtn">Eintragen</button>
+</div>
+</div>
+</div>
+<div class="battery-column plank-battery-column">
+<div class="battery-title">Plank</div>
+<div class="battery-target"><span id="todayPlank">0:00</span> / <span id="todayPlankTarget">1:10</span></div>
+<div aria-label="Plank-Fortschritt" class="battery-shell">
+<div class="battery-cap"></div>
+<div class="battery-inner">
+<div class="battery-fill plank-fill" id="plankBatteryFill"></div>
+<div class="battery-center">
+<strong id="todayPlankPercent">0%</strong>
+<span>erledigt</span>
+</div>
+</div>
+</div>
+<div class="manual-entry plank-manual">
+<label>Plank-Zeit manuell eintragen</label>
+<div class="time-inputs">
+<input id="plankMinutesInput" inputmode="numeric" min="0" placeholder="Min" type="number"/>
+<span>:</span>
+<input id="plankSecondsInput" inputmode="numeric" max="59" min="0" placeholder="Sek" type="number"/>
+<button id="addPlankBtn">Eintragen</button>
+</div>
+</div>
+<div class="timer battery-timer">
+<div class="timer-label">oder Timer verwenden</div>
+<div id="timerDisplay">0:00</div>
+<div class="timer-actions vertical">
+<button class="primary plank-primary" id="timerStart">Start</button>
+<button id="timerStop">Stop &amp; speichern</button>
+<button id="timerReset">Reset</button>
+</div>
+</div>
+</div>
+</div>
+</section><section class="card rest-card" hidden="" id="restPanel">
+<div class="rest-icon">↻</div>
+<div>
+<div class="rest-title">Regenerationstag</div>
+<p>Heute ist kein Training fällig. Das nächste Trainingsniveau wird erst am jeweiligen Trainingstag angezeigt.</p>
+<div class="next-date" id="nextTrainingDate"></div>
+</div>
+</section><section class="card knee-card">
+<div class="entry-heading">Stabilitätsübungen Beine</div>
+<div id="kneeProgram"></div>
+<div class="knee-batteries" id="kneeBatteries"></div>
+<div id="kneeExercises"></div>
+<div class="knee-progress" id="kneeProgress"></div>
+<button id="toggleKneeDone" type="button">Alle Pflichtsätze markieren / zurücksetzen</button>
+</section><section class="card always-entry-card"><div class="entry-heading">Manuelle Eingabe</div><p class="entry-note">Jederzeit verfügbar – auch am Regenerationstag.</p><div class="always-entry-grid"><div class="entry-block"><label for="pushInputAlways">Liegestütze</label><div class="manual-row"><input id="pushInputAlways" inputmode="numeric" min="1" placeholder="z. B. 12" type="number"/><button id="addPushAlways">Eintragen</button></div></div><div class="entry-block"><label>Plank-Zeit</label><div class="time-inputs"><input id="plankMinAlways" inputmode="numeric" min="0" placeholder="Min" type="number"/><span>:</span><input id="plankSecAlways" inputmode="numeric" max="59" min="0" placeholder="Sek" type="number"/><button id="addPlankAlways">Eintragen</button></div></div></div></section><div class="actions">
+<button class="primary wide" id="finishWorkout">Trainingseintrag speichern</button>
+<button class="danger wide" id="resetToday">Heutige Eingaben löschen</button>
+</div></section><section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
+<div class="eyebrow">Dein Fortschritt</div>
+<h1>Historie</h1>
+<p>Gesamtleistung, Kontrollpunkte und Wochenentwicklung.</p>
+</div>
+<h2>Gesamtübersicht</h2><section class="stats">
+<div class="stat card">
+<div class="stat-number" id="totalPushups">0</div>
+<div class="label">Liegestütze</div>
+</div>
+<div class="stat card">
+<div class="stat-number" id="totalPlankSeconds">0</div>
+<div class="label">Plank-Sekunden</div>
+</div>
+<div class="stat card">
+<div class="stat-number" id="bestPushups">0</div>
+<div class="label">Bester Tag</div>
+</div>
+<div class="stat card">
+<div class="stat-number" id="bestPlank">0:00</div>
+<div class="label">Längster Plank</div>
+</div>
+</section><section class="card">
+<div class="label">Gesamte Plank-Zeit</div>
+<div class="big" id="totalPlankTime">0m 0s</div>
+</section><p class="history-note">„Längster Plank“ zeigt den längsten einzelnen Plank am Stück. Einzelversuche werden ab dieser Version separat erfasst; ältere Einträge kannst du über „Bearbeiten“ ergänzen.</p>
+<h2>Kontrollpunkte</h2><section class="card checkpoints" id="checkpoints"></section><h2>Wochenverlauf</h2>
+<section class="card weekly-chart-card">
+<div class="entry-heading">Letzte 8 Wochen</div>
+<p class="entry-note">Gespeicherte Liegestütze und gesamte Plank-Zeit je Kalenderwoche.</p>
+<div aria-label="Wochenverlauf Liegestütze und Plank" class="weekly-chart" id="weeklyChart"></div>
 </section>
-
-<section class="card always-entry-card"><div class="entry-heading">Manuelle Eingabe</div><p class="entry-note">Jederzeit verfügbar – auch am Regenerationstag.</p><div class="always-entry-grid"><div class="entry-block"><label for="pushInputAlways">Liegestütze</label><div class="manual-row"><input id="pushInputAlways" inputmode="numeric" type="number" min="1" placeholder="z. B. 12"><button id="addPushAlways">Eintragen</button></div></div><div class="entry-block"><label>Plank-Zeit</label><div class="time-inputs"><input id="plankMinAlways" inputmode="numeric" type="number" min="0" placeholder="Min"><span>:</span><input id="plankSecAlways" inputmode="numeric" type="number" min="0" max="59" placeholder="Sek"><button id="addPlankAlways">Eintragen</button></div></div></div></section>
-<div class="actions">
-      <button id="finishWorkout" class="primary wide">Trainingseintrag speichern</button>
-      <button id="resetToday" class="danger wide">Heutige Eingaben löschen</button>
-    </div>
-    <details class="accordion" open>
-      <summary>Gesamt</summary>
-      <div class="accordion-content">
-        <section class="stats">
-          <div class="stat card">
-            <div class="stat-number" id="totalPushups">0</div>
-            <div class="label">Liegestütze</div>
-          </div>
-          <div class="stat card">
-            <div class="stat-number" id="totalPlankSeconds">0</div>
-            <div class="label">Plank-Sekunden</div>
-          </div>
-          <div class="stat card">
-            <div class="stat-number" id="bestPushups">0</div>
-            <div class="label">Bester Tag</div>
-          </div>
-          <div class="stat card">
-            <div class="stat-number" id="bestPlank">0:00</div>
-            <div class="label">Längster Plank</div>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="label">Gesamte Plank-Zeit</div>
-          <div class="big" id="totalPlankTime">0m 0s</div>
-        </section>
-      </div>
-    </details>
-
-    <details class="accordion">
-      <summary>Kontrollpunkte</summary>
-      <div class="accordion-content">
-        <section class="card checkpoints" id="checkpoints"></section>
-      </div>
-    </details>
-
-    <details class="accordion">
-      <summary>Historie</summary>
-      <div class="accordion-content">
-        <section class="card">
-          <div class="history-help">Gespeicherte Trainingseinträge können nachträglich korrigiert oder gelöscht werden.</div>
-          <div id="history" class="history"></div>
-        </section>
-      </div>
-    </details>
-
-    <dialog id="editRecordDialog" class="edit-dialog">
-      <form id="editRecordForm" method="dialog">
-        <div class="edit-dialog-head">
-          <div>
-            <div class="label">Vergangenes Training</div>
-            <div class="edit-dialog-title">Eintrag bearbeiten</div>
-          </div>
-          <button type="button" id="closeEditRecord" class="iconbtn" aria-label="Bearbeiten schließen">×</button>
-        </div>
-
-        <input type="hidden" id="editRecordId">
-        <input type="hidden" id="editRecordType">
-
-        <label class="edit-field" for="editRecordDate">
-          <span>Datum</span>
-          <input id="editRecordDate" type="date" required>
-        </label>
-
-        <div id="editWorkoutFields">
-          <label class="edit-field" for="editRecordPushups">
-            <span>Liegestütze</span>
-            <input id="editRecordPushups" type="number" min="0" inputmode="numeric" required>
-          </label>
-
-          <div class="edit-field">
-            <span>Plank-Zeit</span>
-            <div class="edit-time-grid">
-              <label><span class="sr-only">Minuten</span><input id="editRecordPlankMin" type="number" min="0" inputmode="numeric" placeholder="Min" required></label>
-              <span class="edit-time-colon">:</span>
-              <label><span class="sr-only">Sekunden</span><input id="editRecordPlankSec" type="number" min="0" max="59" inputmode="numeric" placeholder="Sek" required></label>
-            </div>
-          </div>
-        </div>
-
-        <div id="editKneeFields" hidden>
-          <div class="edit-knee-head">Stabilitätsübungen Beine</div>
-          <div class="edit-knee-help">Hier kannst du nachträglich anpassen, wie viele Sätze je Übung erledigt wurden.</div>
-          <div id="editKneeFieldsList" class="edit-knee-list"></div>
-        </div>
-
-        <div class="edit-dialog-actions">
-          <button type="button" id="deleteRecordBtn" class="danger">Eintrag löschen</button>
-          <button type="submit" class="primary">Änderungen speichern</button>
-        </div>
-      </form>
-    </dialog>
-
-    <footer>
+<h2>Historie in Zahlen</h2><section class="card">
+<div class="history-help">Gespeicherte Trainingseinträge können nachträglich korrigiert oder gelöscht werden.</div>
+<div class="history" id="history"></div>
+</section></section><section class="page-view" data-page="settings" hidden="" id="page-settings"><div class="page-heading">
+<div class="eyebrow">356 Coach</div>
+<h1>Einstellungen</h1>
+<p>Erinnerungen, Push-Einstellungen und Datensicherung.</p>
+</div>
+<h2>Trainingserinnerungen</h2><section class="card reminder-card">
+<div class="entry-heading">Trainingserinnerungen</div>
+<p class="entry-note">Lege deine beiden Push-Zeiten direkt hier fest. Die Zeiten werden über OneSignal mit deinem Push-Gerät synchronisiert.</p>
+<div class="reminder-settings">
+<div class="reminder-setting-row">
+<label class="reminder-toggle-line">
+<input checked="" id="reminder1Enabled" type="checkbox"/>
+<span>Erinnerung 1</span>
+</label>
+<input aria-label="Zeit für Erinnerung 1" id="reminder1Time" type="time" value="18:00"/>
+<div class="reminder-setting-help">Hinweis auf das heutige Training + kurze Übersicht.</div>
+</div>
+<div class="reminder-setting-row">
+<label class="reminder-toggle-line">
+<input checked="" id="reminder2Enabled" type="checkbox"/>
+<span>Trainingsbeginn</span>
+</label>
+<input aria-label="Zeit für Trainingsbeginn-Erinnerung" id="reminder2Time" type="time" value="18:55"/>
+<div class="reminder-setting-help">Motivierende Startansage + konkrete Trainingsübersicht.</div>
+</div>
+</div>
+<button class="primary wide" id="saveReminderTimesBtn" type="button">Erinnerungszeiten speichern</button>
+<div class="reminder-saved-summary" id="reminderSavedSummary">Aktiv: 18:00 &amp; 18:55 Uhr</div>
+<p class="push-device-help">Änderungen werden vom privaten Scheduler beim nächsten Planungslauf übernommen. Der tägliche Lauf ist morgens; für denselben Tag kannst du den privaten Workflow bei Bedarf zusätzlich manuell mit <code>scheduled</code> starten.</p>
+<button id="enablePushBtn" type="button">Erinnerungen aktivieren</button>
+<button class="secondary-button" hidden="" id="disablePushBtn" type="button">Erinnerungen deaktivieren</button>
+<div class="push-device-panel" hidden="" id="pushDevicePanel">
+<div class="push-device-title">Persönliche Push-ID dieses iPhones</div>
+<div class="subscription-row">
+<code id="pushSubscriptionId">–</code>
+<button id="copySubscriptionId" type="button">Kopieren</button>
+</div>
+<p class="push-device-help">Diese Subscription-ID bleibt im privaten GitHub-Repository als Secret <code>ONESIGNAL_SUBSCRIPTION_ID</code> gespeichert.</p>
+</div>
+<div aria-live="polite" class="backup-status" id="pushStatus"></div>
+</section><h2>Datensicherung</h2><section class="card backup-card">
+<div class="entry-heading">Datensicherung</div>
+<p class="entry-note">Sichere alle lokal gespeicherten 356-Coach-Daten als JSON-Datei oder stelle sie später wieder her.</p>
+<div class="backup-actions">
+<button id="exportBackupBtn" type="button">Backup exportieren</button>
+<button id="importBackupBtn" type="button">Backup importieren</button>
+<input accept="application/json,.json" hidden="" id="importBackupFile" type="file"/>
+</div>
+<div aria-live="polite" class="backup-status" id="backupStatus"></div>
+</section><footer>
       Daten werden lokal auf diesem Gerät gespeichert.
-    </footer>
-  
-
-<details class="accordion utility-accordion">
-  <summary>Trainingserinnerungen</summary>
-  <div class="accordion-content">
-<section class="card reminder-card">
-  <div class="entry-heading">Trainingserinnerungen</div>
-  <p class="entry-note">Lege deine beiden Push-Zeiten direkt hier fest. Die Zeiten werden über OneSignal mit deinem Push-Gerät synchronisiert.</p>
-
-  <div class="reminder-settings">
-    <div class="reminder-setting-row">
-      <label class="reminder-toggle-line">
-        <input id="reminder1Enabled" type="checkbox" checked>
-        <span>Erinnerung 1</span>
-      </label>
-      <input id="reminder1Time" type="time" value="18:00" aria-label="Zeit für Erinnerung 1">
-      <div class="reminder-setting-help">Hinweis auf das heutige Training + kurze Übersicht.</div>
-    </div>
-
-    <div class="reminder-setting-row">
-      <label class="reminder-toggle-line">
-        <input id="reminder2Enabled" type="checkbox" checked>
-        <span>Trainingsbeginn</span>
-      </label>
-      <input id="reminder2Time" type="time" value="18:55" aria-label="Zeit für Trainingsbeginn-Erinnerung">
-      <div class="reminder-setting-help">Motivierende Startansage + konkrete Trainingsübersicht.</div>
-    </div>
-  </div>
-
-  <button id="saveReminderTimesBtn" type="button" class="primary wide">Erinnerungszeiten speichern</button>
-  <div id="reminderSavedSummary" class="reminder-saved-summary">Aktiv: 18:00 &amp; 18:55 Uhr</div>
-  <p class="push-device-help">Änderungen werden vom privaten Scheduler beim nächsten Planungslauf übernommen. Der tägliche Lauf ist morgens; für denselben Tag kannst du den privaten Workflow bei Bedarf zusätzlich manuell mit <code>scheduled</code> starten.</p>
-
-  <button id="enablePushBtn" type="button">Erinnerungen aktivieren</button>
-  <button id="disablePushBtn" type="button" class="secondary-button" hidden>Erinnerungen deaktivieren</button>
-
-  <div id="pushDevicePanel" class="push-device-panel" hidden>
-    <div class="push-device-title">Persönliche Push-ID dieses iPhones</div>
-    <div class="subscription-row">
-      <code id="pushSubscriptionId">–</code>
-      <button id="copySubscriptionId" type="button">Kopieren</button>
-    </div>
-    <p class="push-device-help">Diese Subscription-ID bleibt im privaten GitHub-Repository als Secret <code>ONESIGNAL_SUBSCRIPTION_ID</code> gespeichert.</p>
-  </div>
-
-  <div id="pushStatus" class="backup-status" aria-live="polite"></div>
-</section>
-  </div>
-</details>
-
-<details class="accordion utility-accordion">
-  <summary>Datensicherung</summary>
-  <div class="accordion-content">
-<section class="card backup-card">
-  <div class="entry-heading">Datensicherung</div>
-  <p class="entry-note">Sichere alle lokal gespeicherten 356-Coach-Daten als JSON-Datei oder stelle sie später wieder her.</p>
-  <div class="backup-actions">
-    <button id="exportBackupBtn" type="button">Backup exportieren</button>
-    <button id="importBackupBtn" type="button">Backup importieren</button>
-    <input id="importBackupFile" type="file" accept="application/json,.json" hidden>
-  </div>
-  <div id="backupStatus" class="backup-status" aria-live="polite"></div>
-</section>
-  </div>
-</details>
-
-</main>
-
-  <script src="app.js?v=28"></script>
+    </footer></section></main><dialog class="edit-dialog" id="editRecordDialog">
+<form id="editRecordForm" method="dialog">
+<div class="edit-dialog-head">
+<div>
+<div class="label">Vergangenes Training</div>
+<div class="edit-dialog-title">Eintrag bearbeiten</div>
+</div>
+<button aria-label="Bearbeiten schließen" class="iconbtn" id="closeEditRecord" type="button">×</button>
+</div>
+<input id="editRecordId" type="hidden"/>
+<input id="editRecordType" type="hidden"/>
+<label class="edit-field" for="editRecordDate">
+<span>Datum</span>
+<input id="editRecordDate" required="" type="date"/>
+</label>
+<div id="editWorkoutFields">
+<label class="edit-field" for="editRecordPushups">
+<span>Liegestütze</span>
+<input id="editRecordPushups" inputmode="numeric" min="0" required="" type="number"/>
+</label>
+<div class="edit-field">
+<span>Plank-Zeit</span>
+<div class="edit-time-grid">
+<label><span class="sr-only">Minuten</span><input id="editRecordPlankMin" inputmode="numeric" min="0" placeholder="Min" required="" type="number"/></label>
+<span class="edit-time-colon">:</span>
+<label><span class="sr-only">Sekunden</span><input id="editRecordPlankSec" inputmode="numeric" max="59" min="0" placeholder="Sek" required="" type="number"/></label>
+</div>
+</div><div class="edit-field">
+<span>Längster Plank am Stück</span>
+<div class="edit-time-grid">
+<label><span class="sr-only">Minuten</span><input id="editRecordBestPlankMin" inputmode="numeric" min="0" placeholder="Min" type="number"/></label>
+<span class="edit-time-colon">:</span>
+<label><span class="sr-only">Sekunden</span><input id="editRecordBestPlankSec" inputmode="numeric" max="59" min="0" placeholder="Sek" type="number"/></label>
+</div>
+</div>
+</div>
+<div hidden="" id="editKneeFields">
+<div class="edit-knee-head">Stabilitätsübungen Beine</div>
+<div class="edit-knee-help">Hier kannst du nachträglich anpassen, wie viele Sätze je Übung erledigt wurden.</div>
+<div class="edit-knee-list" id="editKneeFieldsList"></div>
+</div>
+<div class="edit-dialog-actions">
+<button class="danger" id="deleteRecordBtn" type="button">Eintrag löschen</button>
+<button class="primary" type="submit">Änderungen speichern</button>
+</div>
+</form>
+</dialog><nav aria-label="Hauptnavigation" class="bottom-nav">
+<button aria-selected="true" class="bottom-nav-btn active" data-page-target="training" type="button"><span class="nav-icon">●</span><span>Training</span></button>
+<button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
+<button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
+</nav>
+<script src="app.js?v=29"></script>
 </body>
 </html>
