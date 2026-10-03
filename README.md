@@ -216,3 +216,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Beim Speichern einer Korrektur werden alte Mehrfacheinträge dieses Tages konsolidiert.
 - **Trainingstag löschen** entfernt alle Trainings- und Stabilitätsdaten des gewählten Tages.
 - Cache-/Versionsnummer auf v30 erhöht.
+
+
+## Update v31 – komplettes Tagesprogramm nachträglich bearbeiten
+- Auch an Tagen ohne regulär geplante Stabilitätseinheit wird in der Historie das zuletzt fällige Stabilitätsprogramm zur Bearbeitung angeboten.
+- Nachgeholte Stabilitätsübungen können dem tatsächlichen Durchführungstag zugeordnet werden.
+- „Trainingseintrag speichern“ speichert ein nachgeholtes Stabilitätsprogramm künftig im Historientag der tatsächlichen Durchführung, während der technische Fälligkeitsbezug erhalten bleibt.
+- Liegestütze, Plank, längster Einzel-Plank und sämtliche Stabilitätssätze bleiben gemeinsam im Tageseditor bearbeitbar.
+- Cache-/Versionsnummer auf v31 erhöht.

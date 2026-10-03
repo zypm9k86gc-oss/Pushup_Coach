@@ -689,3 +689,16 @@ html[data-theme="light"]{
   .history-row-day .history-metrics{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));order:3}
   .history-row-day .history-edit-btn{grid-column:2;grid-row:1}
 }
+
+
+/* v31: Nachgeholtes Stabilitätsprogramm in der Tagesbearbeitung */
+.edit-knee-program-note{
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:color-mix(in srgb,var(--card) 90%,var(--bg));
+  font-size:12px;
+  line-height:1.45;
+  color:var(--muted);
+}
+.edit-knee-program-note strong{color:var(--text)}

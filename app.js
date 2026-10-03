@@ -306,9 +306,36 @@ function mergedKneeExercisesForDate(date){
   return summary?.kneeExercises || [];
 }
 
-function renderKneeEditorForDate(date, preferredExercises=null){
-  const plan=kneePlanFor(date);
+function renderKneeEditorForDate(date, preferredExercises=null, preferredPlanDate=null){
+  const dayKneeRecords=kneeRecordsForDate(date);
+  const existingRecord=dayKneeRecords[0] || null;
   const source=preferredExercises || mergedKneeExercisesForDate(date);
+
+  let planDate=preferredPlanDate || existingRecord?.kneeDate || null;
+  let plan=planDate ? kneePlanFor(planDate) : kneePlanFor(date);
+
+  if(!planDate && plan.exercises.length){
+    planDate=date;
+  }
+
+  // Wenn an diesem Kalendertag kein eigenes Stabilitätsprogramm geplant war,
+  // das zuletzt fällige Programm anbieten. So lassen sich nachgeholte Einheiten
+  // dem tatsächlichen Durchführungstag zuordnen und vollständig bearbeiten.
+  if(!plan.exercises.length && !(source||[]).length){
+    const fallbackDate=latestKneeDateOnOrBefore(date);
+    if(fallbackDate){
+      const fallbackPlan=kneePlanFor(fallbackDate);
+      if(fallbackPlan.exercises.length){
+        planDate=fallbackDate;
+        plan=fallbackPlan;
+      }
+    }
+  }
+
+  if(!planDate && (source||[]).length){
+    planDate=existingRecord?.kneeDate || date;
+  }
+
   const sourceMap=new Map((source||[]).map(ex=>[ex.id,ex]));
   const exercises=plan.exercises.length
     ? plan.exercises.map(ex=>({
@@ -316,7 +343,9 @@ function renderKneeEditorForDate(date, preferredExercises=null){
         name:ex.name,
         sets:ex.sets,
         prescription:ex.prescription,
-        doneSets:Math.max(0,Math.min(ex.sets,Number(sourceMap.get(ex.id)?.doneSets)||0))
+        doneSets:Math.max(0,Math.min(ex.sets,
+          Number(sourceMap.get(ex.id)?.doneSets ?? exerciseCompletionCount(planDate,ex)) || 0
+        ))
       }))
     : (source||[]).map(ex=>({
         ...ex,
@@ -324,12 +353,18 @@ function renderKneeEditorForDate(date, preferredExercises=null){
         doneSets:Math.max(0,Math.min(Number(ex.sets)||0,Number(ex.doneSets)||0))
       }));
 
+  editKneeFieldsList.dataset.kneePlanDate=planDate || date;
+
   if(!exercises.length){
-    editKneeFieldsList.innerHTML=`<div class="edit-knee-help">Für diesen Tag sind keine Stabilitätsübungen gespeichert oder geplant.</div>`;
+    editKneeFieldsList.innerHTML=`<div class="edit-knee-help">Für diesen Tag ist kein Stabilitätsprogramm verfügbar.</div>`;
     return;
   }
 
-  editKneeFieldsList.innerHTML=exercises.map((ex,idx)=>`<label class="edit-field edit-knee-item">
+  const carryoverNote=planDate && planDate!==date
+    ? `<div class="edit-knee-program-note"><strong>Nachgeholtes Stabilitätsprogramm</strong><br>Ursprünglich fällig: ${fmtDateDE(planDate)} · Durchführung wird diesem Trainingstag zugeordnet.</div>`
+    : `<div class="edit-knee-program-note"><strong>Stabilitätsprogramm dieses Trainingstags</strong></div>`;
+
+  editKneeFieldsList.innerHTML=carryoverNote+exercises.map((ex,idx)=>`<label class="edit-field edit-knee-item">
     <span>Übung ${idx+1}: ${ex.name} <small>(${ex.sets} Sätze)</small></span>
     <input type="number" min="0" max="${ex.sets}" step="1" inputmode="numeric" data-knee-edit-id="${ex.id}" data-knee-name="${ex.name.replace(/"/g,"&quot;")}" data-knee-sets="${ex.sets}" data-knee-prescription="${(ex.prescription||"").replace(/"/g,"&quot;")}" value="${ex.doneSets}">
   </label>`).join("");
@@ -494,7 +529,7 @@ document.querySelector("#finishWorkout").addEventListener("click", ()=>{
     });
     state.kneeDone=state.kneeDone||{};
     state.kneeDone[kneeStatus.date]=true;
-    syncKneeHistoryForDate(kneeStatus.date,kneeStatus.plan,true);
+    syncKneeHistoryForDate(kneeStatus.date,kneeStatus.plan,true,state.todayDate);
   }
 
   if(state.todayPushups>0 || state.todayPlank>0 || open){
@@ -611,6 +646,7 @@ document.querySelector("#history").addEventListener("click", event=>{
 
 editDate.addEventListener("change",()=>{
   if(!editDialog.open) return;
+  const currentPlanDate=editKneeFieldsList.dataset.kneePlanDate || null;
   const current=[...editKneeFieldsList.querySelectorAll("[data-knee-edit-id]")].map(input=>({
     id:input.dataset.kneeEditId,
     name:input.dataset.kneeName || input.dataset.kneeEditId,
@@ -618,7 +654,7 @@ editDate.addEventListener("change",()=>{
     doneSets:Math.max(0,Number(input.value)||0),
     prescription:input.dataset.kneePrescription || ""
   }));
-  renderKneeEditorForDate(editDate.value,current);
+  renderKneeEditorForDate(editDate.value,current,currentPlanDate);
 });
 
 document.querySelector("#closeEditRecord").addEventListener("click", ()=>editDialog.close());
@@ -648,16 +684,17 @@ editForm.addEventListener("submit", event=>{
 
   const previousWorkout=workoutRecordsForDate(originalDate);
   const previousWorkoutMeta=previousWorkout[0] || null;
+  const previousKneeRecords=kneeRecordsForDate(originalDate);
   const hadWorkout=previousWorkout.length>0;
-  const hadKnee=kneeRecordsForDate(originalDate).length>0;
+  const hadKnee=previousKneeRecords.length>0;
 
   if(date!==originalDate && state.records.some(r=>r.date===date)){
     alert("Für das gewählte Datum existiert bereits ein Trainingstag. Bitte diesen Tag direkt in der Historie bearbeiten.");
     return;
   }
 
-  // Alle bisherigen Einträge dieses Tages werden durch genau einen gemeinsamen
-  // Workout-Datensatz plus höchstens einen Stabilitätsdatensatz ersetzt.
+  // Bestehende Einträge des dargestellten Kalendertags entfernen; sie werden
+  // anschließend als ein gemeinsamer Trainingstag neu gespeichert.
   state.records=state.records.filter(r=>r.date!==originalDate);
 
   if(hadWorkout || pushups>0 || plank>0 || bestSinglePlank>0){
@@ -673,30 +710,31 @@ editForm.addEventListener("submit", event=>{
   }
 
   ensureKneeState();
-  delete state.kneeSets[originalDate];
-  delete state.kneeDone[originalDate];
-  if(date!==originalDate){
-    delete state.kneeSets[date];
-    delete state.kneeDone[date];
-  }
-
-  const plan=kneePlanFor(date);
   const kneeInputs=[...editKneeFieldsList.querySelectorAll("[data-knee-edit-id]")];
   const hasEnteredKnee=kneeInputs.some(input=>(Number(input.value)||0)>0);
+  const kneePlanDate=editKneeFieldsList.dataset.kneePlanDate || date;
+  const plan=kneePlanFor(kneePlanDate);
 
+  // Falls das Programm nachgeholt wurde, liegt der technische Fortschritt weiter
+  // auf dem ursprünglichen Fälligkeitsdatum; in der Historie wird es dagegen dem
+  // tatsächlichen Durchführungstag zugeordnet.
   if(plan.exercises.length){
-    state.kneeSets[date]={};
+    state.kneeSets[kneePlanDate]={};
     plan.exercises.forEach(ex=>{
       const input=kneeInputs.find(i=>i.dataset.kneeEditId===ex.id);
       const doneSets=Math.max(0,Math.min(ex.sets,Math.floor(Number(input?.value)||0)));
-      for(let s=1;s<=doneSets;s++) setKneeSetDone(date,ex.id,s,true);
+      for(let s=1;s<=doneSets;s++) setKneeSetDone(kneePlanDate,ex.id,s,true);
     });
-    state.kneeDone[date]=allRequiredKneeSetsDone(date,plan);
-    if(hasEnteredKnee || hadKnee){
-      syncKneeHistoryForDate(date,plan,true);
+    state.kneeDone[kneePlanDate]=allRequiredKneeSetsDone(kneePlanDate,plan);
+
+    // Pro fälliger Stabilitätseinheit nur einen Historieneintrag behalten.
+    state.records=state.records.filter(r=>!(r.type==="knee" && (r.kneeDate||r.date)===kneePlanDate));
+
+    if(hasEnteredKnee || hadKnee || completedKneeSetCount(kneePlanDate,plan)>0){
+      syncKneeHistoryForDate(kneePlanDate,plan,true,date);
     }
   }else if(kneeInputs.length && hasEnteredKnee){
-    // Historische Stabilitätsdaten ohne aktuellen Plan erhalten.
+    // Historische/frei erfasste Stabilitätsdaten ohne aktuellen Plan erhalten.
     const exercises=kneeInputs.map(input=>({
       id:input.dataset.kneeEditId,
       name:input.dataset.kneeName || input.dataset.kneeEditId,
@@ -710,7 +748,8 @@ editForm.addEventListener("submit", event=>{
       id:createRecordId(),
       type:"knee",
       date,
-      kneeDate:date,
+      performedDate:date,
+      kneeDate:kneePlanDate,
       kneeLabel:"Stabilitätsübungen Beine",
       kneeExercises:exercises,
       kneeCompletedSets:completed,
@@ -731,7 +770,15 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
   if(!date) return editDialog.close();
   if(!confirm(`Gesamten Trainingstag vom ${fmtDateDE(date)} wirklich löschen?`)) return;
 
+  const kneePlanDates=state.records
+    .filter(r=>r.date===date && r.type==="knee")
+    .map(r=>r.kneeDate || r.date);
+
   state.records=state.records.filter(r=>r.date!==date);
+  kneePlanDates.forEach(k=>{
+    if(state.kneeSets) delete state.kneeSets[k];
+    if(state.kneeDone) delete state.kneeDone[k];
+  });
   if(state.kneeSets) delete state.kneeSets[date];
   if(state.kneeDone) delete state.kneeDone[date];
 
@@ -740,7 +787,6 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
   render();
   renderKnee();
 });
-
 
 // ---------- 3-Seiten-Navigation ----------
 function setActivePage(page, {scroll=true}={}){
@@ -766,7 +812,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=30", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=31", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1021,7 +1067,7 @@ function findKneeRecordByDate(k){
   return state.records.find(r=>r.type==="knee" && (r.kneeDate || r.date)===k) || null;
 }
 
-function syncKneeHistoryForDate(k, plan, force=false){
+function syncKneeHistoryForDate(k, plan, force=false, performedDate=null){
   ensureKneeState();
   const total=totalKneeSetCount(plan);
   const completed=completedKneeSetCount(k,plan);
@@ -1042,10 +1088,15 @@ function syncKneeHistoryForDate(k, plan, force=false){
     prescription:ex.prescription
   }));
 
+  // Ein nachgeholtes Stabilitätstraining wird im Verlauf am tatsächlichen
+  // Durchführungstag geführt. Ohne explizites Datum bleibt eine bereits gesetzte
+  // Zuordnung bestehen.
+  const historyDate=performedDate || existing?.performedDate || existing?.date || k;
   const payload={
     id: existing?.id || createRecordId(),
     type:"knee",
-    date:k,
+    date:historyDate,
+    performedDate:historyDate,
     kneeDate:k,
     kneeLabel:kneeTitleForPlan(plan),
     kneeExercises:exercises,
