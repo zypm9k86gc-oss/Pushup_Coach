@@ -812,7 +812,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=31", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=32", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1184,33 +1184,23 @@ function migrateLegacyKneeDone(k, plan){
 function activeKneeWorkoutStatus(){
   ensureKneeState();
   const today=todayKey();
-  const start=new Date(KNEE_START+"T12:00:00");
-  const end=new Date(today+"T12:00:00");
-  let latestDue=null;
-  let latestPlan=null;
-
-  for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
-    const k=dateKeyFromDate(d);
-    if(k>KNEE_END) break;
-    if(!kneeDay(k)) continue;
-
-    const plan=kneePlanFor(k);
-    latestDue=k;
-    latestPlan=plan;
-    migrateLegacyKneeDone(k,plan);
-    const done=allRequiredKneeSetsDone(k,plan);
-    state.kneeDone[k]=done;
-    if(done) syncKneeHistoryForDate(k,plan);
-
-    if(!done){
-      return {date:k,plan,done:false,overdue:k<today};
-    }
+  const latestDue=latestKneeDateOnOrBefore(today);
+  if(!latestDue){
+    return {date:null,plan:null,done:true,overdue:false};
   }
 
-  if(latestDue && latestPlan){
-    return {date:latestDue,plan:latestPlan,done:true,overdue:false};
-  }
-  return {date:null,plan:null,done:true,overdue:false};
+  const plan=kneePlanFor(latestDue);
+  migrateLegacyKneeDone(latestDue,plan);
+  const done=allRequiredKneeSetsDone(latestDue,plan);
+  state.kneeDone[latestDue]=done;
+  if(done) syncKneeHistoryForDate(latestDue,plan);
+
+  return {
+    date:latestDue,
+    plan,
+    done,
+    overdue:!done && latestDue<today
+  };
 }
 
 function exerciseCompletionCount(k, exercise){
@@ -1307,7 +1297,7 @@ function renderKnee(){
 
   p.innerHTML=`<strong>${status.overdue?"Stabilitätstraining noch offen":"Stabilitätstraining heute fällig"}: ${title}</strong>`
     +`${status.overdue?`<br><span>Fällig seit: ${fmtDateDE(k)}</span>`:""}`
-    +`<br><span>Die Übungen bleiben sichtbar, bis alle Übungen mit allen Sätzen erledigt sind.</span>`;
+    +`<br><span>Das Training bleibt sichtbar, bis es erledigt ist oder der nächste Stabilitätstermin fällig wird.</span>`;
 
   renderKneeBatteries(k,plan);
 

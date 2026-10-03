@@ -224,3 +224,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - „Trainingseintrag speichern“ speichert ein nachgeholtes Stabilitätsprogramm künftig im Historientag der tatsächlichen Durchführung, während der technische Fälligkeitsbezug erhalten bleibt.
 - Liegestütze, Plank, längster Einzel-Plank und sämtliche Stabilitätssätze bleiben gemeinsam im Tageseditor bearbeitbar.
 - Cache-/Versionsnummer auf v31 erhöht.
+
+
+## Update v32 – Einheitliches Verhalten offener Trainings
+- Liegestütze/Plank und Stabilitätsübungen verwenden jetzt dieselbe Nachhol-Logik.
+- Ein fälliges Training bleibt an trainingsfreien Folgetagen sichtbar, solange es noch nicht erledigt ist.
+- Sobald der nächste geplante Trainingstermin derselben Trainingsart fällig wird, ersetzt das neue Training das alte offene Training.
+- Bereits dokumentierte Teilleistungen des ersetzten Trainings bleiben in der Historie erhalten.
+- Cache-/Versionsnummer auf v32 erhöht.
