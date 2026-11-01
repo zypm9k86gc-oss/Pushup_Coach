@@ -702,3 +702,11 @@ html[data-theme="light"]{
   color:var(--muted);
 }
 .edit-knee-program-note strong{color:var(--text)}
+
+
+/* v33: Trainingsplan pausieren / fortsetzen */
+.plan-control-card{display:grid;gap:12px}
+.plan-control-row{align-items:flex-start}
+.plan-control-status{font-size:22px;font-weight:900;margin-top:2px}
+.plan-control-detail{font-size:12px;color:var(--muted);line-height:1.45;margin-top:4px}
+.plan-control-actions{display:grid;gap:8px}
