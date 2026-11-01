@@ -1,6 +1,14 @@
 
 const PLAN_START = new Date("2026-08-17T00:00:00");
-const GOAL_DATE = new Date("2026-11-30T23:59:59");
+const GOAL_DATE = new Date("2026-12-31T23:59:59");
+const PLAN_RESET_EFFECTIVE = "2026-11-01";
+const PLAN_RESET_DATE = "2026-11-02";
+const PLAN_GOAL_DATE = "2026-12-31";
+const PLAN_RESET_PUSHUPS = 216;
+const PLAN_RESET_PLANK = 173;
+const PLAN_GOAL_PUSHUPS = 356;
+const PLAN_GOAL_PLANK = 240;
+const PLAN_CONTROL_VERSION = 33;
 
 const targets = [
   {pushups:80, plank:70},
@@ -10,8 +18,8 @@ const targets = [
   {pushups:216, plank:173},
   {pushups:250, plank:189},
   {pushups:283, plank:205},
-  {pushups:317, plank:221},
-  {pushups:350, plank:237},
+  {pushups:313, plank:219},
+  {pushups:340, plank:232},
   {pushups:356, plank:240}
 ];
 
@@ -19,42 +27,116 @@ const checkpoints = [
   ["30.08.2026","90 Liegestütze / 80 s Plank"],
   ["20.09.2026","140 Liegestütze / 120 s Plank"],
   ["02.10.2026","216 Liegestütze / 2:53 Plank"],
-  ["16.10.2026","250 Liegestütze / 3:09 Plank"],
-  ["30.10.2026","283 Liegestütze / 3:25 Plank"],
-  ["13.11.2026","317 Liegestütze / 3:41 Plank"],
-  ["27.11.2026","350 Liegestütze / 3:57 Plank"],
-  ["30.11.2026","356 Liegestütze / 4:00 Plank"]
+  ["02.11.2026","Neustart auf Stand Anfang Oktober: 216 / 2:53"],
+  ["13.11.2026","243 Liegestütze / 3:06 Plank"],
+  ["27.11.2026","275 Liegestütze / 3:21 Plank"],
+  ["11.12.2026","308 Liegestütze / 3:37 Plank"],
+  ["25.12.2026","340 Liegestütze / 3:52 Plank"],
+  ["31.12.2026","356 Liegestütze / 4:00 Plank"]
 ];
 
-const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":289,"plank":208,"sets":"17×17","checkpoint":false},{"date":"2026-11-04","pushups":294,"plank":210,"sets":"5×18 + 12×17","checkpoint":false},{"date":"2026-11-06","pushups":300,"plank":213,"sets":"12×17 + 6×16","checkpoint":false},{"date":"2026-11-09","pushups":306,"plank":216,"sets":"18×17","checkpoint":false},{"date":"2026-11-11","pushups":311,"plank":218,"sets":"5×18 + 13×17","checkpoint":false},{"date":"2026-11-13","pushups":317,"plank":221,"sets":"11×18 + 7×17","checkpoint":true},{"date":"2026-11-16","pushups":322,"plank":224,"sets":"16×18 + 2×17","checkpoint":false},{"date":"2026-11-18","pushups":328,"plank":227,"sets":"4×19 + 14×18","checkpoint":false},{"date":"2026-11-20","pushups":334,"plank":229,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-11-23","pushups":339,"plank":232,"sets":"15×19 + 3×18","checkpoint":false},{"date":"2026-11-25","pushups":345,"plank":235,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-11-27","pushups":350,"plank":237,"sets":"8×20 + 10×19","checkpoint":true},{"date":"2026-11-30","pushups":356,"plank":240,"sets":"14×20 + 4×19","checkpoint":true}];
-function planForDate(k){return EXACT_PLAN.find(x=>x.date===k)||null;}
-function nextPlanEntry(k){return EXACT_PLAN.find(x=>x.date>=k)||null;}
+const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-11-04","pushups":221,"plank":176,"sets":"13×14 + 3×13","checkpoint":false},{"date":"2026-11-06","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-11-09","pushups":232,"plank":181,"sets":"8×15 + 8×14","checkpoint":false},{"date":"2026-11-11","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-11-13","pushups":243,"plank":186,"sets":"3×16 + 13×15","checkpoint":true},{"date":"2026-11-16","pushups":248,"plank":188,"sets":"8×16 + 8×15","checkpoint":false},{"date":"2026-11-18","pushups":254,"plank":191,"sets":"14×16 + 2×15","checkpoint":false},{"date":"2026-11-20","pushups":259,"plank":194,"sets":"3×17 + 13×16","checkpoint":false},{"date":"2026-11-23","pushups":264,"plank":196,"sets":"9×16 + 8×15","checkpoint":false},{"date":"2026-11-25","pushups":270,"plank":199,"sets":"15×16 + 2×15","checkpoint":false},{"date":"2026-11-27","pushups":275,"plank":201,"sets":"3×17 + 14×16","checkpoint":true},{"date":"2026-11-30","pushups":281,"plank":204,"sets":"9×17 + 8×16","checkpoint":false},{"date":"2026-12-02","pushups":286,"plank":206,"sets":"14×17 + 3×16","checkpoint":false},{"date":"2026-12-04","pushups":291,"plank":209,"sets":"2×18 + 15×17","checkpoint":false},{"date":"2026-12-07","pushups":297,"plank":212,"sets":"8×18 + 9×17","checkpoint":false},{"date":"2026-12-09","pushups":302,"plank":214,"sets":"13×18 + 4×17","checkpoint":false},{"date":"2026-12-11","pushups":308,"plank":217,"sets":"2×19 + 15×18","checkpoint":true},{"date":"2026-12-14","pushups":313,"plank":219,"sets":"7×18 + 11×17","checkpoint":false},{"date":"2026-12-16","pushups":318,"plank":222,"sets":"12×18 + 6×17","checkpoint":false},{"date":"2026-12-18","pushups":324,"plank":225,"sets":"18×18","checkpoint":false},{"date":"2026-12-21","pushups":329,"plank":227,"sets":"5×19 + 13×18","checkpoint":false},{"date":"2026-12-23","pushups":334,"plank":230,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-12-25","pushups":340,"plank":232,"sets":"16×19 + 2×18","checkpoint":true},{"date":"2026-12-28","pushups":345,"plank":235,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-12-30","pushups":351,"plank":237,"sets":"9×20 + 9×19","checkpoint":false},{"date":"2026-12-31","pushups":356,"plank":240,"sets":"14×20 + 4×19","checkpoint":true}];
+
+function defaultPlanControl(){
+  return {
+    version:PLAN_CONTROL_VERSION,
+    paused:false,
+    pauseStarted:null,
+    frozenPushups:null,
+    frozenPlank:null,
+    resumeDate:null,
+    resumePushups:null,
+    resumePlank:null,
+    pausedPushWasOptedIn:false
+  };
+}
+
+function ensurePlanControl(){
+  if(!state.planControl || Number(state.planControl.version)!==PLAN_CONTROL_VERSION){
+    state.planControl=defaultPlanControl();
+  }
+  return state.planControl;
+}
+
+function isPlanPaused(){return !!ensurePlanControl().paused;}
+
+function makeSetSuggestion(pushups){
+  const count=pushups<260?16:(pushups<310?17:18);
+  const q=Math.floor(pushups/count);
+  const r=pushups%count;
+  if(!r)return `${count}×${q}`;
+  return `${r}×${q+1} + ${count-r}×${q}`;
+}
+
+function dynamicTrainingDates(startKey){
+  if(!startKey || startKey>PLAN_GOAL_DATE)return [];
+  const out=[];
+  let d=new Date(startKey+"T12:00:00");
+  const end=new Date(PLAN_GOAL_DATE+"T12:00:00");
+  let first=true;
+  while(d<=end){
+    const k=dateKeyFromDate(d);
+    const dow=d.getDay();
+    if(first || dow===1 || dow===3 || dow===5 || k===PLAN_GOAL_DATE){
+      if(!out.includes(k))out.push(k);
+    }
+    first=false;
+    d.setDate(d.getDate()+1);
+  }
+  if(startKey<=PLAN_GOAL_DATE && !out.includes(PLAN_GOAL_DATE))out.push(PLAN_GOAL_DATE);
+  return out;
+}
+
+function buildDynamicPlan(startKey,startPushups,startPlank){
+  const dates=dynamicTrainingDates(startKey);
+  const startPush=Math.max(1,Math.min(PLAN_GOAL_PUSHUPS,Math.round(Number(startPushups)||PLAN_RESET_PUSHUPS)));
+  const startPlankValue=Math.max(1,Math.min(PLAN_GOAL_PLANK,Math.round(Number(startPlank)||PLAN_RESET_PLANK)));
+  return dates.map((k,i)=>{
+    const ratio=dates.length<=1?1:i/(dates.length-1);
+    const pushups=i===0?startPush:(i===dates.length-1?PLAN_GOAL_PUSHUPS:Math.round(startPush+(PLAN_GOAL_PUSHUPS-startPush)*ratio));
+    const plank=i===0?startPlankValue:(i===dates.length-1?PLAN_GOAL_PLANK:Math.round(startPlankValue+(PLAN_GOAL_PLANK-startPlankValue)*ratio));
+    return {date:k,pushups,plank,sets:makeSetSuggestion(pushups),checkpoint:i===0 || i===dates.length-1 || (i+1)%6===0};
+  });
+}
+
+function activePlanEntries(){
+  const pc=ensurePlanControl();
+  if(pc.resumeDate && pc.resumeDate>=PLAN_RESET_DATE && pc.resumeDate<=PLAN_GOAL_DATE && pc.resumePushups && pc.resumePlank){
+    const historical=EXACT_PLAN.filter(x=>x.date<pc.resumeDate);
+    return [...historical,...buildDynamicPlan(pc.resumeDate,pc.resumePushups,pc.resumePlank)].sort((a,b)=>a.date.localeCompare(b.date));
+  }
+  return EXACT_PLAN;
+}
+
+function planForDate(k){return activePlanEntries().find(x=>x.date===k)||null;}
+function nextPlanEntry(k){return activePlanEntries().find(x=>x.date>=k)||null;}
 function latestPlanOnOrBefore(k){
   let found=null;
-  for(const item of EXACT_PLAN){
-    if(item.date<=k) found=item;
+  for(const item of activePlanEntries()){
+    if(item.date<=k)found=item;
     else break;
   }
   return found;
 }
 
 function workoutProgress(item){
-  const idx=EXACT_PLAN.findIndex(x=>x.date===item.date);
-  const next=EXACT_PLAN[idx+1]||null;
+  const plan=activePlanEntries();
+  const idx=plan.findIndex(x=>x.date===item.date);
+  const next=idx>=0?(plan[idx+1]||null):null;
   const end=next?next.date:"9999-12-31";
-  const recs=state.records.filter(r=>r.date>=item.date && r.date<end);
+  const recs=state.records.filter(r=>r.type!=="knee" && r.date>=item.date && r.date<end);
   let push=recs.reduce((a,r)=>a+(r.pushups||0),0);
   let plank=recs.reduce((a,r)=>a+(r.plank||0),0);
   if(todayKey()>=item.date && todayKey()<end){push+=state.todayPushups;plank+=state.todayPlank;}
-
-  const manuallyCompleted = state.records.some(r =>
-    r.completedWorkout === true && (r.targetDate || r.date) === item.date
-  );
-
+  const manuallyCompleted=state.records.some(r=>r.type!=="knee" && r.completedWorkout===true && r.targetDate===item.date);
   return {push,plank,done:manuallyCompleted || (push>=item.pushups && plank>=item.plank)};
 }
+
 function openWorkout(){
-  const key=todayKey(), due=EXACT_PLAN.filter(x=>x.date<=key);
+  if(isPlanPaused())return null;
+  const key=todayKey();
+  let due=activePlanEntries().filter(x=>x.date<=key);
+  if(key>=PLAN_RESET_EFFECTIVE)due=due.filter(x=>x.date>=PLAN_RESET_DATE);
   const latest=due.length?due[due.length-1]:null;
   if(!latest)return null;
   const p=workoutProgress(latest);
@@ -77,7 +159,8 @@ let state = {
   todayBestSinglePlank: 0,
   records: [],
   kneeSets: {},
-  kneeDone: {}
+  kneeDone: {},
+  planControl: null
 };
 
 let timer = null;
@@ -103,10 +186,20 @@ function fmtLong(sec){
 }
 
 function currentTarget(){
+  const pc=ensurePlanControl();
+  if(pc.paused && pc.frozenPushups && pc.frozenPlank){
+    return {pushups:pc.frozenPushups,plank:pc.frozenPlank,sets:makeSetSuggestion(pc.frozenPushups),paused:true};
+  }
   const open=openWorkout();
   if(open)return open;
-  const latest=latestPlanOnOrBefore(todayKey());
-  return latest||{pushups:80,plank:70,sets:""};
+  const key=todayKey();
+  const plan=activePlanEntries();
+  if(key>=PLAN_RESET_EFFECTIVE){
+    const next=plan.find(x=>x.date>=key && x.date>=PLAN_RESET_DATE);
+    if(next)return next;
+  }
+  const latest=latestPlanOnOrBefore(key);
+  return latest||{pushups:PLAN_RESET_PUSHUPS,plank:PLAN_RESET_PLANK,sets:makeSetSuggestion(PLAN_RESET_PUSHUPS)};
 }
 
 function createRecordId(){
@@ -133,6 +226,7 @@ function load(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) state = {...state, ...JSON.parse(raw)};
   }catch(e){}
+  ensurePlanControl();
   rollover();
   ensureRecordIds();
 }
@@ -229,12 +323,14 @@ function historyDaySummaries(){
         kneeCompletedSets:0,
         kneeTotalSets:0,
         kneeDone:false,
+        kneeSessionCompleted:false,
         kneeExercises:[]
       });
     }
     const day=byDate.get(date);
     if(record.type==="knee"){
       day.kneeRecords.push(record);
+      day.kneeSessionCompleted=day.kneeSessionCompleted || record.kneeSessionCompleted===true;
     }else{
       day.workoutRecords.push(record);
       day.pushups+=Number(record.pushups)||0;
@@ -407,8 +503,21 @@ function render(){
   const restPanel=document.querySelector("#restPanel");
   const actionsPanel=document.querySelector(".actions");
   const nextDateEl=document.querySelector("#nextTrainingDate");
+  const paused=isPlanPaused();
+  renderPlanControl();
 
-  if(open){
+  if(paused){
+    const pc=ensurePlanControl();
+    program.innerHTML=`<strong>Trainingsplan pausiert.</strong><br><span>Zielwerte eingefroren: ${pc.frozenPushups||t.pushups} Liegestütze + ${fmtTime(pc.frozenPlank||t.plank)} Plank.</span><br><span>Bis zur Fortsetzung werden keine planmäßigen Trainingserinnerungen gesendet.</span>`;
+    trainingPanel.hidden=true;
+    restPanel.hidden=false;
+    actionsPanel.hidden=false;
+    const title=restPanel.querySelector(".rest-title");
+    const copy=restPanel.querySelector("p");
+    if(title)title.textContent="Trainingsplan pausiert";
+    if(copy)copy.textContent="Dein Trainingsstand bleibt eingefroren. Mit „Trainingsplan fortsetzen“ startest du wieder mit denselben Zielwerten.";
+    if(nextDateEl)nextDateEl.textContent="Fortsetzen, wenn du wieder einsteigen möchtest.";
+  }else if(open){
     const overdue=open.date<key;
     program.innerHTML=(overdue?`<strong>Training noch offen.</strong>`:`<strong>Training ist heute fällig.</strong>`)
       +`<br>${open.pushups} Liegestütze + ${fmtTime(open.plank)} Plank`
@@ -419,6 +528,10 @@ function render(){
   }else{
     program.innerHTML=`<strong style="color:var(--plank)">Regenerationstag.</strong><br><span>Das letzte fällige Training ist erfüllt.</span>`;
     trainingPanel.hidden=true;restPanel.hidden=false;actionsPanel.hidden=false;
+    const title=restPanel.querySelector(".rest-title");
+    const copy=restPanel.querySelector("p");
+    if(title)title.textContent="Regenerationstag";
+    if(copy)copy.textContent="Heute ist kein Training fällig. Das nächste Trainingsniveau wird erst am jeweiligen Trainingstag angezeigt.";
     const next=nextPlanEntry(key);
     if(nextDateEl)nextDateEl.textContent=next?`Nächster Trainingstag: ${fmtDateDE(next.date)}`:"Trainingsplan abgeschlossen.";
   }
@@ -462,7 +575,7 @@ function render(){
     ? hist.map(day=>{
         const hasKnee=day.kneeTotalSets>0 || day.kneeRecords.length>0;
         const kneeValue=hasKnee?`${day.kneeCompletedSets}/${day.kneeTotalSets}`:"–";
-        const kneeLabel=hasKnee?(day.kneeDone?"Stabilität ✓":"Stabilität offen"):"keine Stabilität";
+        const kneeLabel=hasKnee?(day.kneeDone?"Stabilität ✓ komplett":(day.kneeSessionCompleted?"Stabilität ✓ gespeichert":"Stabilität offen")):"keine Stabilität";
         return `<div class="history-row history-row-day">
           <div class="history-main">
             <div class="history-date">${fmtDateDE(day.date)}</div>
@@ -520,33 +633,26 @@ document.querySelector("#finishWorkout").addEventListener("click", ()=>{
   const kneeStatus=activeKneeWorkoutStatus();
   if(state.todayPushups===0 && state.todayPlank===0 && !open && (!kneeStatus.date || kneeStatus.done)) return;
 
+  // Exakt den aktuellen Stand speichern: fehlende Stabilitätssätze werden NICHT ergänzt.
   if(kneeStatus.date && kneeStatus.plan && !kneeStatus.done){
-    // "Trainingseintrag speichern" schließt auch das aktuell offene Stabilitätstraining ab.
-    kneeStatus.plan.exercises.forEach(ex=>{
-      for(let s=1;s<=ex.sets;s++){
-        setKneeSetDone(kneeStatus.date,ex.id,s,true);
-      }
-    });
-    state.kneeDone=state.kneeDone||{};
-    state.kneeDone[kneeStatus.date]=true;
-    syncKneeHistoryForDate(kneeStatus.date,kneeStatus.plan,true,state.todayDate);
+    syncKneeHistoryForDate(kneeStatus.date,kneeStatus.plan,true,state.todayDate,true);
   }
 
   if(state.todayPushups>0 || state.todayPlank>0 || open){
     state.records.push({
-      id: createRecordId(),
-      date: state.todayDate,
-      targetDate: open ? open.date : state.todayDate,
-      pushups: state.todayPushups,
-      plank: state.todayPlank,
-      bestSinglePlank: state.todayBestSinglePlank || 0,
-      completedWorkout: true
+      id:createRecordId(),
+      date:state.todayDate,
+      targetDate:open ? open.date : null,
+      pushups:state.todayPushups,
+      plank:state.todayPlank,
+      bestSinglePlank:state.todayBestSinglePlank || 0,
+      completedWorkout:!!open
     });
   }
 
-  state.todayPushups = 0;
-  state.todayPlank = 0;
-  state.todayBestSinglePlank = 0;
+  state.todayPushups=0;
+  state.todayPlank=0;
+  state.todayBestSinglePlank=0;
   save();
   render();
   renderKnee();
@@ -687,6 +793,7 @@ editForm.addEventListener("submit", event=>{
   const previousKneeRecords=kneeRecordsForDate(originalDate);
   const hadWorkout=previousWorkout.length>0;
   const hadKnee=previousKneeRecords.length>0;
+  const previousKneeSessionCompleted=previousKneeRecords.some(r=>r.kneeSessionCompleted===true);
 
   if(date!==originalDate && state.records.some(r=>r.date===date)){
     alert("Für das gewählte Datum existiert bereits ein Trainingstag. Bitte diesen Tag direkt in der Historie bearbeiten.");
@@ -731,7 +838,7 @@ editForm.addEventListener("submit", event=>{
     state.records=state.records.filter(r=>!(r.type==="knee" && (r.kneeDate||r.date)===kneePlanDate));
 
     if(hasEnteredKnee || hadKnee || completedKneeSetCount(kneePlanDate,plan)>0){
-      syncKneeHistoryForDate(kneePlanDate,plan,true,date);
+      syncKneeHistoryForDate(kneePlanDate,plan,true,date,previousKneeSessionCompleted || state.kneeDone[kneePlanDate]);
     }
   }else if(kneeInputs.length && hasEnteredKnee){
     // Historische/frei erfasste Stabilitätsdaten ohne aktuellen Plan erhalten.
@@ -754,7 +861,8 @@ editForm.addEventListener("submit", event=>{
       kneeExercises:exercises,
       kneeCompletedSets:completed,
       kneeTotalSets:total,
-      kneeDone:total>0 && completed===total
+      kneeDone:total>0 && completed===total,
+      kneeSessionCompleted:true
     });
   }
 
@@ -788,6 +896,77 @@ document.querySelector("#deleteRecordBtn").addEventListener("click", ()=>{
   renderKnee();
 });
 
+// ---------- Trainingsplan pausieren / fortsetzen ----------
+function renderPlanControl(){
+  const pc=ensurePlanControl();
+  const status=document.querySelector("#planControlStatus");
+  const detail=document.querySelector("#planControlDetail");
+  const pauseBtn=document.querySelector("#pausePlanBtn");
+  const resumeBtn=document.querySelector("#resumePlanBtn");
+  if(!status||!detail||!pauseBtn||!resumeBtn)return;
+
+  if(pc.paused){
+    status.textContent="Pausiert";
+    detail.textContent=`Seit ${fmtDateDE(pc.pauseStarted||todayKey())} · eingefroren bei ${pc.frozenPushups||PLAN_RESET_PUSHUPS} Liegestützen + ${fmtTime(pc.frozenPlank||PLAN_RESET_PLANK)} Plank`;
+    pauseBtn.hidden=true;
+    resumeBtn.hidden=false;
+  }else{
+    status.textContent="Aktiv";
+    const target=currentTarget();
+    detail.textContent=`Aktueller Aufbau: ${target.pushups} Liegestütze + ${fmtTime(target.plank)} Plank · Ziel 31.12.2026`;
+    pauseBtn.hidden=false;
+    resumeBtn.hidden=true;
+  }
+}
+
+async function pauseTrainingPlan(){
+  const pc=ensurePlanControl();
+  if(pc.paused)return;
+  const target=currentTarget();
+  pc.paused=true;
+  pc.pauseStarted=todayKey();
+  pc.frozenPushups=target.pushups;
+  pc.frozenPlank=target.plank;
+  pc.pausedPushWasOptedIn=!!oneSignalInstance?.User?.PushSubscription?.optedIn;
+  save();
+
+  if(oneSignalInstance){
+    await syncPlanControlToOneSignal(oneSignalInstance);
+    if(pc.pausedPushWasOptedIn){
+      try{ await oneSignalInstance.User.PushSubscription.optOut(); }
+      catch(err){ console.warn("Push konnte beim Pausieren nicht deaktiviert werden:",err); }
+    }
+    await refreshPushUi(oneSignalInstance);
+  }
+  render(); renderKnee(); renderPlanControl();
+}
+
+async function resumeTrainingPlan(){
+  const pc=ensurePlanControl();
+  if(!pc.paused)return;
+  pc.paused=false;
+  pc.resumeDate=todayKey();
+  pc.resumePushups=pc.frozenPushups||PLAN_RESET_PUSHUPS;
+  pc.resumePlank=pc.frozenPlank||PLAN_RESET_PLANK;
+  pc.pauseStarted=null;
+  const restorePush=pc.pausedPushWasOptedIn;
+  pc.pausedPushWasOptedIn=false;
+  save();
+
+  if(oneSignalInstance){
+    if(restorePush){
+      try{ await oneSignalInstance.User.PushSubscription.optIn(); }
+      catch(err){ console.warn("Push konnte beim Fortsetzen nicht wieder aktiviert werden:",err); }
+    }
+    await syncPlanControlToOneSignal(oneSignalInstance);
+    await refreshPushUi(oneSignalInstance);
+  }
+  render(); renderKnee(); renderPlanControl();
+}
+
+document.querySelector("#pausePlanBtn")?.addEventListener("click",pauseTrainingPlan);
+document.querySelector("#resumePlanBtn")?.addEventListener("click",resumeTrainingPlan);
+
 // ---------- 3-Seiten-Navigation ----------
 function setActivePage(page, {scroll=true}={}){
   const valid=["training","history","settings"];
@@ -812,7 +991,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=32", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=33", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -961,7 +1140,7 @@ function nextKneeDateAfter(k){
   return null;
 }
 
-function kneePlanFor(k){
+function legacyKneePlanFor(k){
   const day=kneeDay(k), ph=kneePhase(k);
   if(!day || !ph) return {day:null, exercises:[], notes:[]};
 
@@ -1017,6 +1196,81 @@ function kneePlanFor(k){
   return {day, exercises, notes};
 }
 
+const KNEE_ROTATION_START="2026-11-02";
+const KNEE_LIBRARY={
+  "split-squat":{name:"Split Squats",prescription:"8–12 je Bein",description:"Geteilte Standposition. Das hintere Knie kontrolliert Richtung Boden senken und wieder hochdrücken. Oberkörper aufrecht, Knie stabil über dem Fuß."},
+  "step-down":{name:"Step-downs",prescription:"8–12 je Bein",description:"Auf einer stabilen Stufe stehen. Die freie Ferse langsam Richtung Boden absenken und kontrolliert hochdrücken. Becken und Knie ruhig halten."},
+  "calf-single":{name:"Einbeiniges Wadenheben",prescription:"12–20 je Bein",description:"Auf einem Bein über den Fußballen hochdrücken, oben kurz halten und die Ferse langsam wieder absenken."},
+  "balance-mat":{name:"Einbeinstand auf Balancematte",prescription:"30–45 s je Bein",description:"Auf einem Bein auf der weichen Unterlage stehen. Hüfte und Oberkörper ruhig halten und möglichst wenig ausgleichen."},
+  "reverse-lunge":{name:"Reverse Lunges",prescription:"8–12 je Bein",description:"Einen kontrollierten Schritt nach hinten machen, beide Knie beugen und über das vordere Bein wieder nach oben drücken."},
+  "step-up":{name:"Step-ups",prescription:"8–12 je Bein",description:"Mit einem Fuß auf eine stabile Erhöhung steigen und dich kontrolliert vollständig hochdrücken. Langsam wieder absteigen."},
+  "lateral-lunge":{name:"Seitliche Ausfallschritte",prescription:"8–10 je Seite",description:"Seitlich einen großen Schritt machen, die Hüfte nach hinten führen und das belastete Knie kontrolliert beugen. Zur Mitte zurückdrücken."},
+  "wall-sit":{name:"Wandsitz",prescription:"30–45 s",description:"Mit dem Rücken an der Wand in eine kontrollierte Sitzposition rutschen und die Spannung halten. Knie und Füße stabil ausrichten."},
+  "rdl-single-light":{name:"Einbeiniger Romanian Deadlift",prescription:"8–10 je Bein",description:"Auf einem Bein stehen, aus der Hüfte nach vorne neigen und das freie Bein nach hinten führen. Rücken lang und Becken möglichst gerade halten."},
+  "star-reach":{name:"Star Reach",prescription:"4–5 Runden je Bein",description:"Auf einem Bein stehen und mit dem freien Fuß kontrolliert in mehrere Richtungen tippen. Das Standbein bleibt stabil."},
+  "balance-board":{name:"Balanceboard",prescription:"30–45 s je Bein",description:"Kontrolliert auf einem Bein balancieren. Kleine Ausgleichsbewegungen zulassen, aber nicht auf dem Board springen."},
+  "calf-slow":{name:"Langsames Wadenheben",prescription:"15",description:"Fersen langsam anheben, kurz oben halten und bewusst langsam absenken. Fokus auf gleichmäßige Kontrolle."},
+  "clock-reach":{name:"Clock Reach",prescription:"5 Runden je Bein",description:"Auf einem Bein stehen und den freien Fuß nacheinander zu gedachten Uhrpositionen tippen. Knie und Becken des Standbeins stabil halten."},
+  "lateral-tap":{name:"Seitliche Toe Taps",prescription:"10–12 je Seite",description:"Im leichten Einbeinstand den freien Fuß seitlich auftippen und zurückführen, ohne die Stabilität des Standbeins zu verlieren."},
+  "glute-bridge":{name:"Glute Bridge",prescription:"12–15",description:"In Rückenlage die Füße aufstellen, Gesäß anspannen und die Hüfte kontrolliert anheben. Oben kurz halten und langsam absenken."},
+  "sit-to-stand-single":{name:"Einbeiniger Sit-to-Stand unterstützt",prescription:"6–10 je Bein",description:"Von einer erhöhten Sitzfläche überwiegend über ein Bein aufstehen und kontrolliert wieder absetzen. Bei Bedarf leicht mit dem anderen Fuß unterstützen."},
+  "rdl-single":{name:"Einbeiniger Romanian Deadlift",prescription:"8–12 je Bein",description:"Auf einem Bein aus der Hüfte nach vorne neigen, das freie Bein nach hinten strecken und kontrolliert wieder aufrichten."},
+  "squat-calf":{name:"Kniebeuge + Wadenheben",prescription:"10–15",description:"Eine saubere Kniebeuge ausführen, aufrichten und direkt kontrolliert auf die Zehenspitzen hochdrücken."},
+  "step-stick":{name:"Seitliches Step & Stick",prescription:"5–6 je Seite",description:"Seitlich einen kleinen Schritt oder Hop machen und die Endposition etwa zwei Sekunden stabil halten."},
+  "jump-double":{name:"Kleine beidbeinige Sprünge",prescription:"12–20",description:"Kleine, leise Sprünge mit beiden Beinen. Weich landen und Knie sowie Hüfte stabil halten. Nur schmerzfrei ausführen."}
+};
+
+function kneeExercise(id,sets,prescription=null){
+  const base=KNEE_LIBRARY[id];
+  return {id,name:base.name,sets,prescription:prescription||base.prescription,description:base.description};
+}
+
+function kneeRotationIndex(k){
+  const start=new Date(KNEE_ROTATION_START+"T12:00:00");
+  const d=new Date(k+"T12:00:00");
+  return Math.max(0,Math.floor((d-start)/(7*86400000)))%3;
+}
+
+function kneePlanFor(k){
+  if(k<KNEE_ROTATION_START)return legacyKneePlanFor(k);
+  const day=kneeDay(k);
+  if(!day || k>KNEE_END)return {day:null,exercises:[],notes:[]};
+  const r=kneeRotationIndex(k);
+  const notes=["Sauber und kontrolliert arbeiten. Bei deutlichem oder zunehmendem Knieschmerz abbrechen bzw. eine leichtere Variante wählen."];
+  let exercises=[];
+  if(day==="A"){
+    const variants=[
+      [["split-squat",3],["step-down",3],["calf-single",3],["balance-mat",2]],
+      [["reverse-lunge",3],["step-up",3],["lateral-lunge",2],["calf-single",3]],
+      [["split-squat",3],["wall-sit",3],["step-up",3],["balance-board",2]]
+    ];
+    exercises=variants[r].map(([id,sets])=>kneeExercise(id,sets));
+  }
+  if(day==="M"){
+    const variants=[
+      [["rdl-single-light",2],["star-reach",2],["balance-board",2],["calf-slow",2]],
+      [["clock-reach",2],["lateral-tap",2],["balance-mat",2],["glute-bridge",2]],
+      [["sit-to-stand-single",2],["star-reach",2],["balance-board",2],["calf-slow",2]]
+    ];
+    exercises=variants[r].map(([id,sets])=>kneeExercise(id,sets));
+    notes.push("Mittwoch bleibt bewusst leichter: Fokus auf Koordination und Stabilität statt Ermüdung.");
+  }
+  if(day==="B"){
+    const variants=[
+      [["split-squat",3],["rdl-single",3],["step-down",3],["calf-single",3]],
+      [["reverse-lunge",3],["rdl-single",3],["step-up",3],["glute-bridge",3]],
+      [["lateral-lunge",3],["squat-calf",3],["step-down",3],["calf-single",3]]
+    ];
+    exercises=variants[r].map(([id,sets])=>kneeExercise(id,sets));
+    if(k>="2026-12-07"){
+      const extra=r===1?kneeExercise("jump-double",2):kneeExercise("step-stick",2);
+      exercises.push(extra);
+      notes.push("Dynamische Zusatzübung nur bei stabiler, schmerzfreier Ausführung. Nicht auf dem Balanceboard springen.");
+    }
+  }
+  return {day,exercises,notes};
+}
+
 function ensureKneeState(){
   state.kneeSets=state.kneeSets||{};
   state.kneeDone=state.kneeDone||{};
@@ -1067,7 +1321,7 @@ function findKneeRecordByDate(k){
   return state.records.find(r=>r.type==="knee" && (r.kneeDate || r.date)===k) || null;
 }
 
-function syncKneeHistoryForDate(k, plan, force=false, performedDate=null){
+function syncKneeHistoryForDate(k, plan, force=false, performedDate=null, sessionCompleted=null){
   ensureKneeState();
   const total=totalKneeSetCount(plan);
   const completed=completedKneeSetCount(k,plan);
@@ -1102,7 +1356,8 @@ function syncKneeHistoryForDate(k, plan, force=false, performedDate=null){
     kneeExercises:exercises,
     kneeCompletedSets:completed,
     kneeTotalSets:total,
-    kneeDone: completed===total
+    kneeDone:completed===total,
+    kneeSessionCompleted:sessionCompleted ?? existing?.kneeSessionCompleted ?? (completed===total)
   };
 
   if(existing){
@@ -1183,24 +1438,23 @@ function migrateLegacyKneeDone(k, plan){
 
 function activeKneeWorkoutStatus(){
   ensureKneeState();
+  if(isPlanPaused())return {date:null,plan:null,done:true,overdue:false,paused:true};
   const today=todayKey();
   const latestDue=latestKneeDateOnOrBefore(today);
-  if(!latestDue){
+  if(!latestDue || (today>=PLAN_RESET_EFFECTIVE && latestDue<PLAN_RESET_DATE)){
     return {date:null,plan:null,done:true,overdue:false};
   }
 
   const plan=kneePlanFor(latestDue);
   migrateLegacyKneeDone(latestDue,plan);
-  const done=allRequiredKneeSetsDone(latestDue,plan);
-  state.kneeDone[latestDue]=done;
-  if(done) syncKneeHistoryForDate(latestDue,plan);
+  const existing=findKneeRecordByDate(latestDue);
+  const doneBySets=allRequiredKneeSetsDone(latestDue,plan);
+  const sessionCompleted=existing?.kneeSessionCompleted===true;
+  const done=doneBySets || sessionCompleted;
+  state.kneeDone[latestDue]=doneBySets;
+  if(doneBySets)syncKneeHistoryForDate(latestDue,plan,false,null,true);
 
-  return {
-    date:latestDue,
-    plan,
-    done,
-    overdue:!done && latestDue<today
-  };
+  return {date:latestDue,plan,done,overdue:!done && latestDue<today,sessionCompleted};
 }
 
 function exerciseCompletionCount(k, exercise){
@@ -1271,7 +1525,9 @@ function renderKnee(){
 
   if(!status.date || !status.plan){
     const next=nextKneeDateAfter(today);
-    p.innerHTML=`<strong>Noch kein Stabilitätstraining fällig.</strong>${next?`<br><span>Nächste Stabilitätsübungen: ${fmtDateDE(next)}</span>`:""}`;
+    p.innerHTML=isPlanPaused()
+      ? `<strong>Stabilitätsplan pausiert.</strong><br><span>Beim Fortsetzen wird das Training wieder aktiviert.</span>`
+      : `<strong>Noch kein Stabilitätstraining fällig.</strong>${next?`<br><span>Nächste Stabilitätsübungen: ${fmtDateDE(next)}</span>`:""}`;
     e.innerHTML="";
     renderKneeBatteries(today,{exercises:[]});
     if(progress) progress.textContent="";
@@ -1452,16 +1708,48 @@ async function syncReminderPrefsToOneSignal(OneSignal,prefs){
   }
 }
 
+async function syncPlanControlToOneSignal(OneSignal){
+  if(!OneSignal)return false;
+  const pc=ensurePlanControl();
+  try{
+    OneSignal.User.addTags({
+      coach_plan_control_version:String(PLAN_CONTROL_VERSION),
+      coach_plan_paused:pc.paused?"1":"0",
+      coach_plan_resume_date:pc.resumeDate||"",
+      coach_plan_resume_pushups:pc.resumePushups?String(pc.resumePushups):"",
+      coach_plan_resume_plank:pc.resumePlank?String(pc.resumePlank):""
+    });
+    return true;
+  }catch(err){
+    console.warn("Planstatus konnte nicht mit OneSignal synchronisiert werden:",err);
+    return false;
+  }
+}
+
+function applyRemotePlanControlTags(tags){
+  if(String(tags?.coach_plan_control_version||"")!==String(PLAN_CONTROL_VERSION))return;
+  const pc=ensurePlanControl();
+  pc.paused=String(tags.coach_plan_paused||"0")==="1";
+  if(/^2026-\d{2}-\d{2}$/.test(tags.coach_plan_resume_date||""))pc.resumeDate=tags.coach_plan_resume_date;
+  const rp=Number(tags.coach_plan_resume_pushups);
+  const rl=Number(tags.coach_plan_resume_plank);
+  if(rp>0)pc.resumePushups=rp;
+  if(rl>0)pc.resumePlank=rl;
+}
+
 async function loadRemoteReminderPrefs(OneSignal){
   try{
     const tags=OneSignal.User.getTags?.() || {};
     const prefs=loadReminderPrefs();
+    applyRemotePlanControlTags(tags);
     if(validReminderTime(tags.coach_reminder_1_time))prefs.reminder1Time=tags.coach_reminder_1_time;
     if(tags.coach_reminder_1_enabled==="0" || tags.coach_reminder_1_enabled==="1")prefs.reminder1Enabled=tags.coach_reminder_1_enabled==="1";
     if(validReminderTime(tags.coach_reminder_2_time))prefs.reminder2Time=tags.coach_reminder_2_time;
     if(tags.coach_reminder_2_enabled==="0" || tags.coach_reminder_2_enabled==="1")prefs.reminder2Enabled=tags.coach_reminder_2_enabled==="1";
     saveReminderPrefsLocal(prefs);
     renderReminderPrefs(prefs);
+    save();
+    renderPlanControl();
   }catch(err){
     console.warn("Reminder tags konnten nicht gelesen werden:",err);
   }
@@ -1493,6 +1781,13 @@ function showSubscriptionId(id){
 async function refreshPushUi(OneSignal){
   const subscribed=!!OneSignal.User.PushSubscription.optedIn;
   const id=OneSignal.User.PushSubscription.id||null;
+  if(isPlanPaused()){
+    document.querySelector("#enablePushBtn").hidden=true;
+    document.querySelector("#disablePushBtn").hidden=true;
+    showSubscriptionId(id);
+    setPushStatus("Trainingsplan pausiert – Push-Erinnerungen bleiben bis zur Fortsetzung deaktiviert.");
+    return;
+  }
   document.querySelector("#enablePushBtn").hidden=subscribed;
   document.querySelector("#disablePushBtn").hidden=!subscribed;
   showSubscriptionId(id);
@@ -1550,6 +1845,7 @@ async function initTrainingPush(){
       });
 
       await loadRemoteReminderPrefs(OneSignal);
+      await syncPlanControlToOneSignal(OneSignal);
       await refreshPushUi(OneSignal);
 
       if(OneSignal.User.PushSubscription.optedIn){
