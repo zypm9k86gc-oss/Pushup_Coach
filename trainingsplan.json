@@ -211,90 +211,188 @@
   },
   {
     "date": "2026-11-02",
-    "pushups": 289,
-    "plank": 208,
-    "sets": "17×17",
-    "checkpoint": false
+    "pushups": 216,
+    "plank": 173,
+    "sets": "8×14 + 8×13",
+    "checkpoint": true
   },
   {
     "date": "2026-11-04",
-    "pushups": 294,
-    "plank": 210,
-    "sets": "5×18 + 12×17",
+    "pushups": 221,
+    "plank": 176,
+    "sets": "13×14 + 3×13",
     "checkpoint": false
   },
   {
     "date": "2026-11-06",
-    "pushups": 300,
-    "plank": 213,
-    "sets": "12×17 + 6×16",
+    "pushups": 227,
+    "plank": 178,
+    "sets": "3×15 + 13×14",
     "checkpoint": false
   },
   {
     "date": "2026-11-09",
-    "pushups": 306,
-    "plank": 216,
-    "sets": "18×17",
+    "pushups": 232,
+    "plank": 181,
+    "sets": "8×15 + 8×14",
     "checkpoint": false
   },
   {
     "date": "2026-11-11",
-    "pushups": 311,
-    "plank": 218,
-    "sets": "5×18 + 13×17",
+    "pushups": 238,
+    "plank": 183,
+    "sets": "14×15 + 2×14",
     "checkpoint": false
   },
   {
     "date": "2026-11-13",
-    "pushups": 317,
-    "plank": 221,
-    "sets": "11×18 + 7×17",
+    "pushups": 243,
+    "plank": 186,
+    "sets": "3×16 + 13×15",
     "checkpoint": true
   },
   {
     "date": "2026-11-16",
-    "pushups": 322,
-    "plank": 224,
-    "sets": "16×18 + 2×17",
+    "pushups": 248,
+    "plank": 188,
+    "sets": "8×16 + 8×15",
     "checkpoint": false
   },
   {
     "date": "2026-11-18",
-    "pushups": 328,
-    "plank": 227,
-    "sets": "4×19 + 14×18",
+    "pushups": 254,
+    "plank": 191,
+    "sets": "14×16 + 2×15",
     "checkpoint": false
   },
   {
     "date": "2026-11-20",
-    "pushups": 334,
-    "plank": 229,
-    "sets": "10×19 + 8×18",
+    "pushups": 259,
+    "plank": 194,
+    "sets": "3×17 + 13×16",
     "checkpoint": false
   },
   {
     "date": "2026-11-23",
-    "pushups": 339,
-    "plank": 232,
-    "sets": "15×19 + 3×18",
+    "pushups": 264,
+    "plank": 196,
+    "sets": "9×16 + 8×15",
     "checkpoint": false
   },
   {
     "date": "2026-11-25",
+    "pushups": 270,
+    "plank": 199,
+    "sets": "15×16 + 2×15",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-11-27",
+    "pushups": 275,
+    "plank": 201,
+    "sets": "3×17 + 14×16",
+    "checkpoint": true
+  },
+  {
+    "date": "2026-11-30",
+    "pushups": 281,
+    "plank": 204,
+    "sets": "9×17 + 8×16",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-02",
+    "pushups": 286,
+    "plank": 206,
+    "sets": "14×17 + 3×16",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-04",
+    "pushups": 291,
+    "plank": 209,
+    "sets": "2×18 + 15×17",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-07",
+    "pushups": 297,
+    "plank": 212,
+    "sets": "8×18 + 9×17",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-09",
+    "pushups": 302,
+    "plank": 214,
+    "sets": "13×18 + 4×17",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-11",
+    "pushups": 308,
+    "plank": 217,
+    "sets": "2×19 + 15×18",
+    "checkpoint": true
+  },
+  {
+    "date": "2026-12-14",
+    "pushups": 313,
+    "plank": 219,
+    "sets": "7×18 + 11×17",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-16",
+    "pushups": 318,
+    "plank": 222,
+    "sets": "12×18 + 6×17",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-18",
+    "pushups": 324,
+    "plank": 225,
+    "sets": "18×18",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-21",
+    "pushups": 329,
+    "plank": 227,
+    "sets": "5×19 + 13×18",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-23",
+    "pushups": 334,
+    "plank": 230,
+    "sets": "10×19 + 8×18",
+    "checkpoint": false
+  },
+  {
+    "date": "2026-12-25",
+    "pushups": 340,
+    "plank": 232,
+    "sets": "16×19 + 2×18",
+    "checkpoint": true
+  },
+  {
+    "date": "2026-12-28",
     "pushups": 345,
     "plank": 235,
     "sets": "3×20 + 15×19",
     "checkpoint": false
   },
   {
-    "date": "2026-11-27",
-    "pushups": 350,
+    "date": "2026-12-30",
+    "pushups": 351,
     "plank": 237,
-    "sets": "8×20 + 10×19",
-    "checkpoint": true
+    "sets": "9×20 + 9×19",
+    "checkpoint": false
   },
   {
-    "date": "2026-11-30",
+    "date": "2026-12-31",
     "pushups": 356,
     "plank": 240,
     "sets": "14×20 + 4×19",
