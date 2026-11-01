@@ -11,11 +11,11 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="356 Coach" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=32" rel="manifest"/>
-<link href="icon-192.png?v=32" rel="apple-touch-icon"/>
-<link href="styles.css?v=32" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=33" rel="manifest"/>
+<link href="icon-192.png?v=33" rel="apple-touch-icon"/>
+<link href="styles.css?v=33" rel="stylesheet"/>
 <title>356 Coach</title>
-<script src="push-config.js?v=32"></script>
+<script src="push-config.js?v=33"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -23,10 +23,22 @@
 <div class="app-brand"><span class="app-brand-mark">356</span><span>Coach</span></div>
 <button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
 </header><section class="page-view" data-page="training" id="page-training"><div class="page-heading">
-<div class="eyebrow">Ziel 30. November 2026</div>
+<div class="eyebrow">Ziel 31. Dezember 2026</div>
 <h1>Training</h1>
 <p>356 Liegestütze/Tag + 4:00 Min Plank</p>
-</div><section class="card">
+</div><section class="card plan-control-card">
+<div class="row plan-control-row">
+<div>
+<div class="label">Trainingsplan</div>
+<div class="plan-control-status" id="planControlStatus">Aktiv</div>
+<div class="plan-control-detail" id="planControlDetail">Aufbau bis 31.12.2026</div>
+</div>
+</div>
+<div class="plan-control-actions">
+<button class="secondary-button wide" id="pausePlanBtn" type="button">Trainingsplan pausieren</button>
+<button class="primary wide" hidden id="resumePlanBtn" type="button">Trainingsplan fortsetzen</button>
+</div>
+</section><section class="card">
 <div class="row">
 <div>
 <div class="label">Aufbau Liegestütze</div>
@@ -263,6 +275,6 @@
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
 </nav>
-<script src="app.js?v=32"></script>
+<script src="app.js?v=33"></script>
 </body>
 </html>
