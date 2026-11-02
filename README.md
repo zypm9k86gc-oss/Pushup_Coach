@@ -240,3 +240,10 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - „Trainingseintrag speichern“ übernimmt Liegestütze, Plank und den aktuellen Stabilitäts-Satzstand exakt wie eingetragen; fehlende Sätze werden nicht automatisch ergänzt.
 - „Trainingsplan pausieren“ friert den aktuellen Zielwert ein und deaktiviert planmäßige Push-Erinnerungen. „Fortsetzen“ startet mit denselben Werten und baut von dort bis 31.12. neu auf.
 - Stabilitätsübungen rotieren ab November in drei Varianten pro Wochentag für mehr Abwechslung.
+
+
+## Update v34 – Startreihenfolge repariert
+- Stabilitätsübungen, Historie und Reminder-Logik werden erst initialisiert, nachdem alle Module geladen sind.
+- Verhindert den JavaScript-Abbruch, der in v33 die Stabilitätsanzeige, Historie und Reminder-Bedienung blockiert hat.
+- Reminder-Zeiten sind wieder bearbeitbar und speicherbar; Push kann wieder aktiviert/deaktiviert werden.
+- Cache-Version auf v34 erhöht.
