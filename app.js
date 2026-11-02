@@ -991,7 +991,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=33", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=34", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1020,13 +1020,7 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-load();
-render();
-setActivePage(localStorage.getItem("356Coach.activePage") || "training", {scroll:false});
-
-document.querySelector("#addPushAlways").addEventListener("click",()=>{const i=document.querySelector("#pushInputAlways"),n=Number(i.value);if(n>0){state.todayPushups+=n;i.value="";save();render();}});
-document.querySelector("#addPlankAlways").addEventListener("click",()=>{const mi=document.querySelector("#plankMinAlways"),si=document.querySelector("#plankSecAlways");const n=Math.floor((Math.max(0,Number(mi.value)||0)*60)+Math.max(0,Math.min(59,Number(si.value)||0)));if(n>0){state.todayPlank+=n;state.todayBestSinglePlank=Math.max(state.todayBestSinglePlank||0,n);mi.value="";si.value="";save();render();}});
-
+// Initialisierung erfolgt am Dateiende, nachdem alle Module geladen sind.\n
 
 // ---------- Backup / Restore ----------
 function makeBackupPayload(){
@@ -1925,4 +1919,56 @@ document.querySelector("#copySubscriptionId")?.addEventListener("click",async()=
   catch(err){setPushStatus("Kopieren nicht möglich. Halte die ID gedrückt und kopiere sie manuell.",true);}
 });
 
-window.addEventListener("load",initTrainingPush);
+function bootstrapCoachApp(){
+  try{
+    load();
+    render();
+  }catch(err){
+    console.error("356 Coach: Hauptansicht konnte nicht initialisiert werden:",err);
+  }
+
+  try{
+    renderKnee();
+  }catch(err){
+    console.error("356 Coach: Stabilitätsübungen konnten nicht initialisiert werden:",err);
+  }
+
+  try{
+    setActivePage(localStorage.getItem("356Coach.activePage") || "training", {scroll:false});
+  }catch(err){
+    console.error("356 Coach: Navigation konnte nicht initialisiert werden:",err);
+  }
+
+  document.querySelector("#addPushAlways")?.addEventListener("click",()=>{
+    const i=document.querySelector("#pushInputAlways");
+    const n=Number(i?.value);
+    if(n>0){
+      state.todayPushups+=n;
+      i.value="";
+      save();
+      render();
+    }
+  });
+
+  document.querySelector("#addPlankAlways")?.addEventListener("click",()=>{
+    const mi=document.querySelector("#plankMinAlways");
+    const si=document.querySelector("#plankSecAlways");
+    const n=Math.floor((Math.max(0,Number(mi?.value)||0)*60)+Math.max(0,Math.min(59,Number(si?.value)||0)));
+    if(n>0){
+      state.todayPlank+=n;
+      state.todayBestSinglePlank=Math.max(state.todayBestSinglePlank||0,n);
+      if(mi)mi.value="";
+      if(si)si.value="";
+      save();
+      render();
+    }
+  });
+}
+
+bootstrapCoachApp();
+
+if(document.readyState==="complete"){
+  initTrainingPush();
+}else{
+  window.addEventListener("load",initTrainingPush,{once:true});
+}
