@@ -1249,7 +1249,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=35", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=36", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
