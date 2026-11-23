@@ -727,3 +727,8 @@ html[data-theme="light"]{
 .run-plan-overview{display:grid;gap:6px;margin-top:12px}.run-week-detail{border-top:1px solid var(--border);padding:8px 0}.run-week-detail summary{font-weight:800;font-size:12px;cursor:pointer}.run-plan-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:7px 4px;border-bottom:1px solid var(--border);font-size:11px}.run-plan-line strong{white-space:nowrap}.run-plan-line small{grid-column:1/-1;color:var(--muted)}
 .session-action-dialog{max-width:430px}.session-dialog-body{display:grid;gap:12px;padding:8px 0 14px}.session-reason-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.session-reason-buttons button{min-height:44px;padding:7px 5px;font-size:11px}.session-reason-buttons button.selected{border:2px solid var(--push);background:color-mix(in srgb,var(--push) 12%,var(--card));font-weight:900}.session-action-dialog .edit-dialog-actions{display:grid;grid-template-columns:1fr 1fr}#strengthSessionActions:empty{display:none}
 @media(max-width:520px){.app-brand-logo{width:34px;height:34px}.run-week-rhythm{gap:5px}.run-week-rhythm span{font-size:10px;padding:9px 4px}.running-stats{gap:5px}.running-stats strong{font-size:15px}.running-stats span{font-size:9px}.session-reason-buttons{grid-template-columns:1fr}.session-action-dialog .edit-dialog-actions{grid-template-columns:1fr}}
+
+/* v35: vier Hauptseiten */
+.bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr));}
+.bottom-nav-btn{min-width:0;}
+@media(max-width:390px){.bottom-nav-btn{font-size:10px;padding-left:1px;padding-right:1px}.bottom-nav-btn .nav-icon{font-size:18px}}
