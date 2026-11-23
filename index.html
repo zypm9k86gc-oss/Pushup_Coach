@@ -11,13 +11,13 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Super Paul" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=37" rel="manifest"/>
-<link href="favicon-32.png?v=37" rel="icon" type="image/png" sizes="32x32"/>
-<link href="super-paul-icon.svg?v=37" rel="icon" type="image/svg+xml"/>
-<link href="icon-192.png?v=37" rel="apple-touch-icon" sizes="192x192"/>
-<link href="styles.css?v=37" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=38" rel="manifest"/>
+<link href="favicon-32.png?v=38" rel="icon" type="image/png" sizes="32x32"/>
+<link href="super-paul-icon.svg?v=38" rel="icon" type="image/svg+xml"/>
+<link href="icon-192.png?v=38" rel="apple-touch-icon" sizes="192x192"/>
+<link href="styles.css?v=38" rel="stylesheet"/>
 <title>Super Paul</title>
-<script src="push-config.js?v=37"></script>
+<script src="push-config.js?v=38"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -37,12 +37,23 @@
 </svg><span>Super Paul</span></div>
 <button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
 </header>
-<nav class="page-switcher" aria-label="Alle vier App-Seiten">
-  <button class="page-switcher-btn active" type="button" data-page-target="strength" aria-controls="page-strength" aria-pressed="true"><span class="nav-icon" aria-hidden="true">✦</span><span>Kraft</span></button>
+<nav class="page-switcher" aria-label="Alle fünf App-Seiten">
+  <button class="page-switcher-btn active" type="button" data-page-target="overview" aria-controls="page-overview" aria-pressed="true"><span class="nav-icon" aria-hidden="true">▦</span><span>Übersicht</span></button>
+  <button class="page-switcher-btn" type="button" data-page-target="strength" aria-controls="page-strength" aria-pressed="false"><span class="nav-icon" aria-hidden="true">✦</span><span>Kraft</span></button>
   <button class="page-switcher-btn" type="button" data-page-target="running" aria-controls="page-running" aria-pressed="false"><span class="nav-icon" aria-hidden="true">🏃</span><span>Laufen</span></button>
   <button class="page-switcher-btn" type="button" data-page-target="history" aria-controls="page-history" aria-pressed="false"><span class="nav-icon" aria-hidden="true">▥</span><span>Historie</span></button>
   <button class="page-switcher-btn" type="button" data-page-target="settings" aria-controls="page-settings" aria-pressed="false"><span class="nav-icon" aria-hidden="true">⚙︎</span><span>Einstellungen</span></button>
 </nav>
+<section class="page-view" data-page="overview" id="page-overview">
+<div class="page-heading"><div class="eyebrow">Super Paul · Trainingsübersicht</div><h1>Kalender</h1><p>Alle fälligen Kraft-, Stabilitäts- und Laufeinheiten auf einen Blick.</p></div>
+<section class="card calendar-card">
+  <div class="calendar-monthbar"><button type="button" class="calendar-month-button" data-calendar-shift="-1" aria-label="Vorheriger Monat">‹</button><strong id="calendarMonthTitle">November 2026</strong><button type="button" class="calendar-month-button" data-calendar-shift="1" aria-label="Nächster Monat">›</button></div>
+  <div class="calendar-legend"><span><i class="calendar-dot calendar-dot-strength"></i>Kraft</span><span><i class="calendar-dot calendar-dot-stability"></i>Stabilität</span><span><i class="calendar-dot calendar-dot-run"></i>Laufen</span><span><i class="calendar-dot calendar-dot-done"></i>Erledigt</span></div>
+  <div id="calendarGrid" class="calendar-grid" aria-label="Trainingskalender"></div><div id="calendarDayDetails" class="calendar-day-details"></div>
+</section>
+<section class="card calendar-next-card"><div class="entry-heading">Nächste geplante Einheiten</div><div id="calendarNextSessions"></div></section>
+<section class="card calendar-week-note"><div class="entry-heading">Dein Wochenrhythmus</div><div class="calendar-rhythm-grid"><span><strong>Mo</strong>Kraft + Beine</span><span><strong>Di</strong>Zone 2 optional</span><span><strong>Mi</strong>Kraft + Stabilität</span><span><strong>Do</strong>Laufqualität</span><span><strong>Fr</strong>Kraft + Beine</span><span><strong>Sa</strong>Ruhetag</span><span><strong>So</strong>Longrun</span></div></section>
+</section>
 <section class="page-view" data-page="strength" id="page-strength"><div class="page-heading">
 <div class="eyebrow">Ziel 31. Dezember 2026</div>
 <h1>Kraft</h1>
@@ -162,15 +173,15 @@
 </div></section><section class="page-view" data-page="running" hidden="" id="page-running">
 <div class="page-heading"><div class="eyebrow">Halbmarathon · Zieltermin 04. April 2027</div><h1>Laufen</h1><p>Halbmarathon unter 1:40 h · Zielpace 4:44 min/km</p></div>
 <section class="card run-goal-card"><div class="run-goal-main"><div class="label">Dein Laufziel</div><div class="run-goal-time">1:40:00</div><div class="run-goal-sub">21,1 km · 04.04.2027 · Ø 4:44 min/km</div></div>
-<p class="run-goal-note">Ausgangslage: 10 km mit ca. 6:00 min/km. 1:40 h ist in diesem Zeitraum ein sehr ambitioniertes Stretch-Ziel. Laufe die lockeren Einheiten nach Gesprächstempo, steigere nur bei guter Regeneration und bewerte das Ziel nach dem 10-km-Formtest Ende Februar neu.</p></section>
+<p class="run-goal-note">Ausgangslage: 10 km bei ca. 6:00 min/km in Zone 2. Das ist deine aktuelle aerobe Referenz. Der Plan erhöht den Umfang moderat und ergänzt donnerstags strukturierte Schwellen-/Intervallreize. 1:40 h bleibt ein ambitioniertes Stretch-Ziel; die 10-km-Formprüfung Ende Februar entscheidet, ob 4:44 min/km realistisch ist.</p></section>
 <section class="card run-structure-card"><div class="entry-heading">Wochenrhythmus</div><div class="run-week-rhythm"><span><strong>Di</strong> optional locker</span><span><strong>Do</strong> Qualität</span><span><strong>So</strong> Longrun</span></div>
-<p class="entry-note">Zwei Läufe sind das Minimum: Donnerstag und Sonntag. Dienstag ist der optionale dritte Lauf. Montag, Mittwoch und Freitag bleiben Kraft-/Stabilitätstage; Samstag ist Ruhetag.</p>
-<p class="entry-note">Orientierung: lockere Läufe in vollständigem Gesprächstempo (anfangs grob 6:30–7:15 min/km, nach Gefühl anpassen). Zügige Abschnitte kontrolliert bei RPE 6–8/10; die Zielpace 4:44 min/km nicht erzwingen.</p></section>
+<p class="entry-note">Zwei Läufe sind das Minimum: Donnerstag (Qualität) und Sonntag (Longrun). Dienstag ist der optionale dritte Lauf in Zone 2. Montag, Mittwoch und Freitag bleiben Kraft-/Stabilitätstage; Samstag ist Ruhetag. Eine gezielte Qualitätseinheit pro Woche, der Rest überwiegend locker.</p>
+<p class="entry-note">Zone 2: dein aktueller Richtwert ist ca. 6:00 min/km. Halte die Herzfrequenz in deiner persönlichen Zone 2; an warmen Tagen, Steigungen oder bei Pulsdrift darfst du langsamer laufen. Donnerstag: Belastung nach RPE 7–8/10, nicht nach einer starren Pace. Die HM-Zielpace 4:44 min/km wird erst nach dem Formtest bewertet.</p></section>
 <section class="card running-stats-card"><div id="runningStats" class="running-stats"></div></section>
 <section class="card run-session-card"><div class="entry-heading">Aktuelle Laufeinheit</div><div id="runningTodayCard"></div></section>
 <section class="card run-stretch-card"><div class="entry-heading">Dehnen: Beine & Hüfte</div><p class="entry-note">Nach jedem Lauf, ohne in den Schmerz hineinzudehnen. Ruhig atmen und beide Seiten gleichmäßig bearbeiten.</p><div id="runningStretchRoutine"></div></section>
 <section class="card run-upcoming-card"><div class="entry-heading">Weitere Laufeinheiten</div><div id="runningUpcoming"></div></section>
-<section class="card run-plan-overview-card"><details><summary class="entry-heading">Kompletter 19-Wochen-Laufplan anzeigen</summary><div id="runningPlanOverview" class="running-plan-overview"></div></details></section>
+<section class="card run-plan-overview-card"><details><summary class="entry-heading">Kompletter verschärfter 19-Wochen-Laufplan anzeigen</summary><div id="runningPlanOverview" class="running-plan-overview"></div></details></section>
 <footer>Dienstag und Donnerstag sind Lauftage ohne Armtraining. Sonntag bleibt der lange Lauf; Samstag ist grundsätzlich frei.</footer></section>
 <section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
 <div class="eyebrow">Dein Fortschritt</div>
@@ -319,12 +330,12 @@
   <div class="edit-dialog-actions"><button class="secondary-button" type="button" id="sessionActionCloseSecondary">Zurück</button><button class="primary" type="button" id="sessionActionConfirm">Speichern</button></div>
 </dialog>
 
-<script src="app.js?v=37"></script>
+<script src="app.js?v=38"></script>
 <script>
 (function(){
-  const validPages=["strength","running","history","settings"];
+  const validPages=["overview","strength","running","history","settings"];
   function activateSuperPaulPage(page){
-    const next=validPages.includes(page)?page:"strength";
+    const next=validPages.includes(page)?page:"overview";
     document.querySelectorAll(".page-view").forEach(function(view){
       const active=view.dataset.page===next;
       view.hidden=!active;
@@ -344,11 +355,17 @@
       activateSuperPaulPage(button.dataset.pageTarget);
     });
   });
-  let initial="strength";
+  let initial="overview";
   try{
-    const saved=localStorage.getItem("356Coach.activePage");
-    if(saved==="training")initial="strength";
-    else if(validPages.includes(saved))initial=saved;
+    const defaultKey="superPaul.calendarDefault.v38";
+    if(localStorage.getItem(defaultKey)!=="1"){
+      localStorage.setItem(defaultKey,"1");
+      localStorage.setItem("356Coach.activePage","overview");
+    }else{
+      const saved=localStorage.getItem("356Coach.activePage");
+      if(saved==="training")initial="strength";
+      else if(validPages.includes(saved))initial=saved;
+    }
   }catch(e){}
   activateSuperPaulPage(initial);
   window.activateSuperPaulPage=activateSuperPaulPage;

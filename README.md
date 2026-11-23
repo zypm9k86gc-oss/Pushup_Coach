@@ -276,3 +276,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Bereits vergangene Sollwerte und gespeicherte Ist-Trainingsdaten bleiben erhalten.
 - Vorhandene Pause-/Fortsetzen-Werte und Remote-Planwerte werden beim Laden auf maximal 180 Sekunden begrenzt, ohne den Pausenzustand zurückzusetzen.
 - Backup bleibt kompatibel; neuer Exportstand v37.
+
+
+## Update v38 – Kalenderübersicht und intensiverer Laufaufbau
+- Neue Start-/Übersichtsseite mit Monatskalender, Tagesdetails, Status (geplant, offen, erledigt, verschoben/abgesagt) und Vorschau der nächsten Termine.
+- Kalender zeigt Kraft, Beinstabilität und Laufeinheiten; Monatswechsel und Tagesauswahl sind direkt bedienbar.
+- Standardansicht nach Update ist einmalig die Kalenderübersicht; die Nutzerauswahl wird danach lokal gespeichert.
+- Laufaufbau auf Basis 10 km bei ca. 6:00 min/km in Zone 2 angepasst: Dienstag optional Zone 2, Donnerstag strukturierte Schwellen-/Intervallarbeit, Sonntag Longrun.
+- Progression mit Entlastungswochen, langen Läufen bis 19 km und 10-km-Formtest Ende Februar; Samstag bleibt frei.
+- 1:40 h bleibt Stretch-Ziel; spezifische Wettkampfpace wird erst anhand des Formtests bewertet.
