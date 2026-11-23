@@ -1,11 +1,12 @@
-const CACHE = "super-paul-v35";
+const CACHE = "super-paul-v36";
 const CORE = [
-  "./push-config.js?v=35",
-  "./styles.css?v=35",
-  "./app.js?v=35",
-  "./manifest.webmanifest?v=35",
-  "./icon-192.png?v=35",
-  "./super-paul-icon.svg?v=35",
+  "./push-config.js?v=36",
+  "./styles.css?v=36",
+  "./app.js?v=36",
+  "./manifest.webmanifest?v=36",
+  "./icon-192.png?v=36",
+  "./favicon-32.png?v=36",
+  "./super-paul-icon.svg?v=36",
   "./trainingsplan.json"
 ];
 
