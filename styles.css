@@ -732,3 +732,14 @@ html[data-theme="light"]{
 .bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr));}
 .bottom-nav-btn{min-width:0;}
 @media(max-width:390px){.bottom-nav-btn{font-size:10px;padding-left:1px;padding-right:1px}.bottom-nav-btn .nav-icon{font-size:18px}}
+
+
+/* v36: Navigation ist immer sichtbar und Seitenwechsel erhält einen unabhängigen Fallback */
+.app{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+.app-brand{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:900}
+.app-brand-logo{display:block;width:44px;height:44px;flex:0 0 44px;overflow:visible}
+.bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr));z-index:100;min-height:62px}
+.bottom-nav-btn{min-width:0;white-space:nowrap;touch-action:manipulation;cursor:pointer}
+.bottom-nav-btn span:last-child{font-size:11px}
+.page-view[hidden]{display:none!important}
+@media(max-width:390px){.bottom-nav-btn{font-size:10px;padding-left:1px;padding-right:1px}.bottom-nav-btn .nav-icon{font-size:18px}}
