@@ -2,7 +2,7 @@
 
 ## Funktionen
 - Startwert: 80 Liegestütze + 70 Sekunden Plank
-- Ziel: 356 Liegestütze/Tag + 5:00 Min Plank am 31.10.2026
+- Ziel: 356 Liegestütze/Tag + 3:00 Min Plank am 31.12.2026
 - automatische Zielprogression nach Datum
 - Fortschrittsbalken zum Endziel
 - Fortschrittsbalken für das heutige Training
@@ -267,3 +267,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Apple-Touch-Icon und Web-App-Manifest zeigen auf das neue App-Icon.
 - Navigation erhält zusätzlich einen unabhängigen Fallback; Kraft, Laufen, Historie und Einstellungen können direkt umgeschaltet werden.
 - Service-Worker-Cache und Asset-Version auf v36 angehoben.
+
+
+## Update v37 – vier sichtbare Seiten und 3:00-Minuten-Plankziel
+- Die schmale untere Navigationsleiste wurde durch eine gut sichtbare, sticky 2×2-Auswahl mit Kraft, Laufen, Historie und Einstellungen direkt unter dem Logo ersetzt.
+- Plank-Endziel auf 180 Sekunden (3:00 Minuten) geändert; Liegestütze bleiben bei 356/Tag.
+- Offene Plantermine ab 23.11.2026 steigen schrittweise von 173 Sekunden auf 180 Sekunden am 31.12.2026.
+- Bereits vergangene Sollwerte und gespeicherte Ist-Trainingsdaten bleiben erhalten.
+- Vorhandene Pause-/Fortsetzen-Werte und Remote-Planwerte werden beim Laden auf maximal 180 Sekunden begrenzt, ohne den Pausenzustand zurückzusetzen.
+- Backup bleibt kompatibel; neuer Exportstand v37.

@@ -11,13 +11,13 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Super Paul" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=36" rel="manifest"/>
-<link href="favicon-32.png?v=36" rel="icon" type="image/png" sizes="32x32"/>
-<link href="super-paul-icon.svg?v=36" rel="icon" type="image/svg+xml"/>
-<link href="icon-192.png?v=36" rel="apple-touch-icon" sizes="192x192"/>
-<link href="styles.css?v=36" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=37" rel="manifest"/>
+<link href="favicon-32.png?v=37" rel="icon" type="image/png" sizes="32x32"/>
+<link href="super-paul-icon.svg?v=37" rel="icon" type="image/svg+xml"/>
+<link href="icon-192.png?v=37" rel="apple-touch-icon" sizes="192x192"/>
+<link href="styles.css?v=37" rel="stylesheet"/>
 <title>Super Paul</title>
-<script src="push-config.js?v=36"></script>
+<script src="push-config.js?v=37"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -36,10 +36,17 @@
 <path d="M144 344 368 344 256 392Z" fill="url(#spGold)" stroke="#a85b00" stroke-width="5" stroke-linejoin="round"/>
 </svg><span>Super Paul</span></div>
 <button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
-</header><section class="page-view" data-page="strength" id="page-strength"><div class="page-heading">
+</header>
+<nav class="page-switcher" aria-label="Alle vier App-Seiten">
+  <button class="page-switcher-btn active" type="button" data-page-target="strength" aria-controls="page-strength" aria-pressed="true"><span class="nav-icon" aria-hidden="true">✦</span><span>Kraft</span></button>
+  <button class="page-switcher-btn" type="button" data-page-target="running" aria-controls="page-running" aria-pressed="false"><span class="nav-icon" aria-hidden="true">🏃</span><span>Laufen</span></button>
+  <button class="page-switcher-btn" type="button" data-page-target="history" aria-controls="page-history" aria-pressed="false"><span class="nav-icon" aria-hidden="true">▥</span><span>Historie</span></button>
+  <button class="page-switcher-btn" type="button" data-page-target="settings" aria-controls="page-settings" aria-pressed="false"><span class="nav-icon" aria-hidden="true">⚙︎</span><span>Einstellungen</span></button>
+</nav>
+<section class="page-view" data-page="strength" id="page-strength"><div class="page-heading">
 <div class="eyebrow">Ziel 31. Dezember 2026</div>
 <h1>Kraft</h1>
-<p>356 Liegestütze/Tag + 4:00 Min Plank</p>
+<p>356 Liegestütze/Tag + 3:00 Min Plank</p>
 </div><section class="card plan-control-card">
 <div class="row plan-control-row">
 <div>
@@ -65,11 +72,11 @@
 <div class="row">
 <div>
 <div class="label">Aufbau Plank</div>
-<div class="value"><span id="targetPlank">1:10</span> / 4:00</div>
+<div class="value"><span id="targetPlank">1:10</span> / 3:00</div>
 </div>
 <div class="percent" id="goalPlankPercent">23%</div>
 </div>
-<progress id="goalPlankProgress" max="240" value="70"></progress>
+<progress id="goalPlankProgress" max="180" value="70"></progress>
 </section><h2>Heute</h2><section class="card due-card">
 <div class="label">Trainingsprogramm nach Datum</div>
 <div class="program" id="todayProgram"></div><div id="strengthSessionActions"></div>
@@ -311,31 +318,27 @@
   </div>
   <div class="edit-dialog-actions"><button class="secondary-button" type="button" id="sessionActionCloseSecondary">Zurück</button><button class="primary" type="button" id="sessionActionConfirm">Speichern</button></div>
 </dialog>
-<nav aria-label="Hauptnavigation" class="bottom-nav">
-<button aria-selected="true" class="bottom-nav-btn active" data-page-target="strength" type="button"><span class="nav-icon">✦</span><span>Kraft</span></button>
-<button aria-selected="false" class="bottom-nav-btn" data-page-target="running" type="button"><span class="nav-icon">🏃</span><span>Laufen</span></button>
-<button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
-<button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
-</nav>
-<script src="app.js?v=36"></script>
+
+<script src="app.js?v=37"></script>
 <script>
 (function(){
   const validPages=["strength","running","history","settings"];
   function activateSuperPaulPage(page){
-    const next=validPages.includes(page)?"strength"===page?"strength":page:"strength";
+    const next=validPages.includes(page)?page:"strength";
     document.querySelectorAll(".page-view").forEach(function(view){
       const active=view.dataset.page===next;
       view.hidden=!active;
       view.setAttribute("aria-hidden",active?"false":"true");
     });
-    document.querySelectorAll(".bottom-nav-btn").forEach(function(button){
+    document.querySelectorAll(".page-switcher-btn").forEach(function(button){
       const active=button.dataset.pageTarget===next;
       button.classList.toggle("active",active);
-      button.setAttribute("aria-selected",active?"true":"false");
+      button.setAttribute("aria-pressed",active?"true":"false");
+      button.setAttribute("aria-current",active?"page":"false");
     });
     try{localStorage.setItem("356Coach.activePage",next);}catch(e){}
   }
-  document.querySelectorAll(".bottom-nav-btn").forEach(function(button){
+  document.querySelectorAll(".page-switcher-btn").forEach(function(button){
     button.addEventListener("click",function(event){
       event.preventDefault();
       activateSuperPaulPage(button.dataset.pageTarget);

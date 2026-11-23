@@ -7,7 +7,7 @@ const PLAN_GOAL_DATE = "2026-12-31";
 const PLAN_RESET_PUSHUPS = 216;
 const PLAN_RESET_PLANK = 173;
 const PLAN_GOAL_PUSHUPS = 356;
-const PLAN_GOAL_PLANK = 240;
+const PLAN_GOAL_PLANK = 180;
 const PLAN_CONTROL_VERSION = 33;
 
 const targets = [
@@ -20,7 +20,7 @@ const targets = [
   {pushups:283, plank:205},
   {pushups:313, plank:219},
   {pushups:340, plank:232},
-  {pushups:356, plank:240}
+  {pushups:356, plank:180}
 ];
 
 const checkpoints = [
@@ -29,10 +29,10 @@ const checkpoints = [
   ["02.10.2026","216 Liegestütze / 2:53 Plank"],
   ["02.11.2026","Neustart auf Stand Anfang Oktober: 216 / 2:53"],
   ["13.11.2026","243 Liegestütze / 3:06 Plank"],
-  ["27.11.2026","275 Liegestütze / 3:21 Plank"],
-  ["11.12.2026","308 Liegestütze / 3:37 Plank"],
-  ["25.12.2026","340 Liegestütze / 3:52 Plank"],
-  ["31.12.2026","356 Liegestütze / 4:00 Plank"]
+  ["27.11.2026","275 Liegestütze / 2:54 Plank"],
+  ["11.12.2026","308 Liegestütze / 2:56 Plank"],
+  ["25.12.2026","340 Liegestütze / 2:59 Plank"],
+  ["31.12.2026","356 Liegestütze / 3:00 Plank"]
 ];
 
 const RUN_WEEK_PLAN=[{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Lockere Temporeize","qualityDetail":"6 × 1 Minute flott, dazwischen je 2 Minuten sehr locker traben. Mit Ein- und Auslaufen.","longKm":8,"longDetail":"8 km in ruhigem Gesprächstempo."},{"easyKm":4.5,"qualityKm":6,"qualityTitle":"Kontrollierte Intervalle","qualityDetail":"3 × 4 Minuten zügig und gleichmäßig, jeweils 3 Minuten locker dazwischen.","longKm":9,"longDetail":"9 km locker; gleichmäßige Atmung, kein Endspurt."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Fahrtspiel","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":10,"longDetail":"10 km locker und entspannt."},{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Entlastungswoche","qualityDetail":"5,5 km locker mit 4 × 15 Sekunden lockeren Steigerungen am Ende.","longKm":8,"longDetail":"8 km sehr locker; bewusst weniger Umfang."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Tempostücke","qualityDetail":"3 × 6 Minuten kontrolliert zügig, jeweils 3 Minuten locker.","longKm":11,"longDetail":"11 km locker."},{"easyKm":5,"qualityKm":7.5,"qualityTitle":"Intervalle","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":12,"longDetail":"12 km locker; nur steigern, wenn du dich frisch fühlst."},{"easyKm":5.5,"qualityKm":8,"qualityTitle":"Schwellenlauf","qualityDetail":"2 × 10 Minuten gleichmäßig zügig, dazwischen 4 Minuten locker.","longKm":13,"longDetail":"13 km locker; Trink- und Verpflegung testen."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastungswoche","qualityDetail":"6,5 km locker mit 4 × 15 Sekunden Steigerungen.","longKm":10,"longDetail":"10 km entspannt; Umfang reduzieren."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Kilometerintervalle","qualityDetail":"4 × 1 km kontrolliert zügig, dazwischen je 2–3 Minuten Trabpause.","longKm":14,"longDetail":"14 km locker."},{"easyKm":6,"qualityKm":8.5,"qualityTitle":"Tempolauf","qualityDetail":"3 × 8 Minuten im kontrollierten Schwellenbereich, jeweils 3 Minuten locker.","longKm":15,"longDetail":"15 km locker; Verpflegung regelmäßig aufnehmen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"6 × 800 m zügig und technisch sauber, dazwischen 400 m locker traben.","longKm":16,"longDetail":"16 km locker; lange Einheit nicht auf Tempo laufen."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Entlastungswoche","qualityDetail":"7 km locker mit 5 × 15 Sekunden lockeren Steigerungen.","longKm":12,"longDetail":"12 km sehr locker."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Längere Tempoblöcke","qualityDetail":"2 × 15 Minuten kontrolliert zügig, dazwischen 5 Minuten locker.","longKm":17,"longDetail":"17 km locker; Ernährung und Trinken üben."},{"easyKm":6,"qualityKm":10,"qualityTitle":"10-km-Formtest","qualityDetail":"10 km gleichmäßig und kontrolliert laufen. Kein Sprint-Finish; Ergebnis zur Neubewertung des HM-Ziels notieren.","longKm":16,"longDetail":"16 km locker; nach dem Formtest die Regeneration priorisieren."},{"easyKm":6.5,"qualityKm":10,"qualityTitle":"Halbmarathon-spezifisch","qualityDetail":"3 × 2 km zügig und kontrolliert, dazwischen 1 km locker. Intensität anhand des 10-km-Formtests wählen.","longKm":18,"longDetail":"18 km locker, letzte 2 km höchstens moderat."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Tempolauf","qualityDetail":"20–25 Minuten gleichmäßig zügig im Bereich der aktuellen Form, nicht die Zielpace erzwingen.","longKm":15,"longDetail":"15 km entspannt; beginnende Umfangsreduktion."},{"easyKm":6,"qualityKm":10,"qualityTitle":"Langer Tempoblock","qualityDetail":"2 × 4 km im kontrollierten Halbmarathon-Aufwand nur dann, wenn der Formtest das hergibt; sonst moderat zügig.","longKm":18,"longDetail":"18 km locker; nur bei stabiler Belastungsverträglichkeit."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Taper / Entlastung","qualityDetail":"3 × 5 Minuten kontrolliert zügig mit 3 Minuten locker. Frisch bleiben.","longKm":12,"longDetail":"12 km sehr locker; Umfang deutlich reduzieren."},{"easyKm":4,"qualityKm":4,"qualityTitle":"Wettkampfwoche","qualityDetail":"4 km sehr locker mit 4 × 15 Sekunden lockeren Steigerungen. Keine harte Einheit mehr.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Ziel 1:40 h nur anpeilen, wenn Formtest und Tagesform es realistisch erscheinen lassen."}];
@@ -296,7 +296,7 @@ document.addEventListener("change",function(event){
   state.runStretchDone[input.dataset.sessionId][input.dataset.stretchId]=input.checked;save();renderRunning();
 });
 
-const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-11-04","pushups":221,"plank":176,"sets":"13×14 + 3×13","checkpoint":false},{"date":"2026-11-06","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-11-09","pushups":232,"plank":181,"sets":"8×15 + 8×14","checkpoint":false},{"date":"2026-11-11","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-11-13","pushups":243,"plank":186,"sets":"3×16 + 13×15","checkpoint":true},{"date":"2026-11-16","pushups":248,"plank":188,"sets":"8×16 + 8×15","checkpoint":false},{"date":"2026-11-18","pushups":254,"plank":191,"sets":"14×16 + 2×15","checkpoint":false},{"date":"2026-11-20","pushups":259,"plank":194,"sets":"3×17 + 13×16","checkpoint":false},{"date":"2026-11-23","pushups":264,"plank":196,"sets":"9×16 + 8×15","checkpoint":false},{"date":"2026-11-25","pushups":270,"plank":199,"sets":"15×16 + 2×15","checkpoint":false},{"date":"2026-11-27","pushups":275,"plank":201,"sets":"3×17 + 14×16","checkpoint":true},{"date":"2026-11-30","pushups":281,"plank":204,"sets":"9×17 + 8×16","checkpoint":false},{"date":"2026-12-02","pushups":286,"plank":206,"sets":"14×17 + 3×16","checkpoint":false},{"date":"2026-12-04","pushups":291,"plank":209,"sets":"2×18 + 15×17","checkpoint":false},{"date":"2026-12-07","pushups":297,"plank":212,"sets":"8×18 + 9×17","checkpoint":false},{"date":"2026-12-09","pushups":302,"plank":214,"sets":"13×18 + 4×17","checkpoint":false},{"date":"2026-12-11","pushups":308,"plank":217,"sets":"2×19 + 15×18","checkpoint":true},{"date":"2026-12-14","pushups":313,"plank":219,"sets":"7×18 + 11×17","checkpoint":false},{"date":"2026-12-16","pushups":318,"plank":222,"sets":"12×18 + 6×17","checkpoint":false},{"date":"2026-12-18","pushups":324,"plank":225,"sets":"18×18","checkpoint":false},{"date":"2026-12-21","pushups":329,"plank":227,"sets":"5×19 + 13×18","checkpoint":false},{"date":"2026-12-23","pushups":334,"plank":230,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-12-25","pushups":340,"plank":232,"sets":"16×19 + 2×18","checkpoint":true},{"date":"2026-12-28","pushups":345,"plank":235,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-12-30","pushups":351,"plank":237,"sets":"9×20 + 9×19","checkpoint":false},{"date":"2026-12-31","pushups":356,"plank":240,"sets":"14×20 + 4×19","checkpoint":true}];
+const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-11-04","pushups":221,"plank":176,"sets":"13×14 + 3×13","checkpoint":false},{"date":"2026-11-06","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-11-09","pushups":232,"plank":181,"sets":"8×15 + 8×14","checkpoint":false},{"date":"2026-11-11","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-11-13","pushups":243,"plank":186,"sets":"3×16 + 13×15","checkpoint":true},{"date":"2026-11-16","pushups":248,"plank":188,"sets":"8×16 + 8×15","checkpoint":false},{"date":"2026-11-18","pushups":254,"plank":191,"sets":"14×16 + 2×15","checkpoint":false},{"date":"2026-11-20","pushups":259,"plank":194,"sets":"3×17 + 13×16","checkpoint":false},{"date":"2026-11-23","pushups":264,"plank":173,"sets":"9×16 + 8×15","checkpoint":false},{"date":"2026-11-25","pushups":270,"plank":173,"sets":"15×16 + 2×15","checkpoint":false},{"date":"2026-11-27","pushups":275,"plank":174,"sets":"3×17 + 14×16","checkpoint":true},{"date":"2026-11-30","pushups":281,"plank":174,"sets":"9×17 + 8×16","checkpoint":false},{"date":"2026-12-02","pushups":286,"plank":175,"sets":"14×17 + 3×16","checkpoint":false},{"date":"2026-12-04","pushups":291,"plank":175,"sets":"2×18 + 15×17","checkpoint":false},{"date":"2026-12-07","pushups":297,"plank":175,"sets":"8×18 + 9×17","checkpoint":false},{"date":"2026-12-09","pushups":302,"plank":176,"sets":"13×18 + 4×17","checkpoint":false},{"date":"2026-12-11","pushups":308,"plank":176,"sets":"2×19 + 15×18","checkpoint":true},{"date":"2026-12-14","pushups":313,"plank":177,"sets":"7×18 + 11×17","checkpoint":false},{"date":"2026-12-16","pushups":318,"plank":177,"sets":"12×18 + 6×17","checkpoint":false},{"date":"2026-12-18","pushups":324,"plank":178,"sets":"18×18","checkpoint":false},{"date":"2026-12-21","pushups":329,"plank":178,"sets":"5×19 + 13×18","checkpoint":false},{"date":"2026-12-23","pushups":334,"plank":178,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-12-25","pushups":340,"plank":179,"sets":"16×19 + 2×18","checkpoint":true},{"date":"2026-12-28","pushups":345,"plank":179,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-12-30","pushups":351,"plank":180,"sets":"9×20 + 9×19","checkpoint":false},{"date":"2026-12-31","pushups":356,"plank":180,"sets":"14×20 + 4×19","checkpoint":true}]
 
 function defaultPlanControl(){
   return {
@@ -316,7 +316,14 @@ function ensurePlanControl(){
   if(!state.planControl || Number(state.planControl.version)!==PLAN_CONTROL_VERSION){
     state.planControl=defaultPlanControl();
   }
-  return state.planControl;
+  const pc=state.planControl;
+  if(pc.frozenPlank!=null && Number.isFinite(Number(pc.frozenPlank))){
+    pc.frozenPlank=Math.max(1,Math.min(PLAN_GOAL_PLANK,Math.round(Number(pc.frozenPlank))));
+  }
+  if(pc.resumePlank!=null && Number.isFinite(Number(pc.resumePlank))){
+    pc.resumePlank=Math.max(1,Math.min(PLAN_GOAL_PLANK,Math.round(Number(pc.resumePlank))));
+  }
+  return pc;
 }
 
 function isPlanPaused(){return !!ensurePlanControl().paused;}
@@ -791,7 +798,7 @@ function render(){
   }
 
   const pushPct = Math.min(100, Math.round(t.pushups/356*100));
-  const plankPct = Math.min(100, Math.round(t.plank/240*100));
+  const plankPct = Math.min(100, Math.round(t.plank/180*100));
   const displayPushups=open?open.progressPush:state.todayPushups;
   const displayPlank=open?open.progressPlank:state.todayPlank;
   const todayPushPct = Math.min(100, Math.round(displayPushups/t.pushups*100));
@@ -1223,7 +1230,7 @@ async function resumeTrainingPlan(){
 document.querySelector("#pausePlanBtn")?.addEventListener("click",pauseTrainingPlan);
 document.querySelector("#resumePlanBtn")?.addEventListener("click",resumeTrainingPlan);
 
-// ---------- 3-Seiten-Navigation ----------
+// ---------- Vier-Seiten-Navigation ----------
 function setActivePage(page, {scroll=true}={}){
   const requested=page==="training"?"strength":page;
   const valid=["strength","running","history","settings"];
@@ -1231,7 +1238,7 @@ function setActivePage(page, {scroll=true}={}){
   document.querySelectorAll(".page-view").forEach(view=>{
     view.hidden=view.dataset.page!==next;
   });
-  document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
+  document.querySelectorAll(".page-switcher-btn").forEach(btn=>{
     const active=btn.dataset.pageTarget===next;
     btn.classList.toggle("active",active);
     btn.setAttribute("aria-selected",active?"true":"false");
@@ -1242,14 +1249,14 @@ function setActivePage(page, {scroll=true}={}){
   if(scroll) window.scrollTo({top:0,behavior:"auto"});
 }
 
-document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
+document.querySelectorAll(".page-switcher-btn").forEach(btn=>{
   btn.addEventListener("click",()=>setActivePage(btn.dataset.pageTarget));
 });
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=36", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=37", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1284,7 +1291,7 @@ if ("serviceWorker" in navigator) {
 function makeBackupPayload(){
   return {
     app: "Super Paul",
-    version: 35,
+    version: 37,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state
@@ -1984,7 +1991,7 @@ function applyRemotePlanControlTags(tags){
   const rp=Number(tags.coach_plan_resume_pushups);
   const rl=Number(tags.coach_plan_resume_plank);
   if(rp>0)pc.resumePushups=rp;
-  if(rl>0)pc.resumePlank=rl;
+  if(rl>0)pc.resumePlank=Math.min(PLAN_GOAL_PLANK,rl);
 }
 
 async function loadRemoteReminderPrefs(OneSignal){

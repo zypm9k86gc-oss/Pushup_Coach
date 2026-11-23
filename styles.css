@@ -735,11 +735,50 @@ html[data-theme="light"]{
 
 
 /* v36: Navigation ist immer sichtbar und Seitenwechsel erhält einen unabhängigen Fallback */
-.app{padding-bottom:calc(112px + env(safe-area-inset-bottom))}
+.app{padding-bottom:calc(54px + env(safe-area-inset-bottom))}
 .app-brand{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:900}
 .app-brand-logo{display:block;width:44px;height:44px;flex:0 0 44px;overflow:visible}
-.bottom-nav{grid-template-columns:repeat(4,minmax(0,1fr));z-index:100;min-height:62px}
+.bottom-nav{display:none!important}
 .bottom-nav-btn{min-width:0;white-space:nowrap;touch-action:manipulation;cursor:pointer}
 .bottom-nav-btn span:last-child{font-size:11px}
 .page-view[hidden]{display:none!important}
 @media(max-width:390px){.bottom-nav-btn{font-size:10px;padding-left:1px;padding-right:1px}.bottom-nav-btn .nav-icon{font-size:18px}}
+
+
+/* v37 – klare, immer sichtbare 2x2-Navigation */
+.page-switcher{
+  position:sticky;
+  top:env(safe-area-inset-top);
+  z-index:100;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  width:100%;
+  margin:0 0 18px;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:color-mix(in srgb,var(--card) 96%,transparent);
+  box-shadow:0 5px 18px rgba(0,0,0,.10);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.page-switcher-btn{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  min-width:0;
+  min-height:48px;
+  padding:10px 12px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:850;
+  white-space:nowrap;
+  touch-action:manipulation;
+  cursor:pointer;
+}
+.page-switcher-btn .nav-icon{display:inline-grid;place-items:center;width:24px;flex:0 0 24px;font-size:20px;line-height:1}
+.page-switcher-btn.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+.page-switcher-btn:focus-visible{outline:3px solid var(--push);outline-offset:2px}
+.page-view[hidden]{display:none!important}
