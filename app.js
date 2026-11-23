@@ -83,7 +83,9 @@ function effectiveRunEntries(){
   }).filter(Boolean).sort(function(a,b){return a.scheduledDate.localeCompare(b.scheduledDate);});
 }
 function sessionActionButtons(type,key){
-  return '<div class="session-action-buttons"><button type="button" class="secondary-button" data-session-action="move" data-session-type="'+type+'" data-session-key="'+key+'">Verschieben</button><button type="button" class="danger" data-session-action="cancel" data-session-type="'+type+'" data-session-key="'+key+'">Absagen</button></div>';
+  const run=type==="run"?RUN_SESSIONS.find(function(s){return s.id===key;}):null;
+  const move=run&&run.race?"":'<button type="button" class="secondary-button" data-session-action="move" data-session-type="'+type+'" data-session-key="'+key+'">Verschieben</button>';
+  return '<div class="session-action-buttons">'+move+'<button type="button" class="danger" data-session-action="cancel" data-session-type="'+type+'" data-session-key="'+key+'">Absagen</button></div>';
 }
 function formatRunKm(km){return Number(km).toLocaleString("de-DE",{maximumFractionDigits:1})+" km";}
 function formatRunShortDate(key){const p=key.split("-").map(Number);return new Intl.DateTimeFormat("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"}).format(new Date(p[0],p[1]-1,p[2]));}
@@ -184,6 +186,10 @@ function renderRunning(){
 }
 function allowedSessionMoveDate(type,key,date){
   if(!date||date<=todayKey()||date>RUN_PLAN_GOAL_DATE)return false;
+  const prior=getSessionAction(type,key);
+  const originalDate=type==="run"?((RUN_SESSIONS.find(function(s){return s.id===key;})||{}).date):key;
+  const currentDate=prior&&prior.status==="moved"?prior.newDate:originalDate;
+  if(date===currentDate)return false;
   const day=new Date(date+"T12:00:00").getDay();
   if(day===6)return false;
   if(type==="run"){
