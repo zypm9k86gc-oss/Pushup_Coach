@@ -35,7 +35,7 @@ const checkpoints = [
   ["31.12.2026","356 Liegestütze / 4:00 Plank"]
 ];
 
-const RUN_WEEK_PLAN=[{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Lockere Temporeize","qualityDetail":"6 × 1 Minute flott, dazwischen je 2 Minuten sehr locker traben. Mit Ein- und Auslaufen.","longKm":8,"longDetail":"8 km in ruhigem Gesprächstempo."},{"easyKm":4.5,"qualityKm":6,"qualityTitle":"Kontrollierte Intervalle","qualityDetail":"3 × 4 Minuten zügig und gleichmäßig, jeweils 3 Minuten locker dazwischen.","longKm":9,"longDetail":"9 km locker; gleichmäßige Atmung, kein Endspurt."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Fahrtspiel","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":10,"longDetail":"10 km locker und entspannt."},{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Entlastungswoche","qualityDetail":"5,5 km locker mit 4 × 15 Sekunden lockeren Steigerungen am Ende.","longKm":8,"longDetail":"8 km sehr locker; bewusst weniger Umfang."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Tempostücke","qualityDetail":"3 × 6 Minuten kontrolliert zügig, jeweils 3 Minuten locker.","longKm":11,"longDetail":"11 km locker."},{"easyKm":5,"qualityKm":7.5,"qualityTitle":"Intervalle","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":12,"longDetail":"12 km locker; nur steigern, wenn du dich frisch fühlst."},{"easyKm":5.5,"qualityKm":8,"qualityTitle":"Schwellenlauf","qualityDetail":"2 × 10 Minuten gleichmäßig zügig, dazwischen 4 Minuten locker.","longKm":13,"longDetail":"13 km locker; Trink- und Verpflegung testen."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastungswoche","qualityDetail":"6,5 km locker mit 4 × 15 Sekunden Steigerungen.","longKm":10,"longDetail":"10 km entspannt; Umfang reduzieren."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Kilometerintervalle","qualityDetail":"4 × 1 km kontrolliert zügig, dazwischen je 2–3 Minuten Trabpause.","longKm":14,"longDetail":"14 km locker."},{"easyKm":6,"qualityKm":8.5,"qualityTitle":"Tempolauf","qualityDetail":"3 × 8 Minuten im kontrollierten Schwellenbereich, jeweils 3 Minuten locker.","longKm":15,"longDetail":"15 km locker; Verpflegung regelmäßig aufnehmen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"6 × 800 m zügig und technisch sauber, dazwischen 400 m locker traben.","longKm":16,"longDetail":"16 km locker; lange Einheit nicht auf Tempo laufen."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Entlastungswoche","qualityDetail":"7 km locker mit 5 × 15 Sekunden lockeren Steigerungen.","longKm":12,"longDetail":"12 km sehr locker."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Längere Tempoblöcke","qualityDetail":"2 × 15 Minuten kontrolliert zügig, dazwischen 5 Minuten locker.","longKm":17,"longDetail":"17 km locker; Ernährung und Trinken üben."},{"easyKm":6,"qualityKm":10,"qualityTitle":"10-km-Formtest","qualityDetail":"10 km gleichmäßig und kontrolliert laufen. Kein Sprint-Finish; Ergebnis zur Neubewertung des HM-Ziels notieren.","longKm":18,"longDetail":"18 km locker; nur bei guter Regeneration."},{"easyKm":6.5,"qualityKm":10,"qualityTitle":"Halbmarathon-spezifisch","qualityDetail":"3 × 2 km zügig und kontrolliert, dazwischen 1 km locker. Intensität anhand des 10-km-Formtests wählen.","longKm":18,"longDetail":"18 km locker, letzte 2 km höchstens moderat."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Tempolauf","qualityDetail":"20–25 Minuten gleichmäßig zügig im Bereich der aktuellen Form, nicht die Zielpace erzwingen.","longKm":15,"longDetail":"15 km entspannt; beginnende Umfangsreduktion."},{"easyKm":6,"qualityKm":10,"qualityTitle":"Langer Tempoblock","qualityDetail":"2 × 4 km im kontrollierten Halbmarathon-Aufwand nur dann, wenn der Formtest das hergibt; sonst moderat zügig.","longKm":18,"longDetail":"18 km locker; nur bei stabiler Belastungsverträglichkeit."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Taper / Entlastung","qualityDetail":"3 × 5 Minuten kontrolliert zügig mit 3 Minuten locker. Frisch bleiben.","longKm":12,"longDetail":"12 km sehr locker; Umfang deutlich reduzieren."},{"easyKm":4,"qualityKm":4,"qualityTitle":"Wettkampfwoche","qualityDetail":"4 km sehr locker mit 4 × 15 Sekunden lockeren Steigerungen. Keine harte Einheit mehr.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Ziel 1:40 h nur anpeilen, wenn Formtest und Tagesform es realistisch erscheinen lassen."}];
+const RUN_WEEK_PLAN=[{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Lockere Temporeize","qualityDetail":"6 × 1 Minute flott, dazwischen je 2 Minuten sehr locker traben. Mit Ein- und Auslaufen.","longKm":8,"longDetail":"8 km in ruhigem Gesprächstempo."},{"easyKm":4.5,"qualityKm":6,"qualityTitle":"Kontrollierte Intervalle","qualityDetail":"3 × 4 Minuten zügig und gleichmäßig, jeweils 3 Minuten locker dazwischen.","longKm":9,"longDetail":"9 km locker; gleichmäßige Atmung, kein Endspurt."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Fahrtspiel","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":10,"longDetail":"10 km locker und entspannt."},{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Entlastungswoche","qualityDetail":"5,5 km locker mit 4 × 15 Sekunden lockeren Steigerungen am Ende.","longKm":8,"longDetail":"8 km sehr locker; bewusst weniger Umfang."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Tempostücke","qualityDetail":"3 × 6 Minuten kontrolliert zügig, jeweils 3 Minuten locker.","longKm":11,"longDetail":"11 km locker."},{"easyKm":5,"qualityKm":7.5,"qualityTitle":"Intervalle","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":12,"longDetail":"12 km locker; nur steigern, wenn du dich frisch fühlst."},{"easyKm":5.5,"qualityKm":8,"qualityTitle":"Schwellenlauf","qualityDetail":"2 × 10 Minuten gleichmäßig zügig, dazwischen 4 Minuten locker.","longKm":13,"longDetail":"13 km locker; Trink- und Verpflegung testen."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastungswoche","qualityDetail":"6,5 km locker mit 4 × 15 Sekunden Steigerungen.","longKm":10,"longDetail":"10 km entspannt; Umfang reduzieren."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Kilometerintervalle","qualityDetail":"4 × 1 km kontrolliert zügig, dazwischen je 2–3 Minuten Trabpause.","longKm":14,"longDetail":"14 km locker."},{"easyKm":6,"qualityKm":8.5,"qualityTitle":"Tempolauf","qualityDetail":"3 × 8 Minuten im kontrollierten Schwellenbereich, jeweils 3 Minuten locker.","longKm":15,"longDetail":"15 km locker; Verpflegung regelmäßig aufnehmen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"6 × 800 m zügig und technisch sauber, dazwischen 400 m locker traben.","longKm":16,"longDetail":"16 km locker; lange Einheit nicht auf Tempo laufen."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Entlastungswoche","qualityDetail":"7 km locker mit 5 × 15 Sekunden lockeren Steigerungen.","longKm":12,"longDetail":"12 km sehr locker."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Längere Tempoblöcke","qualityDetail":"2 × 15 Minuten kontrolliert zügig, dazwischen 5 Minuten locker.","longKm":17,"longDetail":"17 km locker; Ernährung und Trinken üben."},{"easyKm":6,"qualityKm":10,"qualityTitle":"10-km-Formtest","qualityDetail":"10 km gleichmäßig und kontrolliert laufen. Kein Sprint-Finish; Ergebnis zur Neubewertung des HM-Ziels notieren.","longKm":16,"longDetail":"16 km locker; nach dem Formtest die Regeneration priorisieren."},{"easyKm":6.5,"qualityKm":10,"qualityTitle":"Halbmarathon-spezifisch","qualityDetail":"3 × 2 km zügig und kontrolliert, dazwischen 1 km locker. Intensität anhand des 10-km-Formtests wählen.","longKm":18,"longDetail":"18 km locker, letzte 2 km höchstens moderat."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Tempolauf","qualityDetail":"20–25 Minuten gleichmäßig zügig im Bereich der aktuellen Form, nicht die Zielpace erzwingen.","longKm":15,"longDetail":"15 km entspannt; beginnende Umfangsreduktion."},{"easyKm":6,"qualityKm":10,"qualityTitle":"Langer Tempoblock","qualityDetail":"2 × 4 km im kontrollierten Halbmarathon-Aufwand nur dann, wenn der Formtest das hergibt; sonst moderat zügig.","longKm":18,"longDetail":"18 km locker; nur bei stabiler Belastungsverträglichkeit."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Taper / Entlastung","qualityDetail":"3 × 5 Minuten kontrolliert zügig mit 3 Minuten locker. Frisch bleiben.","longKm":12,"longDetail":"12 km sehr locker; Umfang deutlich reduzieren."},{"easyKm":4,"qualityKm":4,"qualityTitle":"Wettkampfwoche","qualityDetail":"4 km sehr locker mit 4 × 15 Sekunden lockeren Steigerungen. Keine harte Einheit mehr.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Ziel 1:40 h nur anpeilen, wenn Formtest und Tagesform es realistisch erscheinen lassen."}];
 const RUN_PLAN_WEEK_START="2026-11-23";
 const RUN_PLAN_GOAL_DATE="2027-04-04";
 const RUN_TARGET_PACE_SECONDS=284;
@@ -109,7 +109,7 @@ function renderStrengthActions(open){
   if(cancelled.length){
     html+='<div class="session-cancelled-list">'+cancelled.map(function(k){
       const key=k.slice("strength:".length),action=state.sessionActions[k];
-      return '<div class="session-cancelled-note">'+fmtDateDE(key)+' abgesagt · '+action.reason+' <button type="button" class="text-button" data-session-action="undo" data-session-type="strength" data-session-key="'+key+'">Rückgängig</button></div>';
+      return '<div class="session-cancelled-note">'+fmtDateDE(key)+' '+(action.replacedBy?"durch verschobenes Krafttraining ersetzt":"abgesagt · "+action.reason)+' <button type="button" class="text-button" data-session-action="undo" data-session-type="strength" data-session-key="'+key+'">Rückgängig</button></div>';
     }).join("")+'</div>';
   }
   box.innerHTML=html;
@@ -122,7 +122,8 @@ function renderRunPlanOverview(){
     const lines=entries.map(function(s){
       const action=getSessionAction("run",s.id),done=state.runDone&&state.runDone[s.id]&&state.runDone[s.id].done;
       let status=done?" · erledigt":"";
-      if(action&&action.status==="cancelled")status=" · abgesagt ("+action.reason+")";
+      if(action&&action.replacedBy)status=" · durch verschobene Einheit ersetzt";
+      else if(action&&action.status==="cancelled")status=" · abgesagt ("+action.reason+")";
       else if(action&&action.status==="moved")status=" · verschoben auf "+formatRunShortDate(action.newDate);
       return '<div class="run-plan-line"><span>'+formatRunShortDate(s.date)+' · '+s.title+'</span><strong>'+formatRunKm(s.km)+'</strong><small>'+status.replace(/^ · /,"")+'</small></div>';
     }).join("");
@@ -174,7 +175,7 @@ function renderRunning(){
     if(cancelled.length){
       html+='<div class="session-cancelled-list"><strong>Abgesagte Läufe</strong>'+cancelled.map(function(s){
         const a=getSessionAction("run",s.id);
-        return '<div class="session-cancelled-note">'+formatRunShortDate(s.date)+' · '+s.title+' · '+a.reason+' <button type="button" class="text-button" data-session-action="undo" data-session-type="run" data-session-key="'+s.id+'">Rückgängig</button></div>';
+        return '<div class="session-cancelled-note">'+formatRunShortDate(s.date)+' · '+s.title+' · '+(a.replacedBy?"durch verschobenen Lauf ersetzt":a.reason)+' <button type="button" class="text-button" data-session-action="undo" data-session-type="run" data-session-key="'+s.id+'">Rückgängig</button></div>';
       }).join("")+'</div>';
     }
     upcoming.innerHTML=html;
@@ -190,10 +191,13 @@ function allowedSessionMoveDate(type,key,date){
     if(!source)return false;
     if(source.kind==="long"&&day!==0)return false;
     if(source.kind!=="long"&&day!==2&&day!==4)return false;
-    if(effectiveRunEntries().some(function(s){return s.id!==key&&s.scheduledDate===date;}))return false;
+    if(source.race)return false;
+    const conflict=effectiveRunEntries().find(function(s){return s.id!==key&&s.scheduledDate===date;});
+    if(conflict&&state.runDone[conflict.id]&&state.runDone[conflict.id].done)return false;
   }else{
-    if(day===0)return false;
-    if(effectiveStrengthEntries().some(function(s){return s.sourceDate!==key&&s.date===date;}))return false;
+    if(day!==1&&day!==3&&day!==5)return false;
+    const conflict=effectiveStrengthEntries().find(function(s){return s.sourceDate!==key&&s.date===date;});
+    if(conflict&&workoutProgress(conflict).done)return false;
   }
   return true;
 }
@@ -227,7 +231,22 @@ function confirmSessionAction(){
     if(!allowedSessionMoveDate(type,key,date)){alert(type==="run"?"Läufe: Di/Do, Longrun nur So. Samstag bleibt frei; belegte Lauftage sind ausgeschlossen.":"Krafttraining: freier Wochentag Montag bis Freitag. Samstag und Sonntag bleiben frei.");return;}
     update.newDate=date;
   }
-  state.sessionActions=state.sessionActions||{};state.sessionActions[type+":"+key]=update;
+  state.sessionActions=state.sessionActions||{};
+  Object.keys(state.sessionActions).forEach(function(k){
+    if(k.indexOf(type+":")===0&&state.sessionActions[k].replacedBy===key)delete state.sessionActions[k];
+  });
+  if(mode==="move"){
+    let conflict=null,conflictKey=null;
+    if(type==="run"){
+      conflict=effectiveRunEntries().find(function(s){return s.id!==key&&s.scheduledDate===update.newDate;});
+      if(conflict)conflictKey="run:"+conflict.id;
+    }else{
+      conflict=effectiveStrengthEntries().find(function(s){return s.sourceDate!==key&&s.date===update.newDate;});
+      if(conflict)conflictKey="strength:"+conflict.sourceDate;
+    }
+    if(conflictKey)state.sessionActions[conflictKey]={status:"cancelled",reason:"Durch Verschiebung ersetzt",replacedBy:key,updatedAt:new Date().toISOString()};
+  }
+  state.sessionActions[type+":"+key]=update;
   if(type==="run"&&mode==="cancel"&&state.activeRunSessionId===key)state.activeRunSessionId=null;
   save();closeSessionAction();render();renderKnee();renderRunning();
 }
@@ -235,7 +254,17 @@ function handleSessionActions(event){
   const button=event.target.closest("[data-session-action]");
   if(button){
     const type=button.dataset.sessionType,key=button.dataset.sessionKey,action=button.dataset.sessionAction;
-    if(action==="undo"){if(state.sessionActions)delete state.sessionActions[type+":"+key];save();render();renderKnee();renderRunning();return;}
+    if(action==="undo"){
+      const record=getSessionAction(type,key);
+      if(state.sessionActions){
+        delete state.sessionActions[type+":"+key];
+        if(record&&record.replacedBy)delete state.sessionActions[type+":"+record.replacedBy];
+        Object.keys(state.sessionActions).forEach(function(k){
+          if(k.indexOf(type+":")===0&&state.sessionActions[k].replacedBy===key)delete state.sessionActions[k];
+        });
+      }
+      save();render();renderKnee();renderRunning();return;
+    }
     openSessionAction(type,key,action);return;
   }
   const complete=event.target.closest("[data-run-complete]");
@@ -1273,7 +1302,7 @@ document.querySelector("#exportBackupBtn")?.addEventListener("click", ()=>{
     const d=new Date();
     const stamp=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
     a.href=url;
-    a.download=`356-Coach-Backup-${stamp}.json`;
+    a.download=`Super-Paul-Backup-${stamp}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -1293,10 +1322,10 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
   if(!file) return;
   try{
     const parsed=JSON.parse(await file.text());
-    if(parsed?.app!=="356 Coach" || !parsed?.data || typeof parsed.data!=="object"){
+    if(!["356 Coach","Super Paul"].includes(parsed?.app) || !parsed?.data || typeof parsed.data!=="object"){
       throw new Error("Ungültiges Backup");
     }
-    const ok=confirm("Backup wiederherstellen? Die aktuell lokal gespeicherten 356-Coach-Daten werden durch das Backup ersetzt.");
+    const ok=confirm("Backup wiederherstellen? Die aktuell lokal gespeicherten Super-Paul-Daten werden durch das Backup ersetzt.");
     if(!ok){ event.target.value=""; return; }
 
     state=parsed.data;
@@ -1306,7 +1335,7 @@ document.querySelector("#importBackupFile")?.addEventListener("change", async (e
     render();
     renderKnee();
   }catch(err){
-    setBackupStatus("Diese Datei ist kein gültiges 356-Coach-Backup.", true);
+    setBackupStatus("Diese Datei ist kein gültiges Super-Paul-Backup.", true);
     event.target.value="";
   }
 });
@@ -1782,7 +1811,7 @@ function renderKnee(){
   const completed=completedRequiredKneeSetCount(k,plan);
   const done=allRequiredKneeSetsDone(k,plan);
   state.kneeDone[k]=done;
-  syncKneeHistoryForDate(k,plan);
+  syncKneeHistoryForDate(k,plan,false,status.sessionDate||null);
 
   if(progress){
     progress.innerHTML=`<strong>${completed}/${required}</strong> Sätze abgeschlossen${done?" · ✓ komplett":""}`;
@@ -1833,7 +1862,7 @@ document.querySelector("#toggleKneeDone")?.addEventListener("click",()=>{
 
   state.kneeDone=state.kneeDone||{};
   state.kneeDone[k]=markDone;
-  syncKneeHistoryForDate(k,plan);
+  syncKneeHistoryForDate(k,plan,false,status.sessionDate||null);
   save();
   render();
   renderKnee();
