@@ -285,3 +285,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Laufaufbau auf Basis 10 km bei ca. 6:00 min/km in Zone 2 angepasst: Dienstag optional Zone 2, Donnerstag strukturierte Schwellen-/Intervallarbeit, Sonntag Longrun.
 - Progression mit Entlastungswochen, langen Läufen bis 19 km und 10-km-Formtest Ende Februar; Samstag bleibt frei.
 - 1:40 h bleibt Stretch-Ziel; spezifische Wettkampfpace wird erst anhand des Formtests bewertet.
+
+
+## Update v39 – Laufplan mit Pace- und Pulszonen
+- RPE-Vorgaben aus dem gesamten Laufplan entfernt.
+- Schnelle Einheiten nennen konkrete Pace-Bereiche (Schwelle, 10-km-Intervalle, kurze Steigerungen und HM-spezifische Abschnitte).
+- Lockere Dienstagseinheiten und Sonntagsläufe werden nach der persönlichen Herzfrequenzzone 2 gesteuert; Einlaufen und Trabpausen in HF-Zone 1–2.
+- 6:00 min/km bleibt der vom Nutzer genannte aktuelle Zone-2-Referenzwert, nicht die vorgeschriebene Pace der lockeren Einheiten.
+- Pace-Bereiche sind vorläufig und werden nach dem 10-km-Formtest Ende Februar anhand des Ergebnisses angepasst.
