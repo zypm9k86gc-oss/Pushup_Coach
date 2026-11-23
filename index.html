@@ -10,21 +10,21 @@
 <meta content="#111111" name="theme-color"/>
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
-<meta content="356 Coach" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=34" rel="manifest"/>
-<link href="icon-192.png?v=34" rel="apple-touch-icon"/>
-<link href="styles.css?v=34" rel="stylesheet"/>
-<title>356 Coach</title>
-<script src="push-config.js?v=34"></script>
+<meta content="Super Paul" name="apple-mobile-web-app-title"/>
+<link href="manifest.webmanifest?v=35" rel="manifest"/>
+<link href="icon-192.png?v=35" rel="apple-touch-icon"/>
+<link href="styles.css?v=35" rel="stylesheet"/>
+<title>Super Paul</title>
+<script src="push-config.js?v=35"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
 <main class="app"><header class="app-topbar">
-<div class="app-brand"><span class="app-brand-mark">356</span><span>Coach</span></div>
+<div class="app-brand"><img class="app-brand-logo" src="icon-192.png?v=35" alt="SP Super Paul"/><span>Super Paul</span></div>
 <button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
-</header><section class="page-view" data-page="training" id="page-training"><div class="page-heading">
+</header><section class="page-view" data-page="strength" id="page-strength"><div class="page-heading">
 <div class="eyebrow">Ziel 31. Dezember 2026</div>
-<h1>Training</h1>
+<h1>Kraft</h1>
 <p>356 Liegestütze/Tag + 4:00 Min Plank</p>
 </div><section class="card plan-control-card">
 <div class="row plan-control-row">
@@ -58,7 +58,7 @@
 <progress id="goalPlankProgress" max="240" value="70"></progress>
 </section><h2>Heute</h2><section class="card due-card">
 <div class="label">Trainingsprogramm nach Datum</div>
-<div class="program" id="todayProgram"></div>
+<div class="program" id="todayProgram"></div><div id="strengthSessionActions"></div>
 </section><section class="card training-battery-card" id="trainingPanel">
 <div class="battery-grid">
 <div class="battery-column pushup-battery-column">
@@ -138,7 +138,20 @@
 </section><section class="card always-entry-card"><div class="entry-heading">Manuelle Eingabe</div><p class="entry-note">Jederzeit verfügbar – auch am Regenerationstag.</p><div class="always-entry-grid"><div class="entry-block"><label for="pushInputAlways">Liegestütze</label><div class="manual-row"><input id="pushInputAlways" inputmode="numeric" min="1" placeholder="z. B. 12" type="number"/><button id="addPushAlways">Eintragen</button></div></div><div class="entry-block"><label>Plank-Zeit</label><div class="time-inputs"><input id="plankMinAlways" inputmode="numeric" min="0" placeholder="Min" type="number"/><span>:</span><input id="plankSecAlways" inputmode="numeric" max="59" min="0" placeholder="Sek" type="number"/><button id="addPlankAlways">Eintragen</button></div></div></div></section><div class="actions">
 <button class="primary wide" id="finishWorkout">Trainingseintrag speichern</button>
 <button class="danger wide" id="resetToday">Heutige Eingaben löschen</button>
-</div></section><section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
+</div></section><section class="page-view" data-page="running" hidden="" id="page-running">
+<div class="page-heading"><div class="eyebrow">Halbmarathon · Zieltermin 04. April 2027</div><h1>Laufen</h1><p>Halbmarathon unter 1:40 h · Zielpace 4:44 min/km</p></div>
+<section class="card run-goal-card"><div class="run-goal-main"><div class="label">Dein Laufziel</div><div class="run-goal-time">1:40:00</div><div class="run-goal-sub">21,1 km · 04.04.2027 · Ø 4:44 min/km</div></div>
+<p class="run-goal-note">Ausgangslage: 10 km mit ca. 6:00 min/km. 1:40 h ist in diesem Zeitraum ein sehr ambitioniertes Stretch-Ziel. Laufe die lockeren Einheiten nach Gesprächstempo, steigere nur bei guter Regeneration und bewerte das Ziel nach dem 10-km-Formtest Ende Februar neu.</p></section>
+<section class="card run-structure-card"><div class="entry-heading">Wochenrhythmus</div><div class="run-week-rhythm"><span><strong>Di</strong> optional locker</span><span><strong>Do</strong> Qualität</span><span><strong>So</strong> Longrun</span></div>
+<p class="entry-note">Zwei Läufe sind das Minimum: Donnerstag und Sonntag. Dienstag ist der optionale dritte Lauf. Montag, Mittwoch und Freitag bleiben Kraft-/Stabilitätstage; Samstag ist Ruhetag.</p>
+<p class="entry-note">Orientierung: lockere Läufe in vollständigem Gesprächstempo (anfangs grob 6:30–7:15 min/km, nach Gefühl anpassen). Zügige Abschnitte kontrolliert bei RPE 6–8/10; die Zielpace 4:44 min/km nicht erzwingen.</p></section>
+<section class="card running-stats-card"><div id="runningStats" class="running-stats"></div></section>
+<section class="card run-session-card"><div class="entry-heading">Aktuelle Laufeinheit</div><div id="runningTodayCard"></div></section>
+<section class="card run-stretch-card"><div class="entry-heading">Dehnen: Beine & Hüfte</div><p class="entry-note">Nach jedem Lauf, ohne in den Schmerz hineinzudehnen. Ruhig atmen und beide Seiten gleichmäßig bearbeiten.</p><div id="runningStretchRoutine"></div></section>
+<section class="card run-upcoming-card"><div class="entry-heading">Weitere Laufeinheiten</div><div id="runningUpcoming"></div></section>
+<section class="card run-plan-overview-card"><details><summary class="entry-heading">Kompletter 19-Wochen-Laufplan anzeigen</summary><div id="runningPlanOverview" class="running-plan-overview"></div></details></section>
+<footer>Dienstag und Donnerstag sind Lauftage ohne Armtraining. Sonntag bleibt der lange Lauf; Samstag ist grundsätzlich frei.</footer></section>
+<section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
 <div class="eyebrow">Dein Fortschritt</div>
 <h1>Historie</h1>
 <p>Gesamtleistung, Kontrollpunkte und Wochenentwicklung.</p>
@@ -174,7 +187,7 @@
 <div class="history-help">Pro Tag werden Liegestütze, Plank und Stabilitätsübungen gemeinsam dargestellt und können zusammen bearbeitet werden.</div>
 <div class="history" id="history"></div>
 </section></section><section class="page-view" data-page="settings" hidden="" id="page-settings"><div class="page-heading">
-<div class="eyebrow">356 Coach</div>
+<div class="eyebrow">Super Paul</div>
 <h1>Einstellungen</h1>
 <p>Erinnerungen, Push-Einstellungen und Datensicherung.</p>
 </div>
@@ -270,11 +283,26 @@
 <button class="primary" type="submit">Änderungen speichern</button>
 </div>
 </form>
-</dialog><nav aria-label="Hauptnavigation" class="bottom-nav">
-<button aria-selected="true" class="bottom-nav-btn active" data-page-target="training" type="button"><span class="nav-icon">●</span><span>Training</span></button>
+<dialog class="edit-dialog session-action-dialog" id="sessionActionDialog">
+  <div class="edit-dialog-head"><div><div class="label">Training verwalten</div><div class="edit-dialog-title" id="sessionActionTitle">Training verschieben</div></div>
+    <button aria-label="Dialog schließen" class="iconbtn" id="sessionActionClose" type="button">×</button></div>
+  <input id="sessionActionType" type="hidden"/><input id="sessionActionKey" type="hidden"/><input id="sessionActionMode" type="hidden"/>
+  <div class="session-dialog-body">
+    <div id="sessionMoveFields" hidden><label class="edit-field" for="sessionNewDate"><span>Neuer Trainingstag</span><input id="sessionNewDate" type="date"/></label>
+      <p class="entry-note">Läufe: Dienstag/Donnerstag, Longrun nur Sonntag. Samstag bleibt frei. Krafttraining: Montag bis Freitag.</p></div>
+    <div class="label">Grund auswählen (Pflicht)</div>
+    <div class="session-reason-buttons"><button type="button" data-session-reason="Keine Zeit" aria-pressed="false">Keine Zeit</button>
+      <button type="button" data-session-reason="Krank/schlapp" aria-pressed="false">Krank/schlapp</button>
+      <button type="button" data-session-reason="Keine Lust" aria-pressed="false">Keine Lust</button></div>
+  </div>
+  <div class="edit-dialog-actions"><button class="secondary-button" type="button" id="sessionActionCloseSecondary">Zurück</button><button class="primary" type="button" id="sessionActionConfirm">Speichern</button></div>
+</dialog>
+<nav aria-label="Hauptnavigation" class="bottom-nav">
+<button aria-selected="true" class="bottom-nav-btn active" data-page-target="strength" type="button"><span class="nav-icon">✦</span><span>Kraft</span></button>
+<button aria-selected="false" class="bottom-nav-btn" data-page-target="running" type="button"><span class="nav-icon">🏃</span><span>Laufen</span></button>
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
 </nav>
-<script src="app.js?v=34"></script>
+<script src="app.js?v=35"></script>
 </body>
 </html>

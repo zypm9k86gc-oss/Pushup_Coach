@@ -35,6 +35,232 @@ const checkpoints = [
   ["31.12.2026","356 Liegestütze / 4:00 Plank"]
 ];
 
+const RUN_WEEK_PLAN=[{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Lockere Temporeize","qualityDetail":"6 × 1 Minute flott, dazwischen je 2 Minuten sehr locker traben. Mit Ein- und Auslaufen.","longKm":8,"longDetail":"8 km in ruhigem Gesprächstempo."},{"easyKm":4.5,"qualityKm":6,"qualityTitle":"Kontrollierte Intervalle","qualityDetail":"3 × 4 Minuten zügig und gleichmäßig, jeweils 3 Minuten locker dazwischen.","longKm":9,"longDetail":"9 km locker; gleichmäßige Atmung, kein Endspurt."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Fahrtspiel","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":10,"longDetail":"10 km locker und entspannt."},{"easyKm":4,"qualityKm":5.5,"qualityTitle":"Entlastungswoche","qualityDetail":"5,5 km locker mit 4 × 15 Sekunden lockeren Steigerungen am Ende.","longKm":8,"longDetail":"8 km sehr locker; bewusst weniger Umfang."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Tempostücke","qualityDetail":"3 × 6 Minuten kontrolliert zügig, jeweils 3 Minuten locker.","longKm":11,"longDetail":"11 km locker."},{"easyKm":5,"qualityKm":7.5,"qualityTitle":"Intervalle","qualityDetail":"5 × 3 Minuten zügig, jeweils 2 Minuten locker traben.","longKm":12,"longDetail":"12 km locker; nur steigern, wenn du dich frisch fühlst."},{"easyKm":5.5,"qualityKm":8,"qualityTitle":"Schwellenlauf","qualityDetail":"2 × 10 Minuten gleichmäßig zügig, dazwischen 4 Minuten locker.","longKm":13,"longDetail":"13 km locker; Trink- und Verpflegung testen."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastungswoche","qualityDetail":"6,5 km locker mit 4 × 15 Sekunden Steigerungen.","longKm":10,"longDetail":"10 km entspannt; Umfang reduzieren."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Kilometerintervalle","qualityDetail":"4 × 1 km kontrolliert zügig, dazwischen je 2–3 Minuten Trabpause.","longKm":14,"longDetail":"14 km locker."},{"easyKm":6,"qualityKm":8.5,"qualityTitle":"Tempolauf","qualityDetail":"3 × 8 Minuten im kontrollierten Schwellenbereich, jeweils 3 Minuten locker.","longKm":15,"longDetail":"15 km locker; Verpflegung regelmäßig aufnehmen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"6 × 800 m zügig und technisch sauber, dazwischen 400 m locker traben.","longKm":16,"longDetail":"16 km locker; lange Einheit nicht auf Tempo laufen."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Entlastungswoche","qualityDetail":"7 km locker mit 5 × 15 Sekunden lockeren Steigerungen.","longKm":12,"longDetail":"12 km sehr locker."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Längere Tempoblöcke","qualityDetail":"2 × 15 Minuten kontrolliert zügig, dazwischen 5 Minuten locker.","longKm":17,"longDetail":"17 km locker; Ernährung und Trinken üben."},{"easyKm":6,"qualityKm":10,"qualityTitle":"10-km-Formtest","qualityDetail":"10 km gleichmäßig und kontrolliert laufen. Kein Sprint-Finish; Ergebnis zur Neubewertung des HM-Ziels notieren.","longKm":18,"longDetail":"18 km locker; nur bei guter Regeneration."},{"easyKm":6.5,"qualityKm":10,"qualityTitle":"Halbmarathon-spezifisch","qualityDetail":"3 × 2 km zügig und kontrolliert, dazwischen 1 km locker. Intensität anhand des 10-km-Formtests wählen.","longKm":18,"longDetail":"18 km locker, letzte 2 km höchstens moderat."},{"easyKm":6,"qualityKm":9,"qualityTitle":"Tempolauf","qualityDetail":"20–25 Minuten gleichmäßig zügig im Bereich der aktuellen Form, nicht die Zielpace erzwingen.","longKm":15,"longDetail":"15 km entspannt; beginnende Umfangsreduktion."},{"easyKm":6,"qualityKm":10,"qualityTitle":"Langer Tempoblock","qualityDetail":"2 × 4 km im kontrollierten Halbmarathon-Aufwand nur dann, wenn der Formtest das hergibt; sonst moderat zügig.","longKm":18,"longDetail":"18 km locker; nur bei stabiler Belastungsverträglichkeit."},{"easyKm":5,"qualityKm":7,"qualityTitle":"Taper / Entlastung","qualityDetail":"3 × 5 Minuten kontrolliert zügig mit 3 Minuten locker. Frisch bleiben.","longKm":12,"longDetail":"12 km sehr locker; Umfang deutlich reduzieren."},{"easyKm":4,"qualityKm":4,"qualityTitle":"Wettkampfwoche","qualityDetail":"4 km sehr locker mit 4 × 15 Sekunden lockeren Steigerungen. Keine harte Einheit mehr.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Ziel 1:40 h nur anpeilen, wenn Formtest und Tagesform es realistisch erscheinen lassen."}];
+const RUN_PLAN_WEEK_START="2026-11-23";
+const RUN_PLAN_GOAL_DATE="2027-04-04";
+const RUN_TARGET_PACE_SECONDS=284;
+function buildRunPlan(){
+  const monday=new Date(RUN_PLAN_WEEK_START+"T12:00:00");
+  const dayNames=["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+  return RUN_WEEK_PLAN.flatMap(function(week,index){
+    const items=[
+      {offset:1,kind:"easy",km:week.easyKm,title:"Lockerer Dauerlauf",detail:"Optionaler Lauf in ruhigem Gesprächstempo. "+week.easyKm+" km."},
+      {offset:3,kind:"quality",km:week.qualityKm,title:week.qualityTitle,detail:week.qualityDetail+" Gesamtumfang: "+week.qualityKm+" km."},
+      {offset:6,kind:"long",km:week.longKm,title:index===18?"Halbmarathon-Wettkampf":"Langer Lauf",detail:week.longDetail}
+    ];
+    return items.map(function(item){
+      const d=new Date(monday);d.setDate(d.getDate()+index*7+item.offset);
+      return Object.assign({},item,{
+        id:"run-w"+String(index+1).padStart(2,"0")+"-"+item.kind,
+        week:index+1,date:dateKeyFromDate(d),dayName:dayNames[d.getDay()],
+        optional:item.kind==="easy",race:index===18&&item.kind==="long"
+      });
+    });
+  });
+}
+const RUN_SESSIONS=buildRunPlan();
+const RUN_STRETCHES=[
+{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte nach vorn schieben · 30 Sekunden je Seite"},
+{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite"},
+{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite"},
+{id:"glute",name:"Gesäß / Figure-4",detail:"Im Sitzen oder Liegen Knöchel über das andere Knie legen · 30 Sekunden je Seite"},
+{id:"calf",name:"Wade an der Wand",detail:"Ferse am Boden lassen und Knie gestreckt, danach leicht gebeugt · 30 Sekunden je Variante"}
+];
+function addDateKey(key,days){const d=new Date(key+"T12:00:00");d.setDate(d.getDate()+days);return dateKeyFromDate(d);}
+function getSessionAction(type,key){return (state.sessionActions||{})[type+":"+key]||null;}
+function effectiveStrengthEntries(){
+  return activePlanEntries().map(function(item){
+    const sourceDate=item.date,action=getSessionAction("strength",sourceDate);
+    if(action&&action.status==="cancelled")return null;
+    return Object.assign({},item,{sourceDate:sourceDate,date:action&&action.status==="moved"?action.newDate:sourceDate,moved:!!(action&&action.status==="moved")});
+  }).filter(Boolean).sort(function(a,b){return a.date.localeCompare(b.date);});
+}
+function effectiveRunEntries(){
+  return RUN_SESSIONS.map(function(item){
+    const action=getSessionAction("run",item.id);
+    if(action&&action.status==="cancelled")return null;
+    return Object.assign({},item,{scheduledDate:action&&action.status==="moved"?action.newDate:item.date,moved:!!(action&&action.status==="moved")});
+  }).filter(Boolean).sort(function(a,b){return a.scheduledDate.localeCompare(b.scheduledDate);});
+}
+function sessionActionButtons(type,key){
+  return '<div class="session-action-buttons"><button type="button" class="secondary-button" data-session-action="move" data-session-type="'+type+'" data-session-key="'+key+'">Verschieben</button><button type="button" class="danger" data-session-action="cancel" data-session-type="'+type+'" data-session-key="'+key+'">Absagen</button></div>';
+}
+function formatRunKm(km){return Number(km).toLocaleString("de-DE",{maximumFractionDigits:1})+" km";}
+function formatRunShortDate(key){const p=key.split("-").map(Number);return new Intl.DateTimeFormat("de-DE",{weekday:"short",day:"2-digit",month:"2-digit"}).format(new Date(p[0],p[1]-1,p[2]));}
+function renderStrengthActions(open){
+  const box=document.querySelector("#strengthSessionActions");if(!box)return;
+  if(isPlanPaused()){box.innerHTML="";return;}
+  const today=todayKey(),candidates=effectiveStrengthEntries();
+  const target=open||candidates.find(function(x){return x.date>=today&&!workoutProgress(x).done;})||null;
+  let html="";
+  if(target){
+    const key=target.sourceDate||target.date,action=getSessionAction("strength",key);
+    html+='<div class="session-action-panel"><div class="session-action-heading">'+(open?"Offenes Krafttraining":"Nächster Krafttermin")+'</div>';
+    if(target.moved)html+='<p class="session-action-note">Verschoben von '+fmtDateDE(key)+' auf '+fmtDateDE(target.date)+'.</p>';
+    if(action&&action.reason)html+='<p class="session-action-note">Grund: '+action.reason+'</p>';
+    html+=sessionActionButtons("strength",key)+'</div>';
+  }
+  const todayEntry=activePlanEntries().find(function(x){return x.date===today;});
+  const todayAction=todayEntry?getSessionAction("strength",todayEntry.date):null;
+  if(todayAction&&todayAction.status==="cancelled"){
+    html+='<div class="session-action-note session-cancelled-note">Heutiges Krafttraining abgesagt · Grund: '+todayAction.reason+' <button type="button" class="text-button" data-session-action="undo" data-session-type="strength" data-session-key="'+todayEntry.date+'">Rückgängig</button></div>';
+  }
+  const cancelled=Object.keys(state.sessionActions||{}).filter(function(k){return k.indexOf("strength:")===0&&state.sessionActions[k].status==="cancelled";}).slice(-3);
+  if(cancelled.length){
+    html+='<div class="session-cancelled-list">'+cancelled.map(function(k){
+      const key=k.slice("strength:".length),action=state.sessionActions[k];
+      return '<div class="session-cancelled-note">'+fmtDateDE(key)+' abgesagt · '+action.reason+' <button type="button" class="text-button" data-session-action="undo" data-session-type="strength" data-session-key="'+key+'">Rückgängig</button></div>';
+    }).join("")+'</div>';
+  }
+  box.innerHTML=html;
+}
+function renderRunPlanOverview(){
+  const box=document.querySelector("#runningPlanOverview");if(!box)return;
+  const weeks=[];
+  for(let w=1;w<=RUN_WEEK_PLAN.length;w++){
+    const entries=RUN_SESSIONS.filter(function(x){return x.week===w;});
+    const lines=entries.map(function(s){
+      const action=getSessionAction("run",s.id),done=state.runDone&&state.runDone[s.id]&&state.runDone[s.id].done;
+      let status=done?" · erledigt":"";
+      if(action&&action.status==="cancelled")status=" · abgesagt ("+action.reason+")";
+      else if(action&&action.status==="moved")status=" · verschoben auf "+formatRunShortDate(action.newDate);
+      return '<div class="run-plan-line"><span>'+formatRunShortDate(s.date)+' · '+s.title+'</span><strong>'+formatRunKm(s.km)+'</strong><small>'+status.replace(/^ · /,"")+'</small></div>';
+    }).join("");
+    weeks.push('<details class="run-week-detail"><summary>Woche '+String(w).padStart(2,"0")+' · '+formatRunShortDate(entries[0].date)+' bis '+formatRunShortDate(entries[2].date)+'</summary>'+lines+'</details>');
+  }
+  box.innerHTML=weeks.join("");
+}
+function renderRunning(){
+  const main=document.querySelector("#runningTodayCard");if(!main)return;
+  state.runDone=state.runDone||{};state.runStretchDone=state.runStretchDone||{};
+  const today=todayKey(),entries=effectiveRunEntries();
+  const due=entries.filter(function(s){return s.scheduledDate<=today&&!(state.runDone[s.id]&&state.runDone[s.id].done);});
+  const future=entries.filter(function(s){return s.scheduledDate>today&&!(state.runDone[s.id]&&state.runDone[s.id].done);});
+  const active=entries.find(function(s){return s.id===state.activeRunSessionId;});
+  const activeDone=active&&state.runDone[active.id]&&state.runDone[active.id].done&&state.runDone[active.id].completedDate===today;
+  const selected=due.length?due[0]:(activeDone?active:(future[0]||null));
+  const doneCount=RUN_SESSIONS.filter(function(s){return state.runDone[s.id]&&state.runDone[s.id].done;}).length;
+  const doneKm=RUN_SESSIONS.reduce(function(sum,s){return sum+(state.runDone[s.id]&&state.runDone[s.id].done?(Number(state.runDone[s.id].km)||s.km):0);},0);
+  const stats=document.querySelector("#runningStats");
+  if(stats)stats.innerHTML='<div><strong>'+doneCount+'</strong><span>Läufe erledigt</span></div><div><strong>'+formatRunKm(doneKm)+'</strong><span>erfasste Laufkilometer</span></div><div><strong>4:44</strong><span>Zielpace min/km</span></div>';
+  const stretchBox=document.querySelector("#runningStretchRoutine");
+  if(!selected){
+    main.innerHTML='<div class="empty">Der Laufplan ist abgeschlossen. Gute Arbeit!</div>';
+    if(stretchBox)stretchBox.innerHTML='<p class="entry-note">Kein aktiver Lauf ausgewählt.</p>';
+  }else{
+    const isDone=!!(state.runDone[selected.id]&&state.runDone[selected.id].done);
+    const label=isDone?"Heute absolviert":selected.scheduledDate<today?"Offen seit "+formatRunShortDate(selected.scheduledDate):selected.scheduledDate===today?"Heute geplant":"Nächster Lauf";
+    const action=getSessionAction("run",selected.id);
+    main.innerHTML='<div class="run-feature-card"><div class="run-feature-meta"><span class="run-status">'+label+'</span><span>Woche '+selected.week+' / 19 · '+selected.dayName+'</span></div>'+
+      '<h3>'+selected.title+'</h3><div class="run-distance">'+formatRunKm(selected.km)+'</div><p>'+selected.detail+'</p>'+
+      (selected.moved?'<p class="session-action-note">Verschoben vom '+formatRunShortDate(selected.date)+' · Grund: '+(action?action.reason:"–")+'</p>':"")+
+      (isDone?'<p class="run-complete-note">Erledigt am '+fmtDateDE(state.runDone[selected.id].completedDate||today)+'.</p>':'<div class="run-completion-actions"><button type="button" class="primary" data-run-complete="'+selected.id+'">Lauf als erledigt markieren</button>'+sessionActionButtons("run",selected.id)+'</div>')+
+      '</div>';
+    if(stretchBox){
+      const values=state.runStretchDone[selected.id]||{},completed=RUN_STRETCHES.filter(function(x){return values[x.id]===true;}).length;
+      stretchBox.innerHTML='<div class="stretch-intro">Nach dem Lauf abhaken · jeweils beide Seiten ausführen. Fortschritt: <strong>'+completed+'/'+RUN_STRETCHES.length+'</strong></div>'+
+        RUN_STRETCHES.map(function(x){return '<label class="stretch-item"><input type="checkbox" data-run-stretch="1" data-session-id="'+selected.id+'" data-stretch-id="'+x.id+'" '+(values[x.id]===true?"checked":"")+'><span><strong>'+x.name+'</strong><small>'+x.detail+'</small></span></label>';}).join("");
+    }
+  }
+  const upcoming=document.querySelector("#runningUpcoming");
+  if(upcoming){
+    const next=entries.filter(function(s){return (!selected||s.id!==selected.id)&&!(state.runDone[s.id]&&state.runDone[s.id].done);}).slice(0,4);
+    let html=next.length?next.map(function(s){
+      const action=getSessionAction("run",s.id);
+      return '<div class="run-upcoming-item"><div><strong>'+formatRunShortDate(s.scheduledDate)+'</strong><span>'+s.title+' · '+formatRunKm(s.km)+'</span>'+
+        (s.moved?'<small>Verschoben · '+(action?action.reason:"")+'</small>':"")+'</div><button type="button" class="text-button" data-session-open="'+s.id+'">Details</button>'+sessionActionButtons("run",s.id)+'</div>';
+    }).join(""):'<p class="entry-note">Keine weiteren offenen Läufe in der Vorschau.</p>';
+    const cancelled=RUN_SESSIONS.filter(function(s){const a=getSessionAction("run",s.id);return a&&a.status==="cancelled";}).slice(-3);
+    if(cancelled.length){
+      html+='<div class="session-cancelled-list"><strong>Abgesagte Läufe</strong>'+cancelled.map(function(s){
+        const a=getSessionAction("run",s.id);
+        return '<div class="session-cancelled-note">'+formatRunShortDate(s.date)+' · '+s.title+' · '+a.reason+' <button type="button" class="text-button" data-session-action="undo" data-session-type="run" data-session-key="'+s.id+'">Rückgängig</button></div>';
+      }).join("")+'</div>';
+    }
+    upcoming.innerHTML=html;
+  }
+  renderRunPlanOverview();
+}
+function allowedSessionMoveDate(type,key,date){
+  if(!date||date<=todayKey()||date>RUN_PLAN_GOAL_DATE)return false;
+  const day=new Date(date+"T12:00:00").getDay();
+  if(day===6)return false;
+  if(type==="run"){
+    const source=RUN_SESSIONS.find(function(s){return s.id===key;});
+    if(!source)return false;
+    if(source.kind==="long"&&day!==0)return false;
+    if(source.kind!=="long"&&day!==2&&day!==4)return false;
+    if(effectiveRunEntries().some(function(s){return s.id!==key&&s.scheduledDate===date;}))return false;
+  }else{
+    if(day===0)return false;
+    if(effectiveStrengthEntries().some(function(s){return s.sourceDate!==key&&s.date===date;}))return false;
+  }
+  return true;
+}
+function nextAllowedSessionDate(type,key){
+  const d=new Date(todayKey()+"T12:00:00");
+  for(let i=1;i<=35;i++){d.setDate(d.getDate()+1);const candidate=dateKeyFromDate(d);if(allowedSessionMoveDate(type,key,candidate))return candidate;}
+  return addDateKey(todayKey(),1);
+}
+function openSessionAction(type,key,mode){
+  const dialog=document.querySelector("#sessionActionDialog");if(!dialog)return;
+  const action=getSessionAction(type,key);
+  document.querySelector("#sessionActionType").value=type;
+  document.querySelector("#sessionActionKey").value=key;
+  document.querySelector("#sessionActionMode").value=mode;
+  document.querySelector("#sessionActionTitle").textContent=mode==="move"?"Training verschieben":"Training absagen";
+  document.querySelector("#sessionActionConfirm").textContent=mode==="move"?"Verschiebung speichern":"Training absagen";
+  const moveFields=document.querySelector("#sessionMoveFields"),dateInput=document.querySelector("#sessionNewDate");
+  moveFields.hidden=mode!=="move";dateInput.min=addDateKey(todayKey(),1);dateInput.max=RUN_PLAN_GOAL_DATE;
+  dateInput.value=mode==="move"?(action&&action.status==="moved"?action.newDate:nextAllowedSessionDate(type,key)):"";
+  document.querySelectorAll("[data-session-reason]").forEach(function(btn){btn.classList.remove("selected");btn.setAttribute("aria-pressed","false");});
+  dialog.showModal();
+}
+function closeSessionAction(){const dialog=document.querySelector("#sessionActionDialog");if(dialog&&dialog.open)dialog.close();}
+function confirmSessionAction(){
+  const type=document.querySelector("#sessionActionType").value,key=document.querySelector("#sessionActionKey").value,mode=document.querySelector("#sessionActionMode").value;
+  const chosen=document.querySelector("[data-session-reason].selected");
+  if(!chosen){alert("Bitte einen Grund über einen der drei Buttons auswählen.");return;}
+  const update={status:mode==="move"?"moved":"cancelled",reason:chosen.dataset.sessionReason,updatedAt:new Date().toISOString()};
+  if(mode==="move"){
+    const date=document.querySelector("#sessionNewDate").value;
+    if(!allowedSessionMoveDate(type,key,date)){alert(type==="run"?"Läufe: Di/Do, Longrun nur So. Samstag bleibt frei; belegte Lauftage sind ausgeschlossen.":"Krafttraining: freier Wochentag Montag bis Freitag. Samstag und Sonntag bleiben frei.");return;}
+    update.newDate=date;
+  }
+  state.sessionActions=state.sessionActions||{};state.sessionActions[type+":"+key]=update;
+  if(type==="run"&&mode==="cancel"&&state.activeRunSessionId===key)state.activeRunSessionId=null;
+  save();closeSessionAction();render();renderKnee();renderRunning();
+}
+function handleSessionActions(event){
+  const button=event.target.closest("[data-session-action]");
+  if(button){
+    const type=button.dataset.sessionType,key=button.dataset.sessionKey,action=button.dataset.sessionAction;
+    if(action==="undo"){if(state.sessionActions)delete state.sessionActions[type+":"+key];save();render();renderKnee();renderRunning();return;}
+    openSessionAction(type,key,action);return;
+  }
+  const complete=event.target.closest("[data-run-complete]");
+  if(complete){
+    const id=complete.dataset.runComplete,session=RUN_SESSIONS.find(function(s){return s.id===id;});if(!session)return;
+    state.runDone=state.runDone||{};state.runDone[id]={done:true,completedDate:todayKey(),km:session.km};state.activeRunSessionId=id;save();renderRunning();return;
+  }
+  const open=event.target.closest("[data-session-open]");
+  if(open){state.activeRunSessionId=open.dataset.sessionOpen;save();renderRunning();return;}
+}
+document.addEventListener("click",handleSessionActions);
+document.addEventListener("click",function(event){
+  const button=event.target.closest("[data-session-reason]");if(!button)return;
+  document.querySelectorAll("[data-session-reason]").forEach(function(item){const active=item===button;item.classList.toggle("selected",active);item.setAttribute("aria-pressed",active?"true":"false");});
+});
+document.querySelector("#sessionActionConfirm")?.addEventListener("click",confirmSessionAction);
+document.querySelector("#sessionActionClose")?.addEventListener("click",closeSessionAction);
+document.querySelector("#sessionActionCloseSecondary")?.addEventListener("click",closeSessionAction);
+document.querySelector("#sessionActionDialog")?.addEventListener("click",function(event){if(event.target===event.currentTarget)closeSessionAction();});
+document.addEventListener("change",function(event){
+  const input=event.target.closest("[data-run-stretch]");if(!input)return;
+  state.runStretchDone=state.runStretchDone||{};state.runStretchDone[input.dataset.sessionId]=state.runStretchDone[input.dataset.sessionId]||{};
+  state.runStretchDone[input.dataset.sessionId][input.dataset.stretchId]=input.checked;save();renderRunning();
+});
+
 const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-11-04","pushups":221,"plank":176,"sets":"13×14 + 3×13","checkpoint":false},{"date":"2026-11-06","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-11-09","pushups":232,"plank":181,"sets":"8×15 + 8×14","checkpoint":false},{"date":"2026-11-11","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-11-13","pushups":243,"plank":186,"sets":"3×16 + 13×15","checkpoint":true},{"date":"2026-11-16","pushups":248,"plank":188,"sets":"8×16 + 8×15","checkpoint":false},{"date":"2026-11-18","pushups":254,"plank":191,"sets":"14×16 + 2×15","checkpoint":false},{"date":"2026-11-20","pushups":259,"plank":194,"sets":"3×17 + 13×16","checkpoint":false},{"date":"2026-11-23","pushups":264,"plank":196,"sets":"9×16 + 8×15","checkpoint":false},{"date":"2026-11-25","pushups":270,"plank":199,"sets":"15×16 + 2×15","checkpoint":false},{"date":"2026-11-27","pushups":275,"plank":201,"sets":"3×17 + 14×16","checkpoint":true},{"date":"2026-11-30","pushups":281,"plank":204,"sets":"9×17 + 8×16","checkpoint":false},{"date":"2026-12-02","pushups":286,"plank":206,"sets":"14×17 + 3×16","checkpoint":false},{"date":"2026-12-04","pushups":291,"plank":209,"sets":"2×18 + 15×17","checkpoint":false},{"date":"2026-12-07","pushups":297,"plank":212,"sets":"8×18 + 9×17","checkpoint":false},{"date":"2026-12-09","pushups":302,"plank":214,"sets":"13×18 + 4×17","checkpoint":false},{"date":"2026-12-11","pushups":308,"plank":217,"sets":"2×19 + 15×18","checkpoint":true},{"date":"2026-12-14","pushups":313,"plank":219,"sets":"7×18 + 11×17","checkpoint":false},{"date":"2026-12-16","pushups":318,"plank":222,"sets":"12×18 + 6×17","checkpoint":false},{"date":"2026-12-18","pushups":324,"plank":225,"sets":"18×18","checkpoint":false},{"date":"2026-12-21","pushups":329,"plank":227,"sets":"5×19 + 13×18","checkpoint":false},{"date":"2026-12-23","pushups":334,"plank":230,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-12-25","pushups":340,"plank":232,"sets":"16×19 + 2×18","checkpoint":true},{"date":"2026-12-28","pushups":345,"plank":235,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-12-30","pushups":351,"plank":237,"sets":"9×20 + 9×19","checkpoint":false},{"date":"2026-12-31","pushups":356,"plank":240,"sets":"14×20 + 4×19","checkpoint":true}];
 
 function defaultPlanControl(){
@@ -109,34 +335,27 @@ function activePlanEntries(){
 }
 
 function planForDate(k){return activePlanEntries().find(x=>x.date===k)||null;}
-function nextPlanEntry(k){return activePlanEntries().find(x=>x.date>=k)||null;}
+function nextPlanEntry(k){return effectiveStrengthEntries().find(x=>x.date>=k)||null;}
 function latestPlanOnOrBefore(k){
   let found=null;
-  for(const item of activePlanEntries()){
-    if(item.date<=k)found=item;
-    else break;
-  }
+  for(const item of effectiveStrengthEntries()){if(item.date<=k)found=item;else break;}
   return found;
 }
 
 function workoutProgress(item){
-  const plan=activePlanEntries();
-  const idx=plan.findIndex(x=>x.date===item.date);
-  const next=idx>=0?(plan[idx+1]||null):null;
-  const end=next?next.date:"9999-12-31";
-  const recs=state.records.filter(r=>r.type!=="knee" && r.date>=item.date && r.date<end);
-  let push=recs.reduce((a,r)=>a+(r.pushups||0),0);
-  let plank=recs.reduce((a,r)=>a+(r.plank||0),0);
-  if(todayKey()>=item.date && todayKey()<end){push+=state.todayPushups;plank+=state.todayPlank;}
-  const manuallyCompleted=state.records.some(r=>r.type!=="knee" && r.completedWorkout===true && r.targetDate===item.date);
-  return {push,plank,done:manuallyCompleted || (push>=item.pushups && plank>=item.plank)};
+  const plan=effectiveStrengthEntries(),sourceDate=item.sourceDate||item.date;
+  const idx=plan.findIndex(x=>x.sourceDate===sourceDate),next=idx>=0?(plan[idx+1]||null):null,end=next?next.date:"9999-12-31";
+  const recs=state.records.filter(r=>r.type!=="knee"&&r.date>=item.date&&r.date<end);
+  let push=recs.reduce((a,r)=>a+(r.pushups||0),0),plank=recs.reduce((a,r)=>a+(r.plank||0),0);
+  if(todayKey()>=item.date&&todayKey()<end){push+=state.todayPushups;plank+=state.todayPlank;}
+  const manuallyCompleted=state.records.some(r=>r.type!=="knee"&&r.completedWorkout===true&&r.targetDate===sourceDate);
+  return {push,plank,done:manuallyCompleted||(push>=item.pushups&&plank>=item.plank)};
 }
-
 function openWorkout(){
   if(isPlanPaused())return null;
   const key=todayKey();
-  let due=activePlanEntries().filter(x=>x.date<=key);
-  if(key>=PLAN_RESET_EFFECTIVE)due=due.filter(x=>x.date>=PLAN_RESET_DATE);
+  let due=effectiveStrengthEntries().filter(x=>x.date<=key);
+  if(key>=PLAN_RESET_EFFECTIVE)due=due.filter(x=>x.sourceDate>=PLAN_RESET_DATE);
   const latest=due.length?due[due.length-1]:null;
   if(!latest)return null;
   const p=workoutProgress(latest);
@@ -160,7 +379,11 @@ let state = {
   records: [],
   kneeSets: {},
   kneeDone: {},
-  planControl: null
+  planControl: null,
+  sessionActions: {},
+  runDone: {},
+  runStretchDone: {},
+  activeRunSessionId: null
 };
 
 let timer = null;
@@ -187,19 +410,12 @@ function fmtLong(sec){
 
 function currentTarget(){
   const pc=ensurePlanControl();
-  if(pc.paused && pc.frozenPushups && pc.frozenPlank){
-    return {pushups:pc.frozenPushups,plank:pc.frozenPlank,sets:makeSetSuggestion(pc.frozenPushups),paused:true};
-  }
-  const open=openWorkout();
-  if(open)return open;
-  const key=todayKey();
-  const plan=activePlanEntries();
-  if(key>=PLAN_RESET_EFFECTIVE){
-    const next=plan.find(x=>x.date>=key && x.date>=PLAN_RESET_DATE);
-    if(next)return next;
-  }
-  const latest=latestPlanOnOrBefore(key);
-  return latest||{pushups:PLAN_RESET_PUSHUPS,plank:PLAN_RESET_PLANK,sets:makeSetSuggestion(PLAN_RESET_PUSHUPS)};
+  if(pc.paused&&pc.frozenPushups&&pc.frozenPlank)return {pushups:pc.frozenPushups,plank:pc.frozenPlank,sets:makeSetSuggestion(pc.frozenPushups),paused:true};
+  const open=openWorkout();if(open)return open;
+  const key=todayKey(),plan=effectiveStrengthEntries();
+  if(key>=PLAN_RESET_EFFECTIVE){const next=plan.find(x=>x.date>=key&&x.sourceDate>=PLAN_RESET_DATE);if(next)return next;}
+  const past=plan.filter(x=>x.date<=key);
+  return past[past.length-1]||{pushups:PLAN_RESET_PUSHUPS,plank:PLAN_RESET_PLANK,sets:makeSetSuggestion(PLAN_RESET_PUSHUPS)};
 }
 
 function createRecordId(){
@@ -227,6 +443,9 @@ function load(){
     if(raw) state = {...state, ...JSON.parse(raw)};
   }catch(e){}
   ensurePlanControl();
+  state.sessionActions=state.sessionActions||{};
+  state.runDone=state.runDone||{};
+  state.runStretchDone=state.runStretchDone||{};
   rollover();
   ensureRecordIds();
 }
@@ -593,6 +812,8 @@ function render(){
     : `<div class="empty">Noch keine abgeschlossenen Trainingstage.</div>`;
 
   renderWeeklyChart();
+  renderStrengthActions(open);
+  renderRunning();
 }
 
 document.querySelectorAll("[data-add]").forEach(btn=>{
@@ -642,7 +863,7 @@ document.querySelector("#finishWorkout").addEventListener("click", ()=>{
     state.records.push({
       id:createRecordId(),
       date:state.todayDate,
-      targetDate:open ? open.date : null,
+      targetDate:open ? (open.sourceDate||open.date) : null,
       pushups:state.todayPushups,
       plank:state.todayPlank,
       bestSinglePlank:state.todayBestSinglePlank || 0,
@@ -969,8 +1190,9 @@ document.querySelector("#resumePlanBtn")?.addEventListener("click",resumeTrainin
 
 // ---------- 3-Seiten-Navigation ----------
 function setActivePage(page, {scroll=true}={}){
-  const valid=["training","history","settings"];
-  const next=valid.includes(page)?page:"training";
+  const requested=page==="training"?"strength":page;
+  const valid=["strength","running","history","settings"];
+  const next=valid.includes(requested)?requested:"strength";
   document.querySelectorAll(".page-view").forEach(view=>{
     view.hidden=view.dataset.page!==next;
   });
@@ -981,6 +1203,7 @@ function setActivePage(page, {scroll=true}={}){
   });
   localStorage.setItem("356Coach.activePage",next);
   if(next==="history") renderWeeklyChart();
+  if(next==="running") renderRunning();
   if(scroll) window.scrollTo({top:0,behavior:"auto"});
 }
 
@@ -991,7 +1214,7 @@ document.querySelectorAll(".bottom-nav-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=34", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=35", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1025,8 +1248,8 @@ if ("serviceWorker" in navigator) {
 // ---------- Backup / Restore ----------
 function makeBackupPayload(){
   return {
-    app: "356 Coach",
-    version: 30,
+    app: "Super Paul",
+    version: 35,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state
@@ -1434,21 +1657,16 @@ function activeKneeWorkoutStatus(){
   ensureKneeState();
   if(isPlanPaused())return {date:null,plan:null,done:true,overdue:false,paused:true};
   const today=todayKey();
-  const latestDue=latestKneeDateOnOrBefore(today);
-  if(!latestDue || (today>=PLAN_RESET_EFFECTIVE && latestDue<PLAN_RESET_DATE)){
-    return {date:null,plan:null,done:true,overdue:false};
-  }
-
-  const plan=kneePlanFor(latestDue);
+  const due=effectiveStrengthEntries().filter(function(item){return item.date<=today&&item.sourceDate>=KNEE_START&&item.sourceDate<=KNEE_END;});
+  const latest=due.length?due[due.length-1]:null;
+  if(!latest||(today>=PLAN_RESET_EFFECTIVE&&latest.sourceDate<PLAN_RESET_DATE))return {date:null,plan:null,done:true,overdue:false};
+  const latestDue=latest.sourceDate,plan=kneePlanFor(latestDue);
   migrateLegacyKneeDone(latestDue,plan);
-  const existing=findKneeRecordByDate(latestDue);
-  const doneBySets=allRequiredKneeSetsDone(latestDue,plan);
-  const sessionCompleted=existing?.kneeSessionCompleted===true;
-  const done=doneBySets || sessionCompleted;
+  const existing=findKneeRecordByDate(latestDue),doneBySets=allRequiredKneeSetsDone(latestDue,plan);
+  const sessionCompleted=existing?.kneeSessionCompleted===true,done=doneBySets||sessionCompleted;
   state.kneeDone[latestDue]=doneBySets;
-  if(doneBySets)syncKneeHistoryForDate(latestDue,plan,false,null,true);
-
-  return {date:latestDue,plan,done,overdue:!done && latestDue<today,sessionCompleted};
+  if(doneBySets)syncKneeHistoryForDate(latestDue,plan,false,latest.date,true);
+  return {date:latestDue,sessionDate:latest.date,moved:latest.date!==latestDue,plan:plan,done:done,overdue:!done&&latest.date<today,sessionCompleted:sessionCompleted};
 }
 
 function exerciseCompletionCount(k, exercise){
@@ -1518,7 +1736,8 @@ function renderKnee(){
   const status=activeKneeWorkoutStatus();
 
   if(!status.date || !status.plan){
-    const next=nextKneeDateAfter(today);
+    const nextEntry=effectiveStrengthEntries().find(function(x){return x.date>today&&x.sourceDate>=KNEE_START&&x.sourceDate<=KNEE_END;});
+    const next=nextEntry?nextEntry.date:nextKneeDateAfter(today);
     p.innerHTML=isPlanPaused()
       ? `<strong>Stabilitätsplan pausiert.</strong><br><span>Beim Fortsetzen wird das Training wieder aktiviert.</span>`
       : `<strong>Noch kein Stabilitätstraining fällig.</strong>${next?`<br><span>Nächste Stabilitätsübungen: ${fmtDateDE(next)}</span>`:""}`;
@@ -1530,8 +1749,9 @@ function renderKnee(){
   }
 
   if(status.done){
-    syncKneeHistoryForDate(status.date,status.plan);
-    const next=nextKneeDateAfter(today);
+    syncKneeHistoryForDate(status.date,status.plan,false,status.sessionDate||null);
+    const nextEntry=effectiveStrengthEntries().find(function(x){return x.date>today&&x.sourceDate>=KNEE_START&&x.sourceDate<=KNEE_END;});
+    const next=nextEntry?nextEntry.date:nextKneeDateAfter(today);
     p.innerHTML=`<strong style="color:var(--plank)">Stabilitätsübungen erledigt.</strong><br><span>Regeneration${next?` · nächster Termin: ${fmtDateDE(next)}`:""}</span>`;
     e.innerHTML="";
     renderKneeBatteries(status.date,{exercises:[]});
@@ -1545,8 +1765,9 @@ function renderKnee(){
   const plan=status.plan;
   const title=kneeTitleForPlan(plan);
 
-  p.innerHTML=`<strong>${status.overdue?"Stabilitätstraining noch offen":"Stabilitätstraining heute fällig"}: ${title}</strong>`
-    +`${status.overdue?`<br><span>Fällig seit: ${fmtDateDE(k)}</span>`:""}`
+  p.innerHTML=`<strong>${status.overdue?"Stabilitätstraining noch offen":"Stabilitätstraining fällig"}: ${title}</strong>`
+    +`${status.moved?`<br><span>Verschoben auf: ${fmtDateDE(status.sessionDate)}</span>`:""}`
+    +`${status.overdue?`<br><span>Fällig seit: ${fmtDateDE(status.sessionDate||k)}</span>`:""}`
     +`<br><span>Das Training bleibt sichtbar, bis es erledigt ist oder der nächste Stabilitätstermin fällig wird.</span>`;
 
   renderKneeBatteries(k,plan);
@@ -1590,7 +1811,7 @@ document.querySelector("#kneeBatteries")?.addEventListener("click",(event)=>{
   if(nextSet==null) return;
 
   setKneeSetDone(status.date,exercise.id,nextSet,true);
-  syncKneeHistoryForDate(status.date,status.plan);
+  syncKneeHistoryForDate(status.date,status.plan,false,status.sessionDate||null);
   save();
   render();
   renderKnee();
@@ -1929,12 +2150,13 @@ function bootstrapCoachApp(){
 
   try{
     renderKnee();
+    renderRunning();
   }catch(err){
     console.error("356 Coach: Stabilitätsübungen konnten nicht initialisiert werden:",err);
   }
 
   try{
-    setActivePage(localStorage.getItem("356Coach.activePage") || "training", {scroll:false});
+    setActivePage(localStorage.getItem("356Coach.activePage") || "strength", {scroll:false});
   }catch(err){
     console.error("356 Coach: Navigation konnte nicht initialisiert werden:",err);
   }

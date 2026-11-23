@@ -247,3 +247,13 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Verhindert den JavaScript-Abbruch, der in v33 die Stabilitätsanzeige, Historie und Reminder-Bedienung blockiert hat.
 - Reminder-Zeiten sind wieder bearbeitbar und speicherbar; Push kann wieder aktiviert/deaktiviert werden.
 - Cache-Version auf v34 erhöht.
+
+
+## Update v35 – Super Paul und Halbmarathon-Aufbau
+- App-Name und SP-Superheldenwappen auf **Super Paul** umgestellt.
+- Krafttraining (Liegestütze, Plank und Beinstabilität) und Laufen auf getrennte Seiten aufgeteilt.
+- 19-Wochen-Laufplan vom 24.11.2026 bis zum Halbmarathon am 04.04.2027: Dienstag optional locker, Donnerstag Qualität, Sonntag Longrun; Samstag bleibt frei.
+- Ziel: Halbmarathon unter 1:40 h (4:44 min/km). Der Zeitplan ist angesichts des aktuellen 10-km-Tempos von 6:00 min/km ambitioniert; der 10-km-Formtest Ende Februar dient zur Neubewertung.
+- Dehnroutine für Hüfte, Quadrizeps, Beinrückseite, Gesäß und Waden; Fortschritt je Lauf lokal gespeichert.
+- Kraft- und Laufeinheiten können verschoben oder abgesagt werden. Der Grund ist verpflichtend per Button: Keine Zeit, Krank/schlapp oder Keine Lust.
+- Bestehender localStorage-Schlüssel und bisherige Trainingshistorie bleiben erhalten; neue Lauf- und Aktionsdaten werden ergänzt.
