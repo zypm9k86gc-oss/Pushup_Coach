@@ -259,3 +259,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Bestehender localStorage-Schlüssel und bisherige Trainingshistorie bleiben erhalten; neue Lauf- und Aktionsdaten werden ergänzt.
 
 - Backup-Import akzeptiert weiterhin ältere „356 Coach“-Backups; neue Exporte heißen „Super Paul“.
+
+
+## Update v36 – Logo- und Navigationskorrektur
+- Das App-Icon wurde durch eine geprüfte, vollständige PNG-Datei mit deckendem Hintergrund ersetzt.
+- Desktop-Favicon und App-Logo nutzen jetzt das SP-Wappen; das Logo im App-Kopf ist als Inline-SVG eingebettet.
+- Apple-Touch-Icon und Web-App-Manifest zeigen auf das neue App-Icon.
+- Navigation erhält zusätzlich einen unabhängigen Fallback; Kraft, Laufen, Historie und Einstellungen können direkt umgeschaltet werden.
+- Service-Worker-Cache und Asset-Version auf v36 angehoben.
