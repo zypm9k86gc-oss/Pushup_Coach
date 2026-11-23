@@ -11,17 +11,30 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Super Paul" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=35" rel="manifest"/>
-<link href="super-paul-icon.svg?v=35" rel="icon" type="image/svg+xml"/>
-<link href="icon-192.png?v=35" rel="apple-touch-icon"/>
-<link href="styles.css?v=35" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=36" rel="manifest"/>
+<link href="favicon-32.png?v=36" rel="icon" type="image/png" sizes="32x32"/>
+<link href="super-paul-icon.svg?v=36" rel="icon" type="image/svg+xml"/>
+<link href="icon-192.png?v=36" rel="apple-touch-icon" sizes="192x192"/>
+<link href="styles.css?v=36" rel="stylesheet"/>
 <title>Super Paul</title>
-<script src="push-config.js?v=35"></script>
+<script src="push-config.js?v=36"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
 <main class="app"><header class="app-topbar">
-<div class="app-brand"><img class="app-brand-logo" src="icon-192.png?v=35" alt="SP Super Paul"/><span>Super Paul</span></div>
+<div class="app-brand">
+<svg class="app-brand-logo" viewBox="0 0 512 512" role="img" aria-label="Super Paul SP-Wappen">
+<defs>
+ <linearGradient id="spGold" x1="0" y1="0" x2=".2" y2="1"><stop stop-color="#fff5a8"/><stop offset=".28" stop-color="#ffd52b"/><stop offset=".62" stop-color="#f5a900"/><stop offset="1" stop-color="#fff08a"/></linearGradient>
+ <linearGradient id="spRed" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ff4a38"/><stop offset=".48" stop-color="#d90016"/><stop offset="1" stop-color="#7c0012"/></linearGradient>
+ <linearGradient id="spBlue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1676dc"/><stop offset=".52" stop-color="#063a8c"/><stop offset="1" stop-color="#001b50"/></linearGradient>
+</defs>
+<path d="M256 14 487 93 461 303 256 504 51 303 25 93Z" fill="url(#spGold)" stroke="#a85b00" stroke-width="7" stroke-linejoin="round"/>
+<path d="M256 35 461 105 439 291 256 467 73 291 51 105Z" fill="url(#spRed)" stroke="#fff0a1" stroke-width="5" stroke-linejoin="round"/>
+<path d="M256 83 411 135 395 281 256 419 117 281 101 135Z" fill="url(#spBlue)" stroke="url(#spGold)" stroke-width="13" stroke-linejoin="round"/>
+<text x="256" y="306" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="194" font-style="italic" font-weight="900" letter-spacing="-18" fill="url(#spGold)" stroke="#8d2600" stroke-width="10" paint-order="stroke fill">SP</text>
+<path d="M144 344 368 344 256 392Z" fill="url(#spGold)" stroke="#a85b00" stroke-width="5" stroke-linejoin="round"/>
+</svg><span>Super Paul</span></div>
 <button aria-label="Darstellung wechseln" class="iconbtn" id="themeBtn">◐</button>
 </header><section class="page-view" data-page="strength" id="page-strength"><div class="page-heading">
 <div class="eyebrow">Ziel 31. Dezember 2026</div>
@@ -304,6 +317,39 @@
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="history" type="button"><span class="nav-icon">▥</span><span>Historie</span></button>
 <button aria-selected="false" class="bottom-nav-btn" data-page-target="settings" type="button"><span class="nav-icon">⚙︎</span><span>Einstellungen</span></button>
 </nav>
-<script src="app.js?v=35"></script>
+<script src="app.js?v=36"></script>
+<script>
+(function(){
+  const validPages=["strength","running","history","settings"];
+  function activateSuperPaulPage(page){
+    const next=validPages.includes(page)?"strength"===page?"strength":page:"strength";
+    document.querySelectorAll(".page-view").forEach(function(view){
+      const active=view.dataset.page===next;
+      view.hidden=!active;
+      view.setAttribute("aria-hidden",active?"false":"true");
+    });
+    document.querySelectorAll(".bottom-nav-btn").forEach(function(button){
+      const active=button.dataset.pageTarget===next;
+      button.classList.toggle("active",active);
+      button.setAttribute("aria-selected",active?"true":"false");
+    });
+    try{localStorage.setItem("356Coach.activePage",next);}catch(e){}
+  }
+  document.querySelectorAll(".bottom-nav-btn").forEach(function(button){
+    button.addEventListener("click",function(event){
+      event.preventDefault();
+      activateSuperPaulPage(button.dataset.pageTarget);
+    });
+  });
+  let initial="strength";
+  try{
+    const saved=localStorage.getItem("356Coach.activePage");
+    if(saved==="training")initial="strength";
+    else if(validPages.includes(saved))initial=saved;
+  }catch(e){}
+  activateSuperPaulPage(initial);
+  window.activateSuperPaulPage=activateSuperPaulPage;
+})();
+</script>
 </body>
 </html>
