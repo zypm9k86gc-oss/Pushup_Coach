@@ -293,3 +293,11 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Lockere Dienstagseinheiten und Sonntagsläufe werden nach der persönlichen Herzfrequenzzone 2 gesteuert; Einlaufen und Trabpausen in HF-Zone 1–2.
 - 6:00 min/km bleibt der vom Nutzer genannte aktuelle Zone-2-Referenzwert, nicht die vorgeschriebene Pace der lockeren Einheiten.
 - Pace-Bereiche sind vorläufig und werden nach dem 10-km-Formtest Ende Februar anhand des Ergebnisses angepasst.
+
+
+## Update v40 – Herzfrequenzzonen und erster Lauf-Zwischentest
+- HF-Zonen auf Basis der vorgegebenen HFmax von 195 bpm berechnet und auf der Laufseite ergänzt: Zone 1 98–116, Zone 2 117–136, Zone 3 137–155, Zone 4 156–175 und Zone 5 176–195 bpm.
+- Überschneidungsfreie Ganzzahlbereiche: Grenzwerte werden jeweils der höheren Zone zugeordnet.
+- Am 13.12.2026 ersetzt ein 5-km-Zwischentest den regulären Sonntagslauf. Inklusive Ein- und Auslaufen beträgt der geplante Umfang 9 km.
+- Der 10-km-Formtest Ende Februar bleibt Teil des Plans.
+- Service-Worker-Cache und Asset-Version auf v40 angehoben.

@@ -835,3 +835,12 @@ html[data-theme="light"]{
 .calendar-rhythm-grid span{display:flex;gap:8px;align-items:center;padding:8px;border-radius:9px;background:var(--bg);font-size:10px;color:var(--muted)}
 .calendar-rhythm-grid strong{font-size:12px;color:var(--text);min-width:22px}
 @media(max-width:390px){.calendar-day{min-height:49px}.calendar-day-number{font-size:12px}.calendar-grid{gap:3px}.calendar-next-row{grid-template-columns:54px 68px minmax(0,1fr);gap:4px}.calendar-next-row strong{font-size:10px}}
+
+
+/* v40 – Herzfrequenzzonen auf der Laufseite */
+.run-hr-zones{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:8px 0 12px}
+.run-hr-zone{display:grid;gap:3px;align-content:center;min-width:0;padding:9px 5px;border-radius:10px;background:var(--bg);text-align:center}
+.run-hr-zone span{font-size:10px;font-weight:800}
+.run-hr-zone small{font-size:9px;line-height:1.2;color:var(--muted)}
+.run-hr-zone strong{font-size:12px;white-space:nowrap}
+@media(max-width:520px){.run-hr-zones{grid-template-columns:repeat(3,minmax(0,1fr))}.run-hr-zone strong{font-size:11px}}

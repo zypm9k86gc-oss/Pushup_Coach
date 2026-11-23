@@ -11,13 +11,13 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Super Paul" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=39" rel="manifest"/>
-<link href="favicon-32.png?v=39" rel="icon" type="image/png" sizes="32x32"/>
-<link href="super-paul-icon.svg?v=39" rel="icon" type="image/svg+xml"/>
-<link href="icon-192.png?v=39" rel="apple-touch-icon" sizes="192x192"/>
-<link href="styles.css?v=39" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=40" rel="manifest"/>
+<link href="favicon-32.png?v=40" rel="icon" type="image/png" sizes="32x32"/>
+<link href="super-paul-icon.svg?v=40" rel="icon" type="image/svg+xml"/>
+<link href="icon-192.png?v=40" rel="apple-touch-icon" sizes="192x192"/>
+<link href="styles.css?v=40" rel="stylesheet"/>
 <title>Super Paul</title>
-<script src="push-config.js?v=39"></script>
+<script src="push-config.js?v=40"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -174,16 +174,25 @@
 <div class="page-heading"><div class="eyebrow">Halbmarathon · Zieltermin 04. April 2027</div><h1>Laufen</h1><p>Halbmarathon unter 1:40 h · Zielpace 4:44 min/km</p></div>
 <section class="card run-goal-card"><div class="run-goal-main"><div class="label">Dein Laufziel</div><div class="run-goal-time">1:40:00</div><div class="run-goal-sub">21,1 km · 04.04.2027 · Ø 4:44 min/km</div></div>
 <p class="run-goal-note">Ausgangslage: 10 km bei ca. 6:00 min/km in Zone 2. Lockere Läufe werden über deine persönliche Pulszone 2 gesteuert. Donnerstags gibt es konkrete Pace-Vorgaben für Schwellen- und Intervalltraining; bis zum 10-km-Formtest sind diese Bereiche vorläufig. 1:40 h bleibt ein ambitioniertes Stretch-Ziel; die Formprüfung Ende Februar entscheidet, ob 4:44 min/km realistisch ist.</p></section>
-<section class="card run-structure-card"><div class="entry-heading">Wochenrhythmus</div><div class="run-week-rhythm"><span><strong>Di</strong> optional locker</span><span><strong>Do</strong> Qualität</span><span><strong>So</strong> Longrun</span></div>
+<section class="card run-structure-card"><div class="entry-heading">Wochenrhythmus</div><div class="run-week-rhythm"><span><strong>Di</strong> optional locker</span><span><strong>Do</strong> Qualität</span><span><strong>So</strong> Longrun / Test</span></div>
 <p class="entry-note">Zwei Läufe sind das Minimum: Donnerstag (Qualität) und Sonntag (Longrun). Dienstag ist der optionale dritte Lauf in Zone 2. Montag, Mittwoch und Freitag bleiben Kraft-/Stabilitätstage; Samstag ist Ruhetag. Eine gezielte Qualitätseinheit pro Woche, der Rest überwiegend locker.</p>
 <p class="entry-note">Lockere Läufe und alle Trabpausen: ausschließlich nach deiner persönlichen Herzfrequenzzone 2 bzw. Zone 1–2 steuern. Dein aktueller Richtwert von 6:00 min/km ist ein Pace-Referenzwert, kein Tempolimit. Schnelle Abschnitte erhalten konkrete Pace-Bereiche; diese sind bis zum 10-km-Formtest vorläufig und werden danach neu kalibriert.</p>
+<div class="entry-heading" id="runningHeartRateHeading">HF-Zonen · HFmax 195 bpm</div>
+<div class="run-hr-zones" id="runningHeartRateZones">
+<div class="run-hr-zone"><span>Zone 1</span><small>50 bis unter 60 % HFmax</small><strong>98–116 bpm</strong></div>
+<div class="run-hr-zone"><span>Zone 2</span><small>60 bis unter 70 % HFmax</small><strong>117–136 bpm</strong></div>
+<div class="run-hr-zone"><span>Zone 3</span><small>70 bis unter 80 % HFmax</small><strong>137–155 bpm</strong></div>
+<div class="run-hr-zone"><span>Zone 4</span><small>80 bis unter 90 % HFmax</small><strong>156–175 bpm</strong></div>
+<div class="run-hr-zone"><span>Zone 5</span><small>90 bis 100 % HFmax</small><strong>176–195 bpm</strong></div>
+</div>
+<p class="entry-note">Die Grenzwerte sind auf ganze bpm gerundet und überschneiden sich nicht; ein Grenzwert zählt jeweils zur höheren Zone.</p>
 <p class="entry-note" id="runningPaceGuidance"><strong>Vorläufige Tempobereiche:</strong> Schwelle 5:25–5:40 min/km · 10-km-/VO₂-Intervalle 5:00–5:15 min/km · kurze Steigerungen 4:45–5:05 min/km. Einlaufen und Trabpausen in HF-Zone 1–2.</p></section>
 <section class="card running-stats-card"><div id="runningStats" class="running-stats"></div></section>
 <section class="card run-session-card"><div class="entry-heading">Aktuelle Laufeinheit</div><div id="runningTodayCard"></div></section>
 <section class="card run-stretch-card"><div class="entry-heading">Dehnen: Beine & Hüfte</div><p class="entry-note">Nach jedem Lauf, ohne in den Schmerz hineinzudehnen. Ruhig atmen und beide Seiten gleichmäßig bearbeiten.</p><div id="runningStretchRoutine"></div></section>
 <section class="card run-upcoming-card"><div class="entry-heading">Weitere Laufeinheiten</div><div id="runningUpcoming"></div></section>
 <section class="card run-plan-overview-card"><details><summary class="entry-heading">Kompletter verschärfter 19-Wochen-Laufplan anzeigen</summary><div id="runningPlanOverview" class="running-plan-overview"></div></details></section>
-<footer>Dienstag und Donnerstag sind Lauftage ohne Armtraining. Sonntag bleibt der lange Lauf; Samstag ist grundsätzlich frei.</footer></section>
+<footer>Dienstag und Donnerstag sind Lauftage ohne Armtraining. Sonntag ist Longrun- oder Testtag; Samstag ist grundsätzlich frei.</footer></section>
 <section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
 <div class="eyebrow">Dein Fortschritt</div>
 <h1>Historie</h1>
@@ -331,7 +340,7 @@
   <div class="edit-dialog-actions"><button class="secondary-button" type="button" id="sessionActionCloseSecondary">Zurück</button><button class="primary" type="button" id="sessionActionConfirm">Speichern</button></div>
 </dialog>
 
-<script src="app.js?v=39"></script>
+<script src="app.js?v=40"></script>
 <script>
 (function(){
   const validPages=["overview","strength","running","history","settings"];
