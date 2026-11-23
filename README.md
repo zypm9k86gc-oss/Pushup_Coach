@@ -1,4 +1,4 @@
-# 356 Coach – iPhone Web-App (PWA)
+# Super Paul – iPhone Web-App (PWA)
 
 ## Funktionen
 - Startwert: 80 Liegestütze + 70 Sekunden Plank
@@ -24,7 +24,7 @@ Eine PWA muss über HTTPS ausgeliefert werden. Die Dateien nur direkt vom Mac zu
 2. Öffne die HTTPS-Adresse auf deinem iPhone in Safari.
 3. Tippe auf Teilen.
 4. Wähle „Zum Home-Bildschirm“.
-5. Öffne danach „356 Coach“ über das neue App-Symbol.
+5. Öffne danach „Super Paul“ über das neue App-Symbol.
 
 ## Erinnerungen
 Die bestehenden Kalender-Erinnerungen um 18:00 und 18:55 sind weiterhin die zuverlässigste Lösung für das iPhone.
