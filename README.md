@@ -255,5 +255,7 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - 19-Wochen-Laufplan vom 24.11.2026 bis zum Halbmarathon am 04.04.2027: Dienstag optional locker, Donnerstag Qualität, Sonntag Longrun; Samstag bleibt frei.
 - Ziel: Halbmarathon unter 1:40 h (4:44 min/km). Der Zeitplan ist angesichts des aktuellen 10-km-Tempos von 6:00 min/km ambitioniert; der 10-km-Formtest Ende Februar dient zur Neubewertung.
 - Dehnroutine für Hüfte, Quadrizeps, Beinrückseite, Gesäß und Waden; Fortschritt je Lauf lokal gespeichert.
-- Kraft- und Laufeinheiten können verschoben oder abgesagt werden. Der Grund ist verpflichtend per Button: Keine Zeit, Krank/schlapp oder Keine Lust.
+- Kraft- und Laufeinheiten können verschoben oder abgesagt werden. Der Grund ist verpflichtend per Button: Keine Zeit, Krank/schlapp oder Keine Lust. Beim Verschieben wird eine bereits belegte Einheit am Zieltag als ersetzt markiert (keine doppelten Trainings am selben Tag).
 - Bestehender localStorage-Schlüssel und bisherige Trainingshistorie bleiben erhalten; neue Lauf- und Aktionsdaten werden ergänzt.
+
+- Backup-Import akzeptiert weiterhin ältere „356 Coach“-Backups; neue Exporte heißen „Super Paul“.
