@@ -2136,7 +2136,7 @@ document.querySelector("#saveReminderTimesBtn")?.addEventListener("click",async(
 
 document.querySelector("#enablePushBtn")?.addEventListener("click",()=>{
   if(!pushConfigured()){setPushStatus("OneSignal muss zuerst mit der App verbunden werden.",true);return;}
-  if(!isStandaloneWebApp()){setPushStatus("Bitte 356 Coach zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.",true);return;}
+  if(!isStandaloneWebApp()){setPushStatus("Bitte Super Paul zuerst als Web-App zum iPhone-Home-Bildschirm hinzufügen.",true);return;}
 
   window.OneSignalDeferred=window.OneSignalDeferred||[];
   window.OneSignalDeferred.push(async function(OneSignal){
@@ -2180,20 +2180,20 @@ function bootstrapCoachApp(){
     load();
     render();
   }catch(err){
-    console.error("356 Coach: Hauptansicht konnte nicht initialisiert werden:",err);
+    console.error("Super Paul: Hauptansicht konnte nicht initialisiert werden:",err);
   }
 
   try{
     renderKnee();
     renderRunning();
   }catch(err){
-    console.error("356 Coach: Stabilitätsübungen konnten nicht initialisiert werden:",err);
+    console.error("Super Paul: Stabilitätsübungen konnten nicht initialisiert werden:",err);
   }
 
   try{
     setActivePage(localStorage.getItem("356Coach.activePage") || "strength", {scroll:false});
   }catch(err){
-    console.error("356 Coach: Navigation konnte nicht initialisiert werden:",err);
+    console.error("Super Paul: Navigation konnte nicht initialisiert werden:",err);
   }
 
   document.querySelector("#addPushAlways")?.addEventListener("click",()=>{
