@@ -235,7 +235,7 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 
 
 ## Update v33 – Jahresendziel, Pause/Fortsetzen und flexible Stabilität
-- Zieltermin: **31.12.2026**, Ziel bleibt **356 Liegestütze + 4:00 Plank**.
+- Zieltermin: **31.12.2026**, Ziel wurde mit v37 auf **356 Liegestütze + 3:00 Plank** angepasst.
 - Ab 02.11. Neustart des aktuellen Aufbaus auf dem Stand von Anfang Oktober: **216 Liegestütze + 2:53 Plank**. Historische Einträge bleiben erhalten.
 - „Trainingseintrag speichern“ übernimmt Liegestütze, Plank und den aktuellen Stabilitäts-Satzstand exakt wie eingetragen; fehlende Sätze werden nicht automatisch ergänzt.
 - „Trainingsplan pausieren“ friert den aktuellen Zielwert ein und deaktiviert planmäßige Push-Erinnerungen. „Fortsetzen“ startet mit denselben Werten und baut von dort bis 31.12. neu auf.
