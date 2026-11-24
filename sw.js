@@ -1,17 +1,17 @@
-const CACHE = "super-paul-v42";
+const CACHE = "super-paul-v43";
 const CORE = [
-  "./push-config.js?v=42",
-  "./styles.css?v=42",
-  "./app.js?v=42",
-  "./manifest.webmanifest?v=42",
-  "./icon-192.png?v=42",
-  "./favicon-32.png?v=42",
-  "./super-paul-icon.svg?v=42",
-  "./stretch-calf.svg?v=42",
-  "./stretch-quadriceps.svg?v=42",
-  "./stretch-hamstring.svg?v=42",
-  "./stretch-hip-flexor.svg?v=42",
-  "./stretch-glute.svg?v=42",
+  "./push-config.js?v=43",
+  "./styles.css?v=43",
+  "./app.js?v=43",
+  "./manifest.webmanifest?v=43",
+  "./icon-192.png?v=43",
+  "./favicon-32.png?v=43",
+  "./super-paul-icon.svg?v=43",
+  "./stretch-calf.svg?v=43",
+  "./stretch-quadriceps.svg?v=43",
+  "./stretch-hamstring.svg?v=43",
+  "./stretch-hip-flexor.svg?v=43",
+  "./stretch-glute.svg?v=43",
   "./trainingsplan.json"
 ];
 

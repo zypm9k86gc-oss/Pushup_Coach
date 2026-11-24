@@ -320,3 +320,9 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Die Historie erhält Tabs für Training, Lauf-Bestandsaufnahme und Statistik. Die Laufansicht zeigt eine Pace-/HF-Entwicklungsgrafik sowie die Messliste.
 - Zeit, Distanz, Ø-Herzfrequenz und Ø-Pace bleiben lokal speicherbar und bearbeitbar; die Pace wird aus Zeit und Distanz vorausgefüllt und kann korrigiert werden.
 - Service-Worker-Cache und Asset-Version auf v42 angehoben.
+
+
+## Update v43 – Cache-Aktualisierung und Testtexte
+- Versionskennungen der fünf Dehnillustrationen an den v43-Service-Worker-Cache angeglichen, damit sie auch offline zuverlässig aus dem aktuellen Cache geladen werden.
+- Hinweise zum früheren 10-km-Formtest aus der Laufübersicht entfernt; die regelmäßigen 5-km-Bestandsaufnahmen sind jetzt die wiederkehrende Fortschrittskontrolle.
+- Asset- und Service-Worker-Version auf v43 angehoben.
