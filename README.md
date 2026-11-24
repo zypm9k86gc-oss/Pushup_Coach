@@ -310,3 +310,13 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - In der Historie können je Messung Datum, Zeit, Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace gespeichert, bearbeitet und gelöscht werden.
 - Ergebnisse liegen im bestehenden localStorage und sind im vollständigen JSON-Backup enthalten.
 - Der 10-km-Formtest Ende Februar bleibt zusätzlich im Laufplan.
+
+
+## Update v42 – 5-km-Bestandsaufnahme und Navy-App-Design
+- App-Oberfläche an die Super-Paul-Referenzansicht angepasst: dunkles Navy-Design, goldene aktive Navigation und feste Fünf-Punkte-Navigation am unteren Bildschirmrand.
+- Die Laufseite zeigt den identischen 5-km-Test als klaren Ablauf: 2 km Einlaufen, 5 km gleichmäßig zügiger Testlauf, 2 km Auslaufen.
+- Wiederholung alle 14 Tage: 13.12.2026, 27.12.2026, 10.01.2027, 24.01.2027, 07.02.2027, 21.02.2027, 07.03.2027 und 21.03.2027.
+- In Testwochen ist die Donnerstagseinheit bewusst locker, damit der 5-km-Test der zentrale Belastungsreiz bleibt. Der frühere 10-km-Formtest Ende Februar wurde aus dem Donnerstag-Programm entfernt.
+- Die Historie erhält Tabs für Training, Lauf-Bestandsaufnahme und Statistik. Die Laufansicht zeigt eine Pace-/HF-Entwicklungsgrafik sowie die Messliste.
+- Zeit, Distanz, Ø-Herzfrequenz und Ø-Pace bleiben lokal speicherbar und bearbeitbar; die Pace wird aus Zeit und Distanz vorausgefüllt und kann korrigiert werden.
+- Service-Worker-Cache und Asset-Version auf v42 angehoben.
