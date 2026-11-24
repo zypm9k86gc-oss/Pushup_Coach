@@ -301,3 +301,12 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Am 13.12.2026 ersetzt ein 5-km-Zwischentest den regulären Sonntagslauf. Inklusive Ein- und Auslaufen beträgt der geplante Umfang 9 km.
 - Der 10-km-Formtest Ende Februar bleibt Teil des Plans.
 - Service-Worker-Cache und Asset-Version auf v40 angehoben.
+
+
+## Update v41 – Dehnillustrationen und zweiwöchentliche Lauf-Bestandsaufnahme
+- Zu jeder der fünf Dehnübungen nach dem Laufen ist eine eigene, offline verfügbare Übungsillustration ergänzt: Wade, Quadrizeps, Beinrückseite, Hüftbeuger und Gesäß/Figure-4.
+- Standardisierte Lauf-Bestandsaufnahme alle 14 Tage am Sonntag, beginnend am 13.12.2026: 10 Minuten Einlaufen, danach 30 Minuten gleichmäßig in HF-Zone 2 (117–136 bpm). Der Messabschnitt wird in den geplanten Longrun integriert; der Longrun-Gesamtumfang bleibt bestehen.
+- Geplante Termine: 13.12.2026, 27.12.2026, 10.01.2027, 24.01.2027, 07.02.2027, 21.02.2027, 07.03.2027 und 21.03.2027.
+- In der Historie können je Messung Datum, Zeit, Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace gespeichert, bearbeitet und gelöscht werden.
+- Ergebnisse liegen im bestehenden localStorage und sind im vollständigen JSON-Backup enthalten.
+- Der 10-km-Formtest Ende Februar bleibt zusätzlich im Laufplan.
