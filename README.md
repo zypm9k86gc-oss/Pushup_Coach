@@ -326,3 +326,8 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 - Versionskennungen der fünf Dehnillustrationen an den v43-Service-Worker-Cache angeglichen, damit sie auch offline zuverlässig aus dem aktuellen Cache geladen werden.
 - Hinweise zum früheren 10-km-Formtest aus der Laufübersicht entfernt; die regelmäßigen 5-km-Bestandsaufnahmen sind jetzt die wiederkehrende Fortschrittskontrolle.
 - Asset- und Service-Worker-Version auf v43 angehoben.
+
+
+## Update v44 – Pace-Verlaufsgrafik
+- Beschriftung der Pace-Achse in der 5-km-Testgrafik korrigiert: langsamere Pace oben, schnellere Pace unten.
+- Cache- und Asset-Version auf v44 angehoben.

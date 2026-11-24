@@ -79,11 +79,11 @@ function buildRunPlan(){
 }
 const RUN_SESSIONS=buildRunPlan();
 const RUN_STRETCHES=[
-{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte sanft nach vorn schieben · 30 Sekunden je Seite",image:"stretch-hip-flexor.svg?v=43"},
-{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite",image:"stretch-quadriceps.svg?v=43"},
-{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite",image:"stretch-hamstring.svg?v=43"},
-{id:"glute",name:"Gesäß / Figure-4",detail:"Im Liegen Knöchel über das andere Knie legen und das Bein sanft heranziehen · 30 Sekunden je Seite",image:"stretch-glute.svg?v=43"},
-{id:"calf",name:"Wade an der Wand",detail:"Hinteres Bein gestreckt halten, Ferse am Boden lassen; danach leicht gebeugtes Knie · 30 Sekunden je Variante",image:"stretch-calf.svg?v=43"}
+{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte sanft nach vorn schieben · 30 Sekunden je Seite",image:"stretch-hip-flexor.svg?v=44"},
+{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite",image:"stretch-quadriceps.svg?v=44"},
+{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite",image:"stretch-hamstring.svg?v=44"},
+{id:"glute",name:"Gesäß / Figure-4",detail:"Im Liegen Knöchel über das andere Knie legen und das Bein sanft heranziehen · 30 Sekunden je Seite",image:"stretch-glute.svg?v=44"},
+{id:"calf",name:"Wade an der Wand",detail:"Hinteres Bein gestreckt halten, Ferse am Boden lassen; danach leicht gebeugtes Knie · 30 Sekunden je Variante",image:"stretch-calf.svg?v=44"}
 ];
 function addDateKey(key,days){const d=new Date(key+"T12:00:00");d.setDate(d.getDate()+days);return dateKeyFromDate(d);}
 function getSessionAction(type,key){return (state.sessionActions||{})[type+":"+key]||null;}
@@ -273,7 +273,7 @@ function renderRunBenchmarkChart(records){
   for(let i=0;i<4;i++){
     const y=top+i*(bottom-top)/3;
     svg+='<line x1="'+left+'" y1="'+y.toFixed(1)+'" x2="'+right+'" y2="'+y.toFixed(1)+'" stroke="#355274" stroke-width="1"/>';
-    svg+='<text x="2" y="'+(y+4).toFixed(1)+'" fill="#b4c8e2" font-size="10">'+formatRunClock(Math.round(pMin+(pMax-pMin)*i/3))+'</text>';
+    svg+='<text x="2" y="'+(y+4).toFixed(1)+'" fill="#b4c8e2" font-size="10">'+formatRunClock(Math.round(pMax-(pMax-pMin)*i/3))+'</text>';
     svg+='<text x="306" y="'+(y+4).toFixed(1)+'" fill="#ff8291" font-size="10">'+Math.round(hMax-(hMax-hMin)*i/3)+'</text>';
   }
   svg+='<polyline points="'+pacePoints+'" fill="none" stroke="#25b9f0" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
@@ -1521,7 +1521,7 @@ document.querySelectorAll(".page-switcher-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=43", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=44", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1556,7 +1556,7 @@ if ("serviceWorker" in navigator) {
 function makeBackupPayload(){
   return {
     app: "Super Paul",
-    version: 43,
+    version: 44,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state
