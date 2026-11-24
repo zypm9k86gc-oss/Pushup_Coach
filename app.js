@@ -35,9 +35,10 @@ const checkpoints = [
   ["31.12.2026","356 Liegestütze / 3:00 Plank"]
 ];
 
-const RUN_WEEK_PLAN=[{"easyKm":5,"qualityKm":7,"qualityTitle":"Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 4 min bei 5:30–5:40 min/km; zwischen den Wiederholungen je 2 min sehr locker in HF-Zone 1–2 traben. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":10,"longDetail":"10 km durchgehend in deiner persönlichen HF-Zone 2. 6:00 min/km ist dein aktueller Referenzwert, aber die Herzfrequenz steuert die Einheit."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Längere Schwellenblöcke","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 6 min bei 5:30–5:40 min/km; je 2 min Trabpause in HF-Zone 1–2. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":12,"longDetail":"12 km in HF-Zone 2. Möglichst gleichmäßige Herzfrequenz; bei Anstiegen Tempo reduzieren statt die Zone zu verlassen."},{"easyKm":6.5,"qualityKm":8,"qualityTitle":"10-km-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 5 × 3 min bei 5:05–5:15 min/km; je 2 min locker in HF-Zone 1–2 traben. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":9,"longTitle":"5-km-Zwischentest","longDetail":"2 km Einlaufen in HF-Zone 1–2 (98–136 bpm), darin 3 × 20 s lockere Steigerungen mit je 60–90 s lockerem Traben. Anschließend 5 km Zwischentest auf flacher, möglichst genau vermessener Strecke: gleichmäßig schnell laufen, die ersten 1–2 km kontrolliert beginnen und nur bei stabiler Pace in der zweiten Hälfte steigern. 2 km Auslaufen in HF-Zone 1–2 (98–136 bpm). Gesamtumfang: 9 km. Ergebnis notieren: Gesamtzeit, Ø-Pace, Kilometer-Splits, Ø-Herzfrequenz und Maximalpuls. Während des 5-km-Tests zählt eine gleichmäßige Leistung; die HF kann gegen Ende in Zone 4 und bei Bedarf kurz in Zone 5 steigen."},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastung mit kurzen Intervallen","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 6 × 2 min bei 5:20–5:30 min/km; je 2 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":10,"longDetail":"10 km sehr locker in HF-Zone 2. Entlastungswoche: den Umfang reduzieren und keine zusätzlichen schnellen Abschnitte ergänzen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"Schwellenaufbau","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 8 min bei 5:25–5:35 min/km; je 2 min Trabpause in HF-Zone 1–2. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":14,"longDetail":"14 km in HF-Zone 2. Bei längeren Läufen Trinken und Kohlenhydratzufuhr testen."},{"easyKm":7,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 6 × 800 m bei 5:00–5:10 min/km; dazwischen je 400 m locker in HF-Zone 1–2 traben. 10 min Auslaufen in HF-Zone 1–2.","longKm":15,"longDetail":"15 km in HF-Zone 2. Keine Tempoverschärfung am Ende; die Einheit dient dem aeroben Umfang."},{"easyKm":7,"qualityKm":10,"qualityTitle":"Doppelte Schwellenblöcke","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 2 × 12 min bei 5:25–5:35 min/km; dazwischen 3 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":16,"longDetail":"16 km in HF-Zone 2. Nur wenn die Herzfrequenz stabil bleibt, die letzten 15 min im oberen Bereich deiner Zone 2 laufen."},{"easyKm":5.5,"qualityKm":7,"qualityTitle":"Entlastung mit Fahrtspiel","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 8 × 1 min bei 4:55–5:05 min/km; je 1 min locker in HF-Zone 1–2. Anschließend in HF-Zone 1–2 auslaufen.","longKm":12,"longDetail":"12 km entspannt in HF-Zone 2. Entlastungswoche und keine zusätzliche Tempoeinheit."},{"easyKm":7.5,"qualityKm":9.5,"qualityTitle":"1-km-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 5 × 1 km bei 5:00–5:10 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":17,"longDetail":"17 km in HF-Zone 2. Regelmäßig trinken; bei deutlichem Pulsanstieg Tempo reduzieren oder kurze Gehpausen einlegen."},{"easyKm":8,"qualityKm":10,"qualityTitle":"Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 10 min bei 5:25–5:35 min/km; je 2–3 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km überwiegend in HF-Zone 2. Bei stabiler Herzfrequenz die letzten 15–20 min im oberen Bereich von HF-Zone 2 laufen."},{"easyKm":8,"qualityKm":10.5,"qualityTitle":"Lange Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 1.200 m bei 5:00–5:10 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km gleichmäßig in HF-Zone 2. Fokus auf Laufökonomie, gleichmäßige Herzfrequenz und Verpflegung."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Entlastung mit Tempodauerlauf","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 20 min zusammenhängend bei 5:30–5:40 min/km. Anschließend locker in HF-Zone 1–2 auslaufen.","longKm":14,"longDetail":"14 km sehr locker in HF-Zone 2. Entlastungswoche."},{"easyKm":8,"qualityKm":11,"qualityTitle":"2-km-Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 2 km bei 5:20–5:30 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km in HF-Zone 2. Verpflegung wie im Wettkampf testen; keine schnellen Abschnitte anhängen."},{"easyKm":8,"qualityKm":12,"qualityTitle":"10-km-Formtest","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Formtest über 10 km: km 1–3 bei 5:35–5:40 min/km, km 4–7 bei 5:25–5:30 min/km, km 8–10 bei 5:15–5:25 min/km, sofern die Pace stabil gehalten werden kann; sonst das Tempo der mittleren Phase beibehalten. Danach 10 min Auslaufen in HF-Zone 1–2. Ergebnis zur Neuberechnung der Trainingsbereiche notieren.","longKm":16,"longDetail":"16 km locker in HF-Zone 2. Nach dem Formtest die Regeneration priorisieren."},{"easyKm":8,"qualityKm":11,"qualityTitle":"Halbmarathon-spezifische Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 2 km bei 5:15–5:25 min/km; je 3 min Trabpause in HF-Zone 1–2. Nach dem Formtest die Pace anhand des Testergebnisses neu festlegen.","longKm":19,"longDetail":"19 km überwiegend in HF-Zone 2. Nur bei stabiler Herzfrequenz die letzten 15 min im oberen Bereich von Zone 2 laufen."},{"easyKm":7,"qualityKm":10.5,"qualityTitle":"Langer Schwellenblock","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 2 × 20 min bei 5:25–5:35 min/km; dazwischen 4 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km in HF-Zone 2. Optional die letzten 20 min im oberen Bereich von HF-Zone 2 laufen, solange die Herzfrequenz stabil bleibt."},{"easyKm":7,"qualityKm":12,"qualityTitle":"Halbmarathon-Tempoabschnitte","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 3 km im aus dem 10-km-Formtest abgeleiteten Halbmarathon-Tempo. Vorläufiger Orientierungsbereich: 5:05–5:20 min/km; nur auf die tatsächliche Testleistung anpassen, nicht automatisch 4:44 min/km erzwingen. Je 3 min Trabpause in HF-Zone 1–2.","longKm":18,"longDetail":"18 km in HF-Zone 2. Keine zusätzlichen schnellen Abschnitte; die Qualitätseinheit am Donnerstag ist der Temporeiz der Woche."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Taper mit kurzen Temporeizen","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 3 min bei 5:20–5:30 min/km; je 2 min locker in HF-Zone 1–2 traben. Frisch bleiben und die Einheit nicht verlängern.","longKm":12,"longDetail":"12 km sehr locker in HF-Zone 2. Umfang reduzieren."},{"easyKm":5,"qualityKm":5,"qualityTitle":"Wettkampfwoche","qualityDetail":"4–5 km locker in HF-Zone 2, darin 4 × 20 s Steigerungen bei etwa 4:45–5:00 min/km mit vollständiger Erholung in HF-Zone 1–2. Keine weitere harte Einheit.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Zieltempo 4:44 min/km für 1:40 h nur dann laufen, wenn der 10-km-Formtest und die nachfolgenden Tempoeinheiten diese Pace bestätigen; andernfalls die aus dem Formtest abgeleitete realistische Wettkampfpace wählen."}];
+const RUN_WEEK_PLAN=[{"easyKm":5,"qualityKm":7,"qualityTitle":"Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 4 min bei 5:30–5:40 min/km; zwischen den Wiederholungen je 2 min sehr locker in HF-Zone 1–2 traben. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":10,"longDetail":"10 km durchgehend in deiner persönlichen HF-Zone 2. 6:00 min/km ist dein aktueller Referenzwert, aber die Herzfrequenz steuert die Einheit."},{"easyKm":6,"qualityKm":8,"qualityTitle":"Längere Schwellenblöcke","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 6 min bei 5:30–5:40 min/km; je 2 min Trabpause in HF-Zone 1–2. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":12,"longDetail":"12 km in HF-Zone 2. Möglichst gleichmäßige Herzfrequenz; bei Anstiegen Tempo reduzieren statt die Zone zu verlassen."},{"easyKm":6.5,"qualityKm":8,"qualityTitle":"10-km-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 5 × 3 min bei 5:05–5:15 min/km; je 2 min locker in HF-Zone 1–2 traben. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":13,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme","longDetail":"13 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 13 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true},{"easyKm":5,"qualityKm":6.5,"qualityTitle":"Entlastung mit kurzen Intervallen","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 6 × 2 min bei 5:20–5:30 min/km; je 2 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":10,"longDetail":"10 km sehr locker in HF-Zone 2. Entlastungswoche: den Umfang reduzieren und keine zusätzlichen schnellen Abschnitte ergänzen."},{"easyKm":6.5,"qualityKm":9,"qualityTitle":"Schwellenaufbau","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 8 min bei 5:25–5:35 min/km; je 2 min Trabpause in HF-Zone 1–2. Anschließend 10 min Auslaufen in HF-Zone 1–2.","longKm":14,"longDetail":"14 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 14 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":7,"qualityKm":9,"qualityTitle":"800-Meter-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 6 × 800 m bei 5:00–5:10 min/km; dazwischen je 400 m locker in HF-Zone 1–2 traben. 10 min Auslaufen in HF-Zone 1–2.","longKm":15,"longDetail":"15 km in HF-Zone 2. Keine Tempoverschärfung am Ende; die Einheit dient dem aeroben Umfang."},{"easyKm":7,"qualityKm":10,"qualityTitle":"Doppelte Schwellenblöcke","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 2 × 12 min bei 5:25–5:35 min/km; dazwischen 3 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":16,"longDetail":"16 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 16 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":5.5,"qualityKm":7,"qualityTitle":"Entlastung mit Fahrtspiel","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 8 × 1 min bei 4:55–5:05 min/km; je 1 min locker in HF-Zone 1–2. Anschließend in HF-Zone 1–2 auslaufen.","longKm":12,"longDetail":"12 km entspannt in HF-Zone 2. Entlastungswoche und keine zusätzliche Tempoeinheit."},{"easyKm":7.5,"qualityKm":9.5,"qualityTitle":"1-km-Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 5 × 1 km bei 5:00–5:10 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":17,"longDetail":"17 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 17 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":8,"qualityKm":10,"qualityTitle":"Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 10 min bei 5:25–5:35 min/km; je 2–3 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km überwiegend in HF-Zone 2. Bei stabiler Herzfrequenz die letzten 15–20 min im oberen Bereich von HF-Zone 2 laufen."},{"easyKm":8,"qualityKm":10.5,"qualityTitle":"Lange Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 1.200 m bei 5:00–5:10 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 18 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":6,"qualityKm":8,"qualityTitle":"Entlastung mit Tempodauerlauf","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 20 min zusammenhängend bei 5:30–5:40 min/km. Anschließend locker in HF-Zone 1–2 auslaufen.","longKm":14,"longDetail":"14 km sehr locker in HF-Zone 2. Entlastungswoche."},{"easyKm":8,"qualityKm":11,"qualityTitle":"2-km-Schwellenintervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 2 km bei 5:20–5:30 min/km; je 2 min lockere Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 18 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":8,"qualityKm":12,"qualityTitle":"10-km-Formtest","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Formtest über 10 km: km 1–3 bei 5:35–5:40 min/km, km 4–7 bei 5:25–5:30 min/km, km 8–10 bei 5:15–5:25 min/km, sofern die Pace stabil gehalten werden kann; sonst das Tempo der mittleren Phase beibehalten. Danach 10 min Auslaufen in HF-Zone 1–2. Ergebnis zur Neuberechnung der Trainingsbereiche notieren.","longKm":16,"longDetail":"16 km locker in HF-Zone 2. Nach dem Formtest die Regeneration priorisieren."},{"easyKm":8,"qualityKm":11,"qualityTitle":"Halbmarathon-spezifische Intervalle","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 2 km bei 5:15–5:25 min/km; je 3 min Trabpause in HF-Zone 1–2. Nach dem Formtest die Pace anhand des Testergebnisses neu festlegen.","longKm":19,"longDetail":"19 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 19 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":7,"qualityKm":10.5,"qualityTitle":"Langer Schwellenblock","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 2 × 20 min bei 5:25–5:35 min/km; dazwischen 4 min Trabpause in HF-Zone 1–2. 10 min Auslaufen in HF-Zone 1–2.","longKm":18,"longDetail":"18 km in HF-Zone 2. Optional die letzten 20 min im oberen Bereich von HF-Zone 2 laufen, solange die Herzfrequenz stabil bleibt."},{"easyKm":7,"qualityKm":12,"qualityTitle":"Halbmarathon-Tempoabschnitte","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 3 × 3 km im aus dem 10-km-Formtest abgeleiteten Halbmarathon-Tempo. Vorläufiger Orientierungsbereich: 5:05–5:20 min/km; nur auf die tatsächliche Testleistung anpassen, nicht automatisch 4:44 min/km erzwingen. Je 3 min Trabpause in HF-Zone 1–2.","longKm":18,"longDetail":"18 km Gesamtdistanz. Standardisierte Bestandsaufnahme: 10 min Einlaufen in HF-Zone 1–2 (98–136 bpm), danach exakt 30 min gleichmäßig in HF-Zone 2 (117–136 bpm) auf möglichst derselben flachen Strecke. Für diesen 30-minütigen Messabschnitt Zeit, zurückgelegte Distanz, durchschnittliche Herzfrequenz und durchschnittliche Pace in der Historie eintragen. Anschließend den restlichen Lauf locker in HF-Zone 2 bis zur geplanten Gesamtdistanz von 18 km fortsetzen. Keine Tempoverschärfung. Für gute Vergleichbarkeit möglichst gleiche Strecke, Tageszeit und ähnliche Bedingungen wählen.","benchmark":true,"longTitle":"Langer Lauf + 30-Minuten-Bestandsaufnahme"},{"easyKm":6,"qualityKm":8,"qualityTitle":"Taper mit kurzen Temporeizen","qualityDetail":"15 min Einlaufen in HF-Zone 1–2. Danach 4 × 3 min bei 5:20–5:30 min/km; je 2 min locker in HF-Zone 1–2 traben. Frisch bleiben und die Einheit nicht verlängern.","longKm":12,"longDetail":"12 km sehr locker in HF-Zone 2. Umfang reduzieren."},{"easyKm":5,"qualityKm":5,"qualityTitle":"Wettkampfwoche","qualityDetail":"4–5 km locker in HF-Zone 2, darin 4 × 20 s Steigerungen bei etwa 4:45–5:00 min/km mit vollständiger Erholung in HF-Zone 1–2. Keine weitere harte Einheit.","longKm":21.1,"longDetail":"Halbmarathon-Wettkampf: 21,1 km. Zieltempo 4:44 min/km für 1:40 h nur dann laufen, wenn der 10-km-Formtest und die nachfolgenden Tempoeinheiten diese Pace bestätigen; andernfalls die aus dem Formtest abgeleitete realistische Wettkampfpace wählen."}];
 const RUN_PLAN_WEEK_START="2026-11-23";
 const RUN_PLAN_GOAL_DATE="2027-04-04";
+const RUN_BENCHMARK_DATES=["2026-12-13","2026-12-27","2027-01-10","2027-01-24","2027-02-07","2027-02-21","2027-03-07","2027-03-21"];
 const RUN_TARGET_PACE_SECONDS=284;
 const RUN_HR_MAX=195;
 const RUN_HR_ZONES=[
@@ -63,7 +64,7 @@ function buildRunPlan(){
     const items=[
       {offset:1,kind:"easy",km:week.easyKm,title:"Zone-2-Dauerlauf",detail:"Optionaler dritter Lauf: "+week.easyKm+" km ausschließlich in deiner persönlichen Herzfrequenzzone 2. 6:00 min/km ist nur dein aktueller Pace-Referenzwert; maßgeblich ist die Pulszone deiner Uhr."},
       {offset:3,kind:"quality",km:week.qualityKm,title:week.qualityTitle,detail:week.qualityDetail+" Gesamtumfang: "+week.qualityKm+" km."},
-      {offset:6,kind:"long",km:week.longKm,title:week.longTitle||(index===18?"Halbmarathon-Wettkampf":"Langer Lauf"),detail:week.longDetail}
+      {offset:6,kind:"long",km:week.longKm,title:week.longTitle||(index===18?"Halbmarathon-Wettkampf":"Langer Lauf"),detail:week.longDetail,benchmark:week.benchmark===true}
     ];
     return items.map(function(item){
       const d=new Date(monday);d.setDate(d.getDate()+index*7+item.offset);
@@ -77,11 +78,11 @@ function buildRunPlan(){
 }
 const RUN_SESSIONS=buildRunPlan();
 const RUN_STRETCHES=[
-{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte nach vorn schieben · 30 Sekunden je Seite"},
-{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite"},
-{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite"},
-{id:"glute",name:"Gesäß / Figure-4",detail:"Im Sitzen oder Liegen Knöchel über das andere Knie legen · 30 Sekunden je Seite"},
-{id:"calf",name:"Wade an der Wand",detail:"Ferse am Boden lassen und Knie gestreckt, danach leicht gebeugt · 30 Sekunden je Variante"}
+{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte sanft nach vorn schieben · 30 Sekunden je Seite",image:"stretch-hip-flexor.svg?v=41"},
+{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite",image:"stretch-quadriceps.svg?v=41"},
+{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite",image:"stretch-hamstring.svg?v=41"},
+{id:"glute",name:"Gesäß / Figure-4",detail:"Im Liegen Knöchel über das andere Knie legen und das Bein sanft heranziehen · 30 Sekunden je Seite",image:"stretch-glute.svg?v=41"},
+{id:"calf",name:"Wade an der Wand",detail:"Hinteres Bein gestreckt halten, Ferse am Boden lassen; danach leicht gebeugtes Knie · 30 Sekunden je Variante",image:"stretch-calf.svg?v=41"}
 ];
 function addDateKey(key,days){const d=new Date(key+"T12:00:00");d.setDate(d.getDate()+days);return dateKeyFromDate(d);}
 function getSessionAction(type,key){return (state.sessionActions||{})[type+":"+key]||null;}
@@ -169,7 +170,7 @@ function calendarEvents(){
     }
     const actualDate=action&&action.status==="moved"?action.newDate:session.date;
     const done=!!(state.runDone&&state.runDone[session.id]&&state.runDone[session.id].done);
-    events.push({date:actualDate,category:"run",title:session.title,detail:formatRunKm(session.km)+" · "+session.detail,status:done?"done":(actualDate<today?"overdue":"planned"),moved:!!(action&&action.status==="moved"),sourceDate:session.date,reason:action&&action.reason,race:session.race});
+    events.push({date:actualDate,category:"run",title:session.title,detail:formatRunKm(session.km)+" · "+session.detail,status:done?"done":(actualDate<today?"overdue":"planned"),moved:!!(action&&action.status==="moved"),sourceDate:session.date,reason:action&&action.reason,race:session.race,benchmark:session.benchmark});
   });
   return events.sort(function(a,b){if(a.date!==b.date)return a.date.localeCompare(b.date);const order={strength:0,stability:1,run:2};return (order[a.category]||0)-(order[b.category]||0);});
 }
@@ -242,6 +243,41 @@ function renderRunPlanOverview(){
   }
   box.innerHTML=weeks.join("");
 }
+function parseRunClock(value){
+  const match=String(value||"").trim().match(/^(\d{1,3}):([0-5]\d)$/);
+  return match?Number(match[1])*60+Number(match[2]):null;
+}
+function formatRunClock(seconds){
+  const value=Math.max(0,Math.round(Number(seconds)||0));
+  return Math.floor(value/60)+":"+String(value%60).padStart(2,"0");
+}
+function nextRunBenchmarkDate(){
+  const saved=new Set((state.runBenchmarks||[]).map(function(x){return x.date;}));
+  return RUN_BENCHMARK_DATES.find(function(date){return !saved.has(date);})||null;
+}
+function renderRunBenchmarkHistory(){
+  state.runBenchmarks=Array.isArray(state.runBenchmarks)?state.runBenchmarks:[];
+  const nextBox=document.querySelector("#runBenchmarkNext");
+  const dateInput=document.querySelector("#runBenchmarkDate");
+  const idInput=document.querySelector("#runBenchmarkId");
+  const nextDate=nextRunBenchmarkDate();
+  if(nextBox){
+    nextBox.innerHTML=nextDate
+      ?'<strong>Nächster planmäßiger Test:</strong> '+fmtDateDE(nextDate)+'<br><span>Alle 14 Tage · 30 Minuten in HF-Zone 2 (117–136 bpm), eingebettet in den Sonntags-Longrun.</span>'
+      :'<strong>Alle geplanten Bestandsaufnahmen sind erfasst.</strong><br><span>Du kannst hier weiterhin zusätzliche Messungen speichern.</span>';
+  }
+  if(dateInput&&!dateInput.value&&!(idInput&&idInput.value))dateInput.value=nextDate||todayKey();
+  const list=document.querySelector("#runBenchmarkHistoryList");
+  if(!list)return;
+  const records=state.runBenchmarks.slice().sort(function(a,b){return (b.date||"").localeCompare(a.date||"");});
+  if(!records.length){list.innerHTML='<div class="empty">Noch keine Lauf-Bestandsaufnahmen gespeichert. Der erste Termin ist der 13.12.2026.</div>';return;}
+  list.innerHTML=records.map(function(item,index){
+    const distance=(Number(item.distanceKm)||0).toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" km";
+    return '<article class="run-benchmark-entry"><div class="run-benchmark-entry-head"><strong>'+fmtDateDE(item.date)+'</strong><span>Eintrag '+(records.length-index)+' / '+records.length+'</span></div>'+
+      '<div class="run-benchmark-metrics"><span><strong>'+formatRunClock(item.durationSeconds)+'</strong><small>Zeit</small></span><span><strong>'+distance+'</strong><small>Distanz</small></span><span><strong>'+Math.round(Number(item.avgHr)||0)+' bpm</strong><small>Ø Herzfrequenz</small></span><span><strong>'+formatRunClock(item.avgPaceSeconds)+'</strong><small>Ø Pace / km</small></span></div>'+
+      '<div class="run-benchmark-actions"><button type="button" class="text-button" data-run-benchmark-edit="'+item.id+'">Bearbeiten</button><button type="button" class="text-button danger" data-run-benchmark-delete="'+item.id+'">Löschen</button></div></article>';
+  }).join("");
+}
 function renderRunning(){
   const main=document.querySelector("#runningTodayCard");if(!main)return;
   renderRunHeartRateZones();
@@ -257,7 +293,7 @@ function renderRunning(){
   const stats=document.querySelector("#runningStats");
   if(stats)stats.innerHTML='<div><strong>'+doneCount+'</strong><span>Läufe erledigt</span></div><div><strong>'+formatRunKm(doneKm)+'</strong><span>erfasste Laufkilometer</span></div><div><strong>4:44</strong><span>Zielpace min/km</span></div>';
   const paceInfo=document.querySelector("#runningPaceGuidance");
-  if(paceInfo)paceInfo.innerHTML='<strong>Vorläufige Tempobereiche:</strong> Schwelle 5:25–5:40 min/km · 10-km-/VO₂-Intervalle 5:00–5:15 min/km · kurze Steigerungen 4:45–5:05 min/km. Lockere Läufe nach HF-Zone 2 (117–136 bpm), Einlaufen und Trabpausen nach HF-Zone 1–2 (98–136 bpm). Der 5-km-Zwischentest am 13.12. dient zur ersten Überprüfung; die fundiertere Neukalibrierung erfolgt nach dem 10-km-Formtest Ende Februar.';
+  if(paceInfo)paceInfo.innerHTML='<strong>Vorläufige Tempobereiche:</strong> Schwelle 5:25–5:40 min/km · 10-km-/VO₂-Intervalle 5:00–5:15 min/km · kurze Steigerungen 4:45–5:05 min/km. Lockere Läufe nach HF-Zone 2 (117–136 bpm), Einlaufen und Trabpausen nach HF-Zone 1–2 (98–136 bpm). Die 30-Minuten-Bestandsaufnahme startet am 13.12. und wiederholt sich alle 14 Tage. Die fundiertere Pace-Neukalibrierung erfolgt nach dem 10-km-Formtest Ende Februar.';
   const stretchBox=document.querySelector("#runningStretchRoutine");
   if(!selected){
     main.innerHTML='<div class="empty">Der Laufplan ist abgeschlossen. Gute Arbeit!</div>';
@@ -270,11 +306,12 @@ function renderRunning(){
       '<h3>'+selected.title+'</h3><div class="run-distance">'+formatRunKm(selected.km)+'</div><p>'+selected.detail+'</p>'+
       (selected.moved?'<p class="session-action-note">Verschoben vom '+formatRunShortDate(selected.date)+' · Grund: '+(action?action.reason:"–")+'</p>':"")+
       (isDone?'<p class="run-complete-note">Erledigt am '+fmtDateDE(state.runDone[selected.id].completedDate||today)+'.</p>':'<div class="run-completion-actions"><button type="button" class="primary" data-run-complete="'+selected.id+'">Lauf als erledigt markieren</button>'+sessionActionButtons("run",selected.id)+'</div>')+
+      (selected.benchmark?'<button type="button" class="secondary-button" data-open-run-benchmark="'+selected.scheduledDate+'">Bestandsaufnahme in der Historie eintragen</button>':"")+
       '</div>';
     if(stretchBox){
       const values=state.runStretchDone[selected.id]||{},completed=RUN_STRETCHES.filter(function(x){return values[x.id]===true;}).length;
       stretchBox.innerHTML='<div class="stretch-intro">Nach dem Lauf abhaken · jeweils beide Seiten ausführen. Fortschritt: <strong>'+completed+'/'+RUN_STRETCHES.length+'</strong></div>'+
-        RUN_STRETCHES.map(function(x){return '<label class="stretch-item"><input type="checkbox" data-run-stretch="1" data-session-id="'+selected.id+'" data-stretch-id="'+x.id+'" '+(values[x.id]===true?"checked":"")+'><span><strong>'+x.name+'</strong><small>'+x.detail+'</small></span></label>';}).join("");
+        RUN_STRETCHES.map(function(x){return '<label class="stretch-item"><input type="checkbox" data-run-stretch="1" data-session-id="'+selected.id+'" data-stretch-id="'+x.id+'" '+(values[x.id]===true?"checked":"")+'><img class="stretch-illustration" src="'+x.image+'" alt="Übungsbild: '+x.name+'" loading="lazy" decoding="async"><span><strong>'+x.name+'</strong><small>'+x.detail+'</small></span></label>';}).join("");
     }
   }
   const upcoming=document.querySelector("#runningUpcoming");
@@ -407,6 +444,57 @@ document.addEventListener("change",function(event){
   state.runStretchDone=state.runStretchDone||{};state.runStretchDone[input.dataset.sessionId]=state.runStretchDone[input.dataset.sessionId]||{};
   state.runStretchDone[input.dataset.sessionId][input.dataset.stretchId]=input.checked;save();renderRunning();
 });
+function resetRunBenchmarkForm(preferredDate){
+  const form=document.querySelector("#runBenchmarkForm");if(!form)return;
+  form.reset();document.querySelector("#runBenchmarkId").value="";
+  document.querySelector("#runBenchmarkDate").value=preferredDate||nextRunBenchmarkDate()||todayKey();
+  document.querySelector("#runBenchmarkSaveButton").textContent="Ergebnis speichern";
+  document.querySelector("#runBenchmarkCancel").hidden=true;
+  document.querySelector("#runBenchmarkFormMessage").textContent="";
+}
+document.querySelector("#runBenchmarkForm")?.addEventListener("submit",function(event){
+  event.preventDefault();
+  const date=document.querySelector("#runBenchmarkDate").value;
+  const durationSeconds=parseRunClock(document.querySelector("#runBenchmarkTime").value);
+  const distanceKm=Number(document.querySelector("#runBenchmarkDistance").value);
+  const avgHr=Number(document.querySelector("#runBenchmarkHr").value);
+  const avgPaceSeconds=parseRunClock(document.querySelector("#runBenchmarkPace").value);
+  const message=document.querySelector("#runBenchmarkFormMessage");
+  if(!date||durationSeconds===null||durationSeconds<=0||!Number.isFinite(distanceKm)||distanceKm<=0||!Number.isFinite(avgHr)||avgHr<50||avgHr>220||avgPaceSeconds===null||avgPaceSeconds<=0){
+    message.textContent="Bitte Datum, Zeit (mm:ss), Distanz, Ø-Herzfrequenz und Ø-Pace vollständig und gültig eintragen.";return;
+  }
+  state.runBenchmarks=Array.isArray(state.runBenchmarks)?state.runBenchmarks:[];
+  const id=document.querySelector("#runBenchmarkId").value;
+  const record={id:id||createRecordId(),date:date,durationSeconds:durationSeconds,distanceKm:distanceKm,avgHr:Math.round(avgHr),avgPaceSeconds:avgPaceSeconds};
+  const existing=state.runBenchmarks.findIndex(function(item){return item.id===id;});
+  if(existing>=0)state.runBenchmarks[existing]=record;else state.runBenchmarks.push(record);
+  save();resetRunBenchmarkForm();renderRunBenchmarkHistory();renderRunning();renderCalendar();
+  message.textContent="Bestandsaufnahme gespeichert.";
+});
+document.querySelector("#runBenchmarkCancel")?.addEventListener("click",function(){resetRunBenchmarkForm();});
+document.addEventListener("click",function(event){
+  const open=event.target.closest("[data-open-run-benchmark]");
+  if(open){setActivePage("history");resetRunBenchmarkForm(open.dataset.openRunBenchmark);document.querySelector("#runBenchmarkForm")?.scrollIntoView({behavior:"smooth",block:"start"});document.querySelector("#runBenchmarkTime")?.focus({preventScroll:true});return;}
+  const edit=event.target.closest("[data-run-benchmark-edit]");
+  if(edit){
+    const item=(state.runBenchmarks||[]).find(function(x){return x.id===edit.dataset.runBenchmarkEdit;});if(!item)return;
+    setActivePage("history");document.querySelector("#runBenchmarkId").value=item.id;
+    document.querySelector("#runBenchmarkDate").value=item.date;
+    document.querySelector("#runBenchmarkTime").value=formatRunClock(item.durationSeconds);
+    document.querySelector("#runBenchmarkDistance").value=Number(item.distanceKm).toFixed(2);
+    document.querySelector("#runBenchmarkHr").value=String(item.avgHr);
+    document.querySelector("#runBenchmarkPace").value=formatRunClock(item.avgPaceSeconds);
+    document.querySelector("#runBenchmarkSaveButton").textContent="Änderungen speichern";
+    document.querySelector("#runBenchmarkCancel").hidden=false;
+    document.querySelector("#runBenchmarkFormMessage").textContent="Eintrag wird bearbeitet.";
+    document.querySelector("#runBenchmarkForm")?.scrollIntoView({behavior:"smooth",block:"start"});return;
+  }
+  const remove=event.target.closest("[data-run-benchmark-delete]");
+  if(remove){if(!confirm("Diese Lauf-Bestandsaufnahme wirklich löschen?"))return;
+    state.runBenchmarks=(state.runBenchmarks||[]).filter(function(x){return x.id!==remove.dataset.runBenchmarkDelete;});
+    save();renderRunBenchmarkHistory();renderRunning();
+  }
+});
 
 const EXACT_PLAN=[{"date":"2026-08-24","pushups":80,"plank":70,"sets":"10×8","checkpoint":false},{"date":"2026-08-26","pushups":89,"plank":77,"sets":"5×8 + 7×7","checkpoint":false},{"date":"2026-08-28","pushups":98,"plank":85,"sets":"10×9 + 1×8","checkpoint":false},{"date":"2026-08-31","pushups":107,"plank":92,"sets":"11×9 + 1×8","checkpoint":false},{"date":"2026-09-02","pushups":116,"plank":100,"sets":"12×9 + 1×8","checkpoint":false},{"date":"2026-09-04","pushups":125,"plank":107,"sets":"8×10 + 5×9","checkpoint":true},{"date":"2026-09-07","pushups":134,"plank":114,"sets":"8×10 + 6×9","checkpoint":false},{"date":"2026-09-09","pushups":143,"plank":122,"sets":"8×10 + 7×9","checkpoint":false},{"date":"2026-09-11","pushups":152,"plank":129,"sets":"12×11 + 2×10","checkpoint":false},{"date":"2026-09-14","pushups":161,"plank":137,"sets":"11×11 + 4×10","checkpoint":false},{"date":"2026-09-16","pushups":170,"plank":144,"sets":"10×11 + 6×10","checkpoint":false},{"date":"2026-09-18","pushups":179,"plank":152,"sets":"14×12 + 1×11","checkpoint":true},{"date":"2026-09-21","pushups":188,"plank":159,"sets":"12×12 + 4×11","checkpoint":false},{"date":"2026-09-23","pushups":194,"plank":162,"sets":"2×13 + 14×12","checkpoint":false},{"date":"2026-09-25","pushups":199,"plank":164,"sets":"7×13 + 9×12","checkpoint":false},{"date":"2026-09-28","pushups":205,"plank":167,"sets":"13×13 + 3×12","checkpoint":false},{"date":"2026-09-30","pushups":210,"plank":170,"sets":"2×14 + 14×13","checkpoint":false},{"date":"2026-10-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-10-05","pushups":222,"plank":175,"sets":"14×14 + 2×13","checkpoint":false},{"date":"2026-10-07","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-10-09","pushups":233,"plank":181,"sets":"9×15 + 7×14","checkpoint":false},{"date":"2026-10-12","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-10-14","pushups":244,"plank":186,"sets":"6×15 + 11×14","checkpoint":false},{"date":"2026-10-16","pushups":250,"plank":189,"sets":"12×15 + 5×14","checkpoint":true},{"date":"2026-10-19","pushups":255,"plank":191,"sets":"17×15","checkpoint":false},{"date":"2026-10-21","pushups":261,"plank":194,"sets":"6×16 + 11×15","checkpoint":false},{"date":"2026-10-23","pushups":266,"plank":197,"sets":"11×16 + 6×15","checkpoint":false},{"date":"2026-10-26","pushups":272,"plank":199,"sets":"17×16","checkpoint":false},{"date":"2026-10-28","pushups":278,"plank":202,"sets":"6×17 + 11×16","checkpoint":false},{"date":"2026-10-30","pushups":283,"plank":205,"sets":"11×17 + 6×16","checkpoint":true},{"date":"2026-11-02","pushups":216,"plank":173,"sets":"8×14 + 8×13","checkpoint":true},{"date":"2026-11-04","pushups":221,"plank":176,"sets":"13×14 + 3×13","checkpoint":false},{"date":"2026-11-06","pushups":227,"plank":178,"sets":"3×15 + 13×14","checkpoint":false},{"date":"2026-11-09","pushups":232,"plank":181,"sets":"8×15 + 8×14","checkpoint":false},{"date":"2026-11-11","pushups":238,"plank":183,"sets":"14×15 + 2×14","checkpoint":false},{"date":"2026-11-13","pushups":243,"plank":186,"sets":"3×16 + 13×15","checkpoint":true},{"date":"2026-11-16","pushups":248,"plank":188,"sets":"8×16 + 8×15","checkpoint":false},{"date":"2026-11-18","pushups":254,"plank":191,"sets":"14×16 + 2×15","checkpoint":false},{"date":"2026-11-20","pushups":259,"plank":194,"sets":"3×17 + 13×16","checkpoint":false},{"date":"2026-11-23","pushups":264,"plank":173,"sets":"9×16 + 8×15","checkpoint":false},{"date":"2026-11-25","pushups":270,"plank":173,"sets":"15×16 + 2×15","checkpoint":false},{"date":"2026-11-27","pushups":275,"plank":174,"sets":"3×17 + 14×16","checkpoint":true},{"date":"2026-11-30","pushups":281,"plank":174,"sets":"9×17 + 8×16","checkpoint":false},{"date":"2026-12-02","pushups":286,"plank":175,"sets":"14×17 + 3×16","checkpoint":false},{"date":"2026-12-04","pushups":291,"plank":175,"sets":"2×18 + 15×17","checkpoint":false},{"date":"2026-12-07","pushups":297,"plank":175,"sets":"8×18 + 9×17","checkpoint":false},{"date":"2026-12-09","pushups":302,"plank":176,"sets":"13×18 + 4×17","checkpoint":false},{"date":"2026-12-11","pushups":308,"plank":176,"sets":"2×19 + 15×18","checkpoint":true},{"date":"2026-12-14","pushups":313,"plank":177,"sets":"7×18 + 11×17","checkpoint":false},{"date":"2026-12-16","pushups":318,"plank":177,"sets":"12×18 + 6×17","checkpoint":false},{"date":"2026-12-18","pushups":324,"plank":178,"sets":"18×18","checkpoint":false},{"date":"2026-12-21","pushups":329,"plank":178,"sets":"5×19 + 13×18","checkpoint":false},{"date":"2026-12-23","pushups":334,"plank":178,"sets":"10×19 + 8×18","checkpoint":false},{"date":"2026-12-25","pushups":340,"plank":179,"sets":"16×19 + 2×18","checkpoint":true},{"date":"2026-12-28","pushups":345,"plank":179,"sets":"3×20 + 15×19","checkpoint":false},{"date":"2026-12-30","pushups":351,"plank":180,"sets":"9×20 + 9×19","checkpoint":false},{"date":"2026-12-31","pushups":356,"plank":180,"sets":"14×20 + 4×19","checkpoint":true}]
 
@@ -537,6 +625,7 @@ let state = {
   sessionActions: {},
   runDone: {},
   runStretchDone: {},
+  runBenchmarks: [],
   activeRunSessionId: null
 };
 
@@ -600,6 +689,7 @@ function load(){
   state.sessionActions=state.sessionActions||{};
   state.runDone=state.runDone||{};
   state.runStretchDone=state.runStretchDone||{};
+  state.runBenchmarks=Array.isArray(state.runBenchmarks)?state.runBenchmarks:[];
   rollover();
   ensureRecordIds();
 }
@@ -966,6 +1056,7 @@ function render(){
     : `<div class="empty">Noch keine abgeschlossenen Trainingstage.</div>`;
 
   renderWeeklyChart();
+  renderRunBenchmarkHistory();
   renderStrengthActions(open);
   renderRunning();
   renderCalendar();
@@ -1358,7 +1449,7 @@ function setActivePage(page, {scroll=true}={}){
   });
   localStorage.setItem("356Coach.activePage",next);
   if(next==="overview") renderCalendar();
-  if(next==="history") renderWeeklyChart();
+  if(next==="history"){renderWeeklyChart();renderRunBenchmarkHistory();}
   if(next==="running") renderRunning();
   if(scroll) window.scrollTo({top:0,behavior:"auto"});
 }
@@ -1370,7 +1461,7 @@ document.querySelectorAll(".page-switcher-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=37", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=41", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1405,7 +1496,7 @@ if ("serviceWorker" in navigator) {
 function makeBackupPayload(){
   return {
     app: "Super Paul",
-    version: 37,
+    version: 41,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state

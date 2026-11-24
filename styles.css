@@ -844,3 +844,30 @@ html[data-theme="light"]{
 .run-hr-zone small{font-size:9px;line-height:1.2;color:var(--muted)}
 .run-hr-zone strong{font-size:12px;white-space:nowrap}
 @media(max-width:520px){.run-hr-zones{grid-template-columns:repeat(3,minmax(0,1fr))}.run-hr-zone strong{font-size:11px}}
+
+
+/* v41 – Dehnillustrationen und Lauf-Bestandsaufnahme */
+.stretch-item{grid-template-columns:20px 96px minmax(0,1fr);align-items:center;gap:10px}
+.stretch-illustration{display:block;width:96px;height:72px;object-fit:contain;border:1px solid var(--border);border-radius:10px;background:#eef4ff}
+.stretch-item span{min-width:0}
+.run-benchmark-next{margin:12px 0;padding:12px;border:1px solid var(--border);border-radius:12px;background:var(--bg);font-size:13px;line-height:1.5}
+.run-benchmark-next span{color:var(--muted)}
+.run-benchmark-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0 18px}
+.run-benchmark-field{display:grid;gap:5px;min-width:0;font-size:12px;font-weight:750}
+.run-benchmark-field input{width:100%;min-width:0;padding:11px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-variant-numeric:tabular-nums}
+.run-benchmark-form-actions{display:grid;grid-template-columns:1fr auto;gap:8px;grid-column:1/-1}
+.run-benchmark-form-actions .primary{width:100%}
+.run-benchmark-form-actions [hidden]{display:none}
+#runBenchmarkFormMessage{grid-column:1/-1;font-size:12px}
+.run-benchmark-history-list{display:grid;gap:10px}
+.run-benchmark-entry{padding:12px 0;border-top:1px solid var(--border)}
+.run-benchmark-entry-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:9px}
+.run-benchmark-entry-head strong{font-size:13px}
+.run-benchmark-entry-head span{font-size:11px;color:var(--muted)}
+.run-benchmark-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.run-benchmark-metrics span{display:grid;gap:3px;min-width:0}
+.run-benchmark-metrics strong{font-size:14px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.run-benchmark-metrics small{font-size:10px;color:var(--muted);line-height:1.25}
+.run-benchmark-actions{display:flex;justify-content:flex-end;gap:14px;margin-top:8px}
+.run-benchmark-actions button{padding:4px 2px;font-size:11px}
+@media(max-width:520px){.stretch-item{grid-template-columns:18px 84px minmax(0,1fr);gap:7px}.stretch-illustration{width:84px;height:68px}.run-benchmark-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.run-benchmark-metrics strong{font-size:13px}}
