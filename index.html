@@ -11,13 +11,13 @@
 <meta content="yes" name="apple-mobile-web-app-capable"/>
 <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"/>
 <meta content="Super Paul" name="apple-mobile-web-app-title"/>
-<link href="manifest.webmanifest?v=44" rel="manifest"/>
-<link href="favicon-32.png?v=44" rel="icon" type="image/png" sizes="32x32"/>
-<link href="super-paul-icon.svg?v=44" rel="icon" type="image/svg+xml"/>
-<link href="icon-192.png?v=44" rel="apple-touch-icon" sizes="192x192"/>
-<link href="styles.css?v=44" rel="stylesheet"/>
+<link href="manifest.webmanifest?v=45" rel="manifest"/>
+<link href="favicon-32.png?v=45" rel="icon" type="image/png" sizes="32x32"/>
+<link href="super-paul-icon.svg?v=45" rel="icon" type="image/svg+xml"/>
+<link href="icon-192.png?v=45" rel="apple-touch-icon" sizes="192x192"/>
+<link href="styles.css?v=45" rel="stylesheet"/>
 <title>Super Paul</title>
-<script src="push-config.js?v=44"></script>
+<script src="push-config.js?v=45"></script>
 <script defer="" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js"></script>
 </head>
 <body>
@@ -190,7 +190,7 @@
 <section class="card running-stats-card"><div id="runningStats" class="running-stats"></div></section>
 </details><section class="card run-session-card"><div class="entry-heading">Ablauf der Einheit</div><div id="runningTodayCard"></div></section>
 <section class="card run-stretch-card"><div class="entry-heading">Dehnen: Beine & Hüfte</div><p class="entry-note">Nach jedem Lauf, ohne in den Schmerz hineinzudehnen. Ruhig atmen und beide Seiten gleichmäßig bearbeiten.</p><div id="runningStretchRoutine"></div></section>
-<section class="card run-upcoming-card"><div class="entry-heading">Weitere Laufeinheiten</div><div id="runningUpcoming"></div></section>
+<section class="card run-upcoming-card"><div class="entry-heading">Weitere Laufeinheiten · antippen für Details</div><div id="runningUpcoming"></div></section>
 <section class="card run-plan-overview-card"><details><summary class="entry-heading">Kompletter verschärfter 19-Wochen-Laufplan anzeigen</summary><div id="runningPlanOverview" class="running-plan-overview"></div></details></section>
 <footer>Dienstag und Donnerstag sind Lauftage ohne Armtraining. Sonntag ist Longrun- oder Testtag; Samstag ist grundsätzlich frei.</footer></section>
 <section class="page-view" data-page="history" hidden="" id="page-history"><div class="page-heading">
@@ -198,7 +198,7 @@
 <h1>Historie</h1>
 <p>Gesamtleistung, Kontrollpunkte und Wochenentwicklung.</p>
 </div>
-<div class="history-tabs" role="tablist" aria-label="Historie auswählen"><button type="button" class="history-tab-button" data-history-tab="training" role="tab" aria-selected="false">Training</button><button type="button" class="history-tab-button active" data-history-tab="running" role="tab" aria-selected="true">Lauf-Bestandsaufnahme</button><button type="button" class="history-tab-button" data-history-tab="stats" role="tab" aria-selected="false">Statistik</button></div><div class="history-tab-panel" data-history-panel="stats" hidden><h2>Gesamtübersicht</h2><section class="stats">
+<div class="history-tabs" role="tablist" aria-label="Historie auswählen"><button type="button" class="history-tab-button" data-history-tab="training" role="tab" aria-selected="false">Kraft</button><button type="button" class="history-tab-button active" data-history-tab="running" role="tab" aria-selected="true">Ausdauer-Tests</button><button type="button" class="history-tab-button" data-history-tab="stats" role="tab" aria-selected="false">Statistik</button></div><div class="history-tab-panel" data-history-panel="stats" hidden><h2>Gesamtübersicht</h2><section class="stats">
 <div class="stat card">
 <div class="stat-number" id="totalPushups">0</div>
 <div class="label">Liegestütze</div>
@@ -229,7 +229,7 @@
 <div class="history-help">Pro Tag werden Liegestütze, Plank und Stabilitätsübungen gemeinsam dargestellt und können zusammen bearbeitet werden.</div>
 <div class="history" id="history"></div>
 </section>
-</div><div class="history-tab-panel" data-history-panel="running"><h2>Lauf-Bestandsaufnahme</h2><section class="card run-benchmark-history-card">
+</div><div class="history-tab-panel" data-history-panel="running"><h2>Ausdauer-Tests</h2><section class="card run-benchmark-history-card">
 <p class="history-help">Alle 14 Tage am Sonntag derselbe 5-km-Test: 2 km Einlaufen, 5 km Testlauf und 2 km Auslaufen. Möglichst dieselbe flache, vermessene Strecke verwenden.</p>
 <div class="run-benchmark-next" id="runBenchmarkNext"></div><div class="run-benchmark-chart-card"><div class="entry-heading">5-km-Test – Entwicklung</div><div class="run-benchmark-chart-legend"><span><i class="chart-key chart-key-pace"></i>Pace (min/km)</span><span><i class="chart-key chart-key-hr"></i>Ø HF (bpm)</span></div><div id="runBenchmarkChart" class="run-benchmark-chart"></div></div>
 <details id="runBenchmarkFormDetails" class="run-benchmark-form-details"><summary>Ergebnisse eintragen</summary><form class="run-benchmark-form" id="runBenchmarkForm">
@@ -355,7 +355,7 @@
   <div class="edit-dialog-actions"><button class="secondary-button" type="button" id="sessionActionCloseSecondary">Zurück</button><button class="primary" type="button" id="sessionActionConfirm">Speichern</button></div>
 </dialog>
 
-<script src="app.js?v=44"></script>
+<script src="app.js?v=45"></script>
 <script>
 (function(){
   const validPages=["overview","strength","running","history","settings"];

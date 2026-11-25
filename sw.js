@@ -1,17 +1,17 @@
-const CACHE = "super-paul-v44";
+const CACHE = "super-paul-v45";
 const CORE = [
-  "./push-config.js?v=44",
-  "./styles.css?v=44",
-  "./app.js?v=44",
-  "./manifest.webmanifest?v=44",
-  "./icon-192.png?v=44",
-  "./favicon-32.png?v=44",
-  "./super-paul-icon.svg?v=44",
-  "./stretch-calf.svg?v=44",
-  "./stretch-quadriceps.svg?v=44",
-  "./stretch-hamstring.svg?v=44",
-  "./stretch-hip-flexor.svg?v=44",
-  "./stretch-glute.svg?v=44",
+  "./push-config.js?v=45",
+  "./styles.css?v=45",
+  "./app.js?v=45",
+  "./manifest.webmanifest?v=45",
+  "./icon-192.png?v=45",
+  "./favicon-32.png?v=45",
+  "./super-paul-icon.svg?v=45",
+  "./stretch-calf.svg?v=45",
+  "./stretch-quadriceps.svg?v=45",
+  "./stretch-hamstring.svg?v=45",
+  "./stretch-hip-flexor.svg?v=45",
+  "./stretch-glute.svg?v=45",
   "./trainingsplan.json"
 ];
 
@@ -49,6 +49,24 @@ self.addEventListener("fetch", event => {
   }
 
   const url = new URL(req.url);
+  if (req.destination === "image" && url.hostname === "images.pexels.com") {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(req);
+      try {
+        const response = await fetch(req);
+        if (response && (response.ok || response.type === "opaque")) {
+          await cache.put(req, response.clone());
+        }
+        return response;
+      } catch (error) {
+        if (cached) return cached;
+        throw error;
+      }
+    })());
+    return;
+  }
+
   if (url.origin === self.location.origin) {
     event.respondWith(
       fetch(req, { cache: "no-store" })

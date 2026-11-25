@@ -79,11 +79,11 @@ function buildRunPlan(){
 }
 const RUN_SESSIONS=buildRunPlan();
 const RUN_STRETCHES=[
-{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte sanft nach vorn schieben · 30 Sekunden je Seite",image:"stretch-hip-flexor.svg?v=44"},
-{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite",image:"stretch-quadriceps.svg?v=44"},
-{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite",image:"stretch-hamstring.svg?v=44"},
-{id:"glute",name:"Gesäß / Figure-4",detail:"Im Liegen Knöchel über das andere Knie legen und das Bein sanft heranziehen · 30 Sekunden je Seite",image:"stretch-glute.svg?v=44"},
-{id:"calf",name:"Wade an der Wand",detail:"Hinteres Bein gestreckt halten, Ferse am Boden lassen; danach leicht gebeugtes Knie · 30 Sekunden je Variante",image:"stretch-calf.svg?v=44"}
+{id:"hip-flexor",name:"Hüftbeuger im Ausfallschritt",detail:"Becken leicht nach hinten kippen, Hüfte sanft nach vorn schieben · 30 Sekunden je Seite",image:"https://images.pexels.com/photos/4803713/pexels-photo-4803713.jpeg?auto=compress&cs=tinysrgb&w=480"},
+{id:"quadriceps",name:"Quadrizeps im Stand",detail:"Ferse Richtung Gesäß führen, Knie nebeneinander halten · 30 Sekunden je Seite",image:"https://images.pexels.com/photos/7879934/pexels-photo-7879934.jpeg?auto=compress&cs=tinysrgb&w=480"},
+{id:"hamstring",name:"Beinrückseite",detail:"Ein Bein leicht gestreckt nach vorn, Hüfte nach hinten schieben · 30 Sekunden je Seite",image:"https://images.pexels.com/photos/6926025/pexels-photo-6926025.jpeg?auto=compress&cs=tinysrgb&w=480"},
+{id:"glute",name:"Gesäß / Figure-4",detail:"Im Liegen Knöchel über das andere Knie legen und das Bein sanft heranziehen · 30 Sekunden je Seite",image:"https://images.pexels.com/photos/8172911/pexels-photo-8172911.jpeg?auto=compress&cs=tinysrgb&w=480"},
+{id:"calf",name:"Wade an der Wand",detail:"Hinteres Bein gestreckt halten, Ferse am Boden lassen; danach leicht gebeugtes Knie · 30 Sekunden je Variante",image:"https://images.pexels.com/photos/4853031/pexels-photo-4853031.jpeg?auto=compress&cs=tinysrgb&w=480"}
 ];
 function addDateKey(key,days){const d=new Date(key+"T12:00:00");d.setDate(d.getDate()+days);return dateKeyFromDate(d);}
 function getSessionAction(type,key){return (state.sessionActions||{})[type+":"+key]||null;}
@@ -351,7 +351,8 @@ function renderRunning(){
     if(stretchBox){
       const values=state.runStretchDone[selected.id]||{},completed=RUN_STRETCHES.filter(function(x){return values[x.id]===true;}).length;
       stretchBox.innerHTML='<div class="stretch-intro">Nach dem Lauf abhaken · jeweils beide Seiten ausführen. Fortschritt: <strong>'+completed+'/'+RUN_STRETCHES.length+'</strong></div>'+
-        RUN_STRETCHES.map(function(x){return '<label class="stretch-item"><input type="checkbox" data-run-stretch="1" data-session-id="'+selected.id+'" data-stretch-id="'+x.id+'" '+(values[x.id]===true?"checked":"")+'><img class="stretch-illustration" src="'+x.image+'" alt="Übungsbild: '+x.name+'" loading="lazy" decoding="async"><span><strong>'+x.name+'</strong><small>'+x.detail+'</small></span></label>';}).join("");
+        RUN_STRETCHES.map(function(x){return '<label class="stretch-item"><input type="checkbox" data-run-stretch="1" data-session-id="'+selected.id+'" data-stretch-id="'+x.id+'" '+(values[x.id]===true?"checked":"")+'><img class="stretch-illustration" src="'+x.image+'" alt="Übungsfoto: '+x.name+'" loading="lazy" decoding="async" referrerpolicy="no-referrer"><span><strong>'+x.name+'</strong><small>'+x.detail+'</small></span></label>';}).join("")+
+        '<small class="stretch-photo-credit">Fotos: Ketut Subiyanto, MART PRODUCTION, Pavel Danilyuk und RDNE Stock project · <a href="https://www.pexels.com/license/" target="_blank" rel="noopener">Pexels-Lizenz</a></small>';
     }
   }
   const upcoming=document.querySelector("#runningUpcoming");
@@ -359,8 +360,18 @@ function renderRunning(){
     const next=entries.filter(function(s){return (!selected||s.id!==selected.id)&&!(state.runDone[s.id]&&state.runDone[s.id].done);}).slice(0,4);
     let html=next.length?next.map(function(s){
       const action=getSessionAction("run",s.id);
-      return '<div class="run-upcoming-item"><div><strong>'+formatRunShortDate(s.scheduledDate)+'</strong><span>'+s.title+' · '+formatRunKm(s.km)+'</span>'+
-        (s.moved?'<small>Verschoben · '+(action?action.reason:"")+'</small>':"")+'</div><button type="button" class="text-button" data-session-open="'+s.id+'">Details</button>'+sessionActionButtons("run",s.id)+'</div>';
+      return '<details class="run-upcoming-detail">'+
+        '<summary class="run-upcoming-summary">'+
+          '<span class="run-upcoming-date">'+formatRunShortDate(s.scheduledDate)+'</span>'+
+          '<span class="run-upcoming-summary-main"><strong>'+s.title+'</strong><small>'+formatRunKm(s.km)+(s.optional?' · optional':"")+'</small></span>'+
+          '<span class="run-upcoming-toggle">Details</span><span class="run-upcoming-chevron" aria-hidden="true">⌄</span>'+
+        '</summary>'+
+        '<div class="run-upcoming-expanded">'+
+          (s.moved?'<p class="session-action-note">Verschoben vom '+formatRunShortDate(s.date)+' · Grund: '+(action?action.reason:"–")+'</p>':"")+
+          '<p class="run-upcoming-detail-text">'+s.detail+'</p>'+
+          sessionActionButtons("run",s.id)+
+        '</div>'+
+      '</details>';
     }).join(""):'<p class="entry-note">Keine weiteren offenen Läufe in der Vorschau.</p>';
     const cancelled=RUN_SESSIONS.filter(function(s){const a=getSessionAction("run",s.id);return a&&a.status==="cancelled";}).slice(-3);
     if(cancelled.length){
@@ -467,8 +478,6 @@ function handleSessionActions(event){
     const id=complete.dataset.runComplete,session=RUN_SESSIONS.find(function(s){return s.id===id;});if(!session)return;
     state.runDone=state.runDone||{};state.runDone[id]={done:true,completedDate:todayKey(),km:session.km};state.activeRunSessionId=id;save();renderRunning();renderCalendar();return;
   }
-  const open=event.target.closest("[data-session-open]");
-  if(open){state.activeRunSessionId=open.dataset.sessionOpen;save();renderRunning();return;}
 }
 document.addEventListener("click",handleSessionActions);
 document.addEventListener("click",function(event){
@@ -518,7 +527,7 @@ document.querySelector("#runBenchmarkForm")?.addEventListener("submit",function(
   const existing=state.runBenchmarks.findIndex(function(item){return item.id===id;});
   if(existing>=0)state.runBenchmarks[existing]=record;else state.runBenchmarks.push(record);
   save();resetRunBenchmarkForm();renderRunBenchmarkHistory();renderRunning();renderCalendar();
-  message.textContent="Bestandsaufnahme gespeichert.";
+  message.textContent="Ausdauer-Test gespeichert.";
 });
 document.querySelector("#runBenchmarkCancel")?.addEventListener("click",function(){resetRunBenchmarkForm();});
 document.addEventListener("click",function(event){
@@ -540,7 +549,7 @@ document.addEventListener("click",function(event){
     document.querySelector("#runBenchmarkForm")?.scrollIntoView({behavior:"smooth",block:"start"});return;
   }
   const remove=event.target.closest("[data-run-benchmark-delete]");
-  if(remove){if(!confirm("Diese Lauf-Bestandsaufnahme wirklich löschen?"))return;
+  if(remove){if(!confirm("Diesen Ausdauer-Test wirklich löschen?"))return;
     state.runBenchmarks=(state.runBenchmarks||[]).filter(function(x){return x.id!==remove.dataset.runBenchmarkDelete;});
     save();renderRunBenchmarkHistory();renderRunning();
   }
@@ -1521,7 +1530,7 @@ document.querySelectorAll(".page-switcher-btn").forEach(btn=>{
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./sw.js?v=44", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./sw.js?v=45", { updateViaCache: "none" });
       await registration.update();
 
       if (registration.waiting) {
@@ -1556,7 +1565,7 @@ if ("serviceWorker" in navigator) {
 function makeBackupPayload(){
   return {
     app: "Super Paul",
-    version: 44,
+    version: 45,
     exportedAt: new Date().toISOString(),
     storageKey: "pushupPlankCoach.v2",
     data: state

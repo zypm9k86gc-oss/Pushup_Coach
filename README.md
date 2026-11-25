@@ -331,3 +331,13 @@ Wenn Safari-Website-Daten gelöscht werden, können auch diese App-Daten verlore
 ## Update v44 – Pace-Verlaufsgrafik
 - Beschriftung der Pace-Achse in der 5-km-Testgrafik korrigiert: langsamere Pace oben, schnellere Pace unten.
 - Cache- und Asset-Version auf v44 angehoben.
+
+
+## Update v45 – echte Übungsfotos, Aufklapp-Details und Historie
+- Die fünf Dehnübungen verwenden nun realistische Pexels-Fotos: Wanddehnung, Quadrizeps, Beinrückseite, Ausfallschritt und Gesäß-/Bodendehnung.
+- Bildquellen/Fotografen: Ketut Subiyanto (Wanddehnung und Ausfallschritt), MART PRODUCTION (Quadrizeps), Pavel Danilyuk (Beinrückseite) und RDNE Stock project (Bodendehnung). Die verwendeten Pexels-Fotos sind als Free gekennzeichnet; die Lizenz wird auf der Laufseite verlinkt.
+- „Weitere Laufeinheiten“ zeigt jede Einheit als aufklappbare Karte. Antippen öffnet die vollständige Trainingsbeschreibung sowie die Aktionen zum Verschieben oder Absagen.
+- Historie-Reiter umbenannt: „Training“ → „Kraft“ und „Lauf-Bestandsaufnahme“ → „Ausdauer-Tests“.
+- Pexels-Bilder werden nach dem ersten Online-Laden im Service-Worker-Cache gespeichert und stehen danach auch offline zur Verfügung.
+- Bestehende Trainingsdaten, Testdaten und der localStorage-Schlüssel bleiben erhalten.
+- App-, Asset- und Service-Worker-Version auf v45 angehoben.
